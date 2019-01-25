@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/25 13:45:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/25 16:01:14 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int		main(int argc, char **argv)
 {
 	(void)argc;
+
 
 	// printf("|%i,%i|\n",
 	// count_flags(argv[1], ft_atoi(argv[2]))[0],

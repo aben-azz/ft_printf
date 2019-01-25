@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/25 14:00:08 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/25 14:29:03 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 t_ype g_type[] = {
 	{C_, &print_char},
-	{S_, &print_string},
+	{S_, &print_string}, 
 	{P_, &print_pointer},
 	{F_, &print_float},
 	{D_, &print_signed_integer},

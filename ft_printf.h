@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/25 13:56:06 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/25 14:14:56 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_fmt
 	char			*string;
 	int				index;
 }				t_fmt;
+
 typedef struct	s_ype
 {
 	int				type;

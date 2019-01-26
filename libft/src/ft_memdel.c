@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:44:57 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/10/15 21:17:46 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:20:18 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	ft_memdel(void **ap)
 {
 	(ap && *ap) ? free(*ap) : NULL;
-	(ap && *ap) ?  (*ap = NULL) : NULL;
+	(ap && *ap) && (*ap = NULL);
 }

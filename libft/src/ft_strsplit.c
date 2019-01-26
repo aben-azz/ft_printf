@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 13:48:17 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/11/14 11:03:59 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:21:36 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static int		count(char *s, char c)
 	compteur = 0;
 	while (*s != '\0')
 	{
-		if(present_chaine == 1 && *s == c) (present_chaine = 0) ;
-		if(present_chaine == 0 && *s != c)  (compteur++) ;
-		if(present_chaine == 0 && *s != c)  (present_chaine = 1) ;
+		present_chaine == 1 && *s == c && (present_chaine = 0);
+		present_chaine == 0 && *s != c && compteur++;
+		present_chaine == 0 && *s != c && (present_chaine = 1);
 		s++;
 	}
 	return (compteur);

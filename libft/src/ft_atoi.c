@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 15:24:52 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/11/14 11:00:04 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:19:21 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_atoi(char *str)
 	while (*str == '\n' || *str == '\t' || *str == '\r' || *str == '\v'
 		|| *str == '\f' || *str == ' ')
 		(void)*str++;
-	(void)((*str == '-' || *str == '+') && (signe = *str++ == '-' ? -signe : signe));
+	(*str == '-' || *str == '+') && (signe = *str++ == '-' ? -signe : signe);
 	while (*str && ft_isdigit(*str))
 	{
 		if (result > 9223372036854775807)

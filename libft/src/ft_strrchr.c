@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 13:48:17 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/11/14 10:56:42 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:20:49 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char	*ft_strrchr(char *s, int c)
 	ptr = NULL;
 	while (*s)
 	{
-		if(*s == (char)c)  (ptr = (char*)s);
+		*s == (char)c && (ptr = (char*)s);
 		s++;
 	}
-	if(*s == (char)c)  (ptr = (char*)s);
+	*s == (char)c && (ptr = (char*)s);
 	return (ptr);
 }

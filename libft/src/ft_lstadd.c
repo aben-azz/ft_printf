@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/15 20:01:45 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/10/15 21:21:09 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:19:52 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_lstadd(t_list **alst, t_list *new)
 {
-	(new && alst) ? (new->next = *alst): NULL;
-	(new && alst) ? (*alst = new) : NULL;
+	(new && alst) && (new->next = *alst);
+	(new && alst) && (*alst = new);
 }

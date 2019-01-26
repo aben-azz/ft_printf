@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 18:48:05 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 18:58:53 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:18:59 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int		ft_pow(int base, int i)
 {
-	return !i ? 1 : base * ft_pow(base, i - 1);
+	return (!i ? 1 : base * ft_pow(base, i - 1));
 }

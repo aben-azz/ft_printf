@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/25 14:14:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 13:42:48 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define SUB      1 << 2
 # define ADD      1 << 3
 # define SPACE    1 << 4
+
 # define C_       1 << 0
 # define S_       1 << 1
 # define P_       1 << 2
@@ -32,6 +33,7 @@
 # define U_       1 << 8
 # define HIGHX_   1 << 9
 # define LOWX_    1 << 10
+
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
 # define H_      (1 << 2) + 1

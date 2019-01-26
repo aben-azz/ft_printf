@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 16:38:49 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:16:43 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,20 @@ t_ype g_type[] = {
 
 int	splice(char *string, int precision, int v)
 {
-	char *l = ft_strsub(string, 0, ~precision ? precision : ft_strlen(string));
+	char *l;
+
+	l = ft_strsub(string, 0, ~precision ? precision : ft_strlen(string));
 	v ? ft_putstr(l) : NULL;
 	return (ft_strlen(l));
 }
 
 int		print_char(va_list list, t_fmt fmt)
 {
-	int l;
-	char n;
+	int		l;
+	char	n;
 
 	n = (char)va_arg(list, int);
 	l = 0;
-
 	fmt.options & SUB ? ft_putchar(n) : NULL;
 	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ', fmt.minimal_length - 1);
 	!(fmt.options & SUB) ? ft_putchar(n) : NULL;
@@ -51,16 +52,16 @@ int		print_char(va_list list, t_fmt fmt)
 
 int		print_string(va_list list, t_fmt fmt)
 {
-	int l;
+	int		l;
+	char	*string;
 
 	l = 0;
-	char *string = va_arg(list, char*);
+	string = va_arg(list, char*);
 	l += fmt.options & SUB ? splice(string, fmt.precision, 1) : 0;
 	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ',
 		fmt.minimal_length - splice(string, fmt.precision, 0));
 	l += !(fmt.options & SUB) ? splice(string, fmt.precision, 1) : 0;
 	return (l);
-	return (0);
 }
 
 int		print_pointer(va_list list, t_fmt fmt)
@@ -103,7 +104,8 @@ int		print_high_octal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	printf("%O", va_arg(list, int));
+	printf("%O", );
+	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 0));
 	(void)fmt;
 	return (0);
 }
@@ -112,7 +114,8 @@ int		print_low_octal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	printf("%o", va_arg(list, int));
+	//printf("%o", va_arg(list, int));
+	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 1));
 	(void)fmt;
 	return (0);
 }
@@ -121,7 +124,8 @@ int		print_low_hexadecimal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	printf("String: |%s|\n", fmt.string);
+	//printf("String: |%s|\n", fmt.string);
+	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 1));
 	(void)fmt;
 	return (0);
 }
@@ -130,7 +134,8 @@ int		print_high_hexadecimal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	printf("%X", va_arg(list, int));
+	//printf("%X", va_arg(list, int));
+	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 0));
 	(void)fmt;
 	return (0);
 }
@@ -162,9 +167,7 @@ int		get_precision(char *string)
 		return (-1);
 	while (ft_isdigit(string[n + i]))
 		(void)i++;
-	n = ft_atoi(ft_strsub(string, n, i));
-	//printf("prec: %s\n", ft_strsub(string, n, i));
-	return (n);
+	return (ft_atoi(ft_strsub(string, n, i)));
 }
 
 int		get_minimal_length(char *string)

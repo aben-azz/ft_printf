@@ -6,10 +6,9 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 16:38:50 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:01:07 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "ft_printf.h"
 #include "libft/includes/libft.h"
@@ -87,6 +86,7 @@ int		main(int argc, char **argv)
 	//char c = 'u';
 	//format_string((char)c, 7, 0, 1);
 
-	ft_printf("|%-05.2s|%-010c|xd","test", 'x');
+	ft_printf("|%-05.2s|%-010c|xd\n","test", 'x');
+	printf("|%s|\n", ft_itoa_base(0, 16, 0));
 	return (0);
 }

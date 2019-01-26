@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 15:32:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 16:38:49 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,38 @@ t_ype g_type[] = {
 	{LOWX_, &print_low_hexadecimal}
 };
 
+int	splice(char *string, int precision, int v)
+{
+	char *l = ft_strsub(string, 0, ~precision ? precision : ft_strlen(string));
+	v ? ft_putstr(l) : NULL;
+	return (ft_strlen(l));
+}
+
 int		print_char(va_list list, t_fmt fmt)
 {
 	int l;
+	char n;
 
+	n = (char)va_arg(list, int);
 	l = 0;
-	fmt.options & SUB ? ft_putchar((char)va_arg(list, int)) : NULL;
+
+	fmt.options & SUB ? ft_putchar(n) : NULL;
 	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ', fmt.minimal_length - 1);
-	!(fmt.options & SUB) ? ft_putchar((char)va_arg(list, int)) : NULL;
+	!(fmt.options & SUB) ? ft_putchar(n) : NULL;
 	return (l + 1);
 }
 
 int		print_string(va_list list, t_fmt fmt)
 {
-	//display_fmt(fmt);
-	(void)list;
-	ft_putstr(va_arg(list, char*));
-	(void)fmt;
+	int l;
+
+	l = 0;
+	char *string = va_arg(list, char*);
+	l += fmt.options & SUB ? splice(string, fmt.precision, 1) : 0;
+	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ',
+		fmt.minimal_length - splice(string, fmt.precision, 0));
+	l += !(fmt.options & SUB) ? splice(string, fmt.precision, 1) : 0;
+	return (l);
 	return (0);
 }
 
@@ -96,7 +111,6 @@ int		print_high_octal(va_list list, t_fmt fmt)
 int		print_low_octal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
-	// printf("________FLAGS LOWO_________\n");
 	(void)list;
 	printf("%o", va_arg(list, int));
 	(void)fmt;
@@ -124,7 +138,7 @@ int		print_high_hexadecimal(va_list list, t_fmt fmt)
 int		*count_flags(char *string, int index)
 {
 	static	int			values[2];
-	int			offset;
+	int					offset;
 
 	values[0] = 0;
 	values[1] = 0;
@@ -148,7 +162,9 @@ int		get_precision(char *string)
 		return (-1);
 	while (ft_isdigit(string[n + i]))
 		(void)i++;
-	return (ft_atoi(ft_strsub(string, n, i)));
+	n = ft_atoi(ft_strsub(string, n, i));
+	//printf("prec: %s\n", ft_strsub(string, n, i));
+	return (n);
 }
 
 int		get_minimal_length(char *string)
@@ -175,9 +191,9 @@ int		get_length(char *s)
 
 	i = 0;
 	n = 0;
-	while (!~ft_indexof(LENGHT, s[n++]) && s[n])
+	while (!~ft_indexof(LENGTH, s[n++]) && s[n])
 		(void)i++;
-	if (~(n = ft_indexof(LENGHT, s[i])))
+	if (~(n = ft_indexof(LENGTH, s[i])))
 		return (ft_count(s, s[i]) ? (1 << (n)) + (ft_count(s, s[i]) % 2) : -1);
 	else
 		return (-1);
@@ -192,11 +208,13 @@ int		get_options(char *str)
 {
 	int		s;
 	int		i;
+	int		index;
 
 	i = -1;
 	s = 0;
 	while (OPTIONS[++i])
-		(~ft_indexof(str, OPTIONS[i])) && (s |= (1 << i));
+		if (~(index = ft_indexof(str, OPTIONS[i])) && ft_isdigit(str[index]))
+			(s |= (1 << i));
 	return (s ? s : 0);
 }
 
@@ -280,12 +298,7 @@ t_fmt	*get_flags(char *s, int n)
 	if (!(flags = ft_memalloc(sizeof(t_fmt) * n)) || !n)
 		return (0);
 	i = count_flags(s, 0)[0];
-	//printf("i vaut: %d\n", i);
-	if (i)
-	{
-		//printf("xddd onr entre la\n");
-		display_string(s, 0, i);
-	}
+	i && display_string(s, 0, i);
 	while (n-- > 0)
 	{
 		next = count_flags(s, i + 1)[0];

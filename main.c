@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 15:34:48 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 16:38:50 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		main(int argc, char **argv)
 	// int s = get_length(argv[1]);
 	// printf("L:%d\nLL:%d\nH:%d\nHH:%d\nresult:%d\n",
 	// 	s == L_,
+
 	// 	s == LL_,
 	// 	s == H_,
 	// 	s == HH_,
@@ -85,6 +86,7 @@ int		main(int argc, char **argv)
 	//ft_repeat_char(, 1);
 	//char c = 'u';
 	//format_string((char)c, 7, 0, 1);
-	ft_printf("|%10c|%s|xd", 'c', "test");
+
+	ft_printf("|%-05.2s|%-010c|xd","test", 'x');
 	return (0);
 }

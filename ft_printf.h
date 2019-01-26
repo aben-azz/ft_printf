@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 15:26:28 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 16:34:15 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
 # define TYPES    "cspfdioOuXx"
-# define LENGHT   "lhL"
+# define LENGTH   "lhL"
 # define HASH     1 << 0
 # define ZERO     1 << 1
 # define SUB      1 << 2

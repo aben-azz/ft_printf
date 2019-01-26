@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 13:53:08 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:32:07 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,20 @@ t_ype g_type[] = {
 
 int		print_char(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
-	(void)list;
-	printf("%c", (char)va_arg(list, int));
-	(void)fmt;
-	return (0);
+	int l;
+
+	l = 0;
+	fmt.options & SUB ? ft_putchar((char)va_arg(list, int)) : NULL;
+	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ', fmt.minimal_length - 1);
+	!(fmt.options & SUB) ? ft_putchar((char)va_arg(list, int)) : NULL;
+	return (l + 1);
 }
 
 int		print_string(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
+	//display_fmt(fmt);
 	(void)list;
-	printf("%s", va_arg(list, char*));
+	ft_putstr(va_arg(list, char*));
 	(void)fmt;
 	return (0);
 }
@@ -63,6 +65,7 @@ int		print_float(va_list list, t_fmt fmt)
 	(void)fmt;
 	return (0);
 }
+
 int		print_signed_integer(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
@@ -222,8 +225,7 @@ t_fmt	format(char *string)
 
 int		display_string(char *string, int index, int to)
 {
-	printf("%s", ft_strsub(string, index,
-		~to ? to : ft_strlen(string) - index));
+	ft_putstr(ft_strsub(string, index, ~to ? to : ft_strlen(string) - index));
 	return (0);
 }
 
@@ -278,7 +280,12 @@ t_fmt	*get_flags(char *s, int n)
 	if (!(flags = ft_memalloc(sizeof(t_fmt) * n)) || !n)
 		return (0);
 	i = count_flags(s, 0)[0];
-	(i > 0) && display_string(s, 0, i);
+	//printf("i vaut: %d\n", i);
+	if (i)
+	{
+		//printf("xddd onr entre la\n");
+		display_string(s, 0, i);
+	}
 	while (n-- > 0)
 	{
 		next = count_flags(s, i + 1)[0];

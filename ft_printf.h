@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 13:42:48 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:26:28 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void			display_fmt(t_fmt fmt);
 		+	signed ? add sign (+ || -) to output : NULL
 		-	left align the field
 		#	(type == oxX) ? add prefix to non-null output (0 || 0x || 0X)
-		0
-		" "
+		0	replace space with 0 in completition field
+		" " replace the sign with an space
 	minimal_length
 		n;
 	precision

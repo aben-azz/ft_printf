@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 13:41:25 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:34:48 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int		main(int argc, char **argv)
 	// printf("________________________\n");
 	//get_flags(argv[1], count_flags(argv[1], ft_atoi(argv[2]))[1]);
 	//int a = ft_printf("xd\n%siu\n%s\nuiui%s: int: %d,%f\n", "mdr", "PTDR PRINTF", "xd", 1888, 18.21121);
-	int a = printf("xd: % -+012.13lhhhllls\n", 12);
-	printf("a vaut %d\n", a);
+	//int a = printf("xd: % -+012.13lhhhllls\n", 12);
+	//printf("a vaut %d\n", a);
 	// int o = get_options(argv[1]);
 	// printf("types: %d\n", get_type(argv[1]));
 	// int s = get_length(argv[1]);
@@ -82,5 +82,9 @@ int		main(int argc, char **argv)
 		//  LOWX_ == flag.type);
 	//t_fmt *flags = get_flags((char*)argv[1],
 	//						count_flags((char*)argv[1], 0)[1]);
+	//ft_repeat_char(, 1);
+	//char c = 'u';
+	//format_string((char)c, 7, 0, 1);
+	ft_printf("|%10c|%s|xd", 'c', "test");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/24 11:00:26 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 15:23:40 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int				ft_isupper(int c);
 int				ft_is_space(int c);
 int				ft_indexof(char *source, char c);
 int				ft_count(char *source, char c);
+int				ft_repeat_char(char source, int c);
 void			*ft_memalloc(size_t size);
 void			ft_memdel(void **ap);
 char			*ft_strnew(size_t size);

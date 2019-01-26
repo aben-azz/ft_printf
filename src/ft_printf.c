@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 19:16:43 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:58:24 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int		print_high_octal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	printf("%O", );
 	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 0));
 	(void)fmt;
 	return (0);
@@ -114,7 +113,6 @@ int		print_low_octal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	//printf("%o", va_arg(list, int));
 	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 1));
 	(void)fmt;
 	return (0);
@@ -124,7 +122,6 @@ int		print_low_hexadecimal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	//printf("String: |%s|\n", fmt.string);
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 1));
 	(void)fmt;
 	return (0);
@@ -134,7 +131,6 @@ int		print_high_hexadecimal(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	//printf("%X", va_arg(list, int));
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 0));
 	(void)fmt;
 	return (0);

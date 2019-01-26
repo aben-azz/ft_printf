@@ -6,13 +6,68 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 19:01:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 00:12:40 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft/includes/libft.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <float.h>
+
+static void		ldtoa_fill(double n, t_printf *p, long value, int b)
+{
+	int		len;
+	char	s[48];
+
+	p->c = 'a' - 10 - ((p->f & F_UPCASE) >> 1);
+	len = p->printed - 1 - p->preci;
+	while (p->preci--)
+	{
+		s[len + p->preci + 1] = value % b + ((value % b < 10) ? '0' : p->c);
+		value /= b;
+	}
+	s[len] = '.';
+	value = (long)(n < 0 ? -n : n);
+	while (++p->preci < len)
+	{
+		s[len - p->preci - 1] = value % b + ((value % b < 10) ? '0' : p->c);
+		value /= b;
+	}
+	(p->f & F_APP_PRECI && p->f & F_ZERO) ? s[0] = ' ' : 0;
+	(p->f & F_SPACE) ? s[0] = ' ' : 0;
+	(n < 0) ? s[0] = '-' : 0;
+	(p->f & F_PLUS && n >= 0) ? s[0] = '+' : 0;
+	if (b == 16 && (p->len += 2))
+		buffer(p, "0x", 2);
+	buffer(p, s, p->printed);
+}
+
+void			pf_putdouble(t_printf *p)
+{
+	double		n;
+	long		tmp;
+	int			len;
+	double		decimal;
+	long		value;
+
+	n = (double)va_arg(p->ap, double);
+	(p->f & F_ZERO) ? p->preci = p->min_length : 0;
+	if (!(p->f & F_APP_PRECI))
+		p->preci = 7;
+	len = 1;
+	tmp = (long)(n < 0 ? -n : n);
+	while (tmp && ++len)
+		tmp /= 10;
+	p->printed = p->preci + len + ((n < 0) ? 1 : 0);
+	decimal = ft_dabs(n);
+	decimal = (decimal - (long)(ft_dabs(n))) * ft_pow(10, p->preci + 1);
+	decimal = ((long)decimal % 10 > 4) ? decimal / 10 + 1 : decimal / 10;
+	value = (long)decimal;
+	ldtoa_fill(n, p, value, 10);
+}
 
 int		main(int argc, char **argv)
 {
@@ -85,8 +140,12 @@ int		main(int argc, char **argv)
 	//ft_repeat_char(, 1);
 	//char c = 'u';
 	//format_string((char)c, 7, 0, 1);
-
-	ft_printf("|%-05.2s|%-010c|xd\n","test", 'x');
-	printf("|%s|\n", ft_itoa_base(0, 16, 0));
+	//ft_printf("|%-05.2s|%-010c|xd\n", "test", 'x');
+	//printf("|%p|\n", p);
+	 char str[25];
+	float num = 9.82766666;
+	float_to_string(num, str);
+	printf("string = %s\n", str);
 	return (0);
+
 }

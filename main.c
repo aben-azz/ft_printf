@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 06:00:21 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 08:05:24 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,72 +14,74 @@
 #include "libft/includes/libft.h"
 #include <stdio.h>
 
-char *function(double f, int precision)
-{
-	double 	ff;;
-	char *str;
-	int a;
-	int b;
-	int c;
-	int k;
-	int l;
-	int m;
-	int i;
-	int j;
+// char *function_(double f, int precision)
+// {
+// 	char *str;
+// 	int a;
+// 	int b;
+// 	int c;
+// 	int k;
+// 	int l;
+// 	int m;
+// 	int i;
+// 	int j;
+//
+// 	i = 0;
+// 	l = 0;
+// 	j = 0;
+// 	str = malloc(100);
+// 	(f < 0.0) && (str[i++] = '-');
+// 	(f < 0.0) && (f *= -1);
+// 	a = f;
+// 	f -= a;
+// 	k = precision;
+// 	while (k >- 1)
+// 	{
+// 		l = ft_pow(10, k);
+// 		m = a / l;
+// 		printf("m vaut: %d\n", m);
+// 		if ( m > 0)
+// 			break;
+// 			k--;
+// 	}
+// 	printf("k vaut: %d\n", k);
+// 	// number of digits in whole number are k+1
+//
+// 	/*
+// 	extracting most significant digit i.e. right most digit , and concatenating to string
+// 	obtained as quotient by dividing number by 10^k where k = (number of digit -1)
+// 	*/
+// 	printf("l %d\n", l);
+// 	for(l = k + 1;l > 0; l--)
+// 	{
+// 		b = ft_pow(10, l - 1);
+// 		c = a / b;
+// 		printf("%d/%d\n", a, b, a/);
+// 		str[i++] = c + 48;
+// 		a %= b;
+// 	}
+// 	str[i++] = '.';
+//
+// 	/* extracting decimal digits till precision */
+//
+// 	for(l = 0; l < precision; l++)
+// 	{
+// 		f *= 10.0;
+// 		b = f;
+// 		str[i++] = b + 48;
+// 		f -= b;
+// 	}
+// 	str[i] = '\0';
+// 	return (str);
+// }
+//
+//
+//
+//
+//
+//
 
-	i = 0;
-	l = 0;
-	j = 0;
 
-	str = malloc(100);
-	ff = f;
-	if (f < 0.0)
-	{
-		str[i++] = '-';
-		f *= -1;
-	}
-	a = f;
-	f -= a;
-	k = precision;
-
-	// number of digits in whole number
-	while (k >- 1)
-	{
-		l = ft_pow(10, k);
-		m = a / l;
-		if ( m > 0)
-			break;
-			k--;
-	}
-
-	// number of digits in whole number are k+1
-
-	/*
-	extracting most significant digit i.e. right most digit , and concatenating to string
-	obtained as quotient by dividing number by 10^k where k = (number of digit -1)
-	*/
-
-	for(l = k + 1;l > 0; l--)
-	{
-		b = ft_pow(10, l - 1);
-		c = a / b;
-		str[i++] = c + 48;
-		a %= b;
-	}
-	str[i++] = '.';
-
-	/* extracting decimal digits till precision */
-
-	for(l = 0; l < precision; l++)
-	{
-		f *= 10.0;
-		b = f;
-		str[i++] = b + 48;
-		f -= b;
-	}
-	str[i] = '\0';
-	return (str);
-}
 
 int		main(int argc, char **argv)
 {
@@ -154,13 +156,11 @@ int		main(int argc, char **argv)
 	//format_string((char)c, 7, 0, 1);
 	//ft_printf("|%-05.2s|%-010c|xd\n", "test", 'x');
 	//printf("|%p|\n", p);
-
-	double ff = 18.5535;
-	char *str = function(ff, 31);
-	printf("\n orignal printf %.31f\n",ff);
-	printf("|%s|\n", str);
+	// char* str = malloc(100);
+	// double ff = 18.5535;
+	// ft_ftoa(ff, 30, str);
+	// printf("|%.30f|\n",ff);
+	// printf("|%s|\n", str);
 	return (0);
 
 }
-18.5534999999999996589394868351519
-18.5534999999999996589394868351519

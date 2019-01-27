@@ -6,11 +6,12 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 08:00:33 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 08:03:42 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 08:38:39 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 void	ft_ftoa(double f, int precision, char *str)
 {

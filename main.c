@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 08:05:24 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 09:08:06 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,18 @@
 // 	{
 // 		l = ft_pow(10, k);
 // 		m = a / l;
-// 		printf("m vaut: %d\n", m);
 // 		if ( m > 0)
 // 			break;
 // 			k--;
 // 	}
-// 	printf("k vaut: %d\n", k);
-// 	// number of digits in whole number are k+1
-//
-// 	/*
-// 	extracting most significant digit i.e. right most digit , and concatenating to string
-// 	obtained as quotient by dividing number by 10^k where k = (number of digit -1)
-// 	*/
-// 	printf("l %d\n", l);
 // 	for(l = k + 1;l > 0; l--)
 // 	{
 // 		b = ft_pow(10, l - 1);
 // 		c = a / b;
-// 		printf("%d/%d\n", a, b, a/);
 // 		str[i++] = c + 48;
 // 		a %= b;
 // 	}
 // 	str[i++] = '.';
-//
-// 	/* extracting decimal digits till precision */
-//
 // 	for(l = 0; l < precision; l++)
 // 	{
 // 		f *= 10.0;
@@ -74,12 +61,8 @@
 // 	str[i] = '\0';
 // 	return (str);
 // }
-//
-//
-//
-//
-//
-//
+
+
 
 
 
@@ -161,6 +144,11 @@ int		main(int argc, char **argv)
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
+	double num = 18.5535;
+	// char *string = malloc(100);
+	// ft_ftoa(num, 30, string);
+	// printf("ftoa vaut: %s\n", string);
+	ft_printf("|%c|%-10.2s|%#x\n", 'c', "xdlol", 10);
 	return (0);
 
 }

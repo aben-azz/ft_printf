@@ -6,14 +6,14 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 16:34:15 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 08:43:43 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <stdarg.h>
-# define OPTIONS  "#0-+ "
+# define OPTIONS  " #0-+ "
 # define TYPES    "cspfdioOuXx"
 # define LENGTH   "lhL"
 # define HASH     1 << 0

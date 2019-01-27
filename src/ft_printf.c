@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 06:00:18 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 09:08:06 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,19 @@ int		print_pointer(va_list list, t_fmt fmt)
 {
 	display_fmt(fmt);
 	(void)list;
-	printf("%p", va_arg(list, void*));
+	//printf("%lx", va_arg(list, void*));
 	(void)fmt;
 	return (0);
 }
 
 int		print_float(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
+	int l;
+
+	l = 0;
 	(void)list;
-	printf("%f", (float)va_arg(list, double));
 	(void)fmt;
-	return (0);
+	return (l);
 }
 
 int		print_signed_integer(va_list list, t_fmt fmt)
@@ -102,7 +103,7 @@ int		print_unsigned_integer(va_list list, t_fmt fmt)
 
 int		print_high_octal(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
+	//display_fmt(fmt);
 	(void)list;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 0));
 	(void)fmt;
@@ -111,7 +112,7 @@ int		print_high_octal(va_list list, t_fmt fmt)
 
 int		print_low_octal(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
+	//display_fmt(fmt);
 	(void)list;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 1));
 	(void)fmt;
@@ -120,8 +121,9 @@ int		print_low_octal(va_list list, t_fmt fmt)
 
 int		print_low_hexadecimal(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
+	//display_fmt(fmt);
 	(void)list;
+	(fmt.options & HASH) ? ft_putstr("0x"): NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 1));
 	(void)fmt;
 	return (0);
@@ -129,8 +131,9 @@ int		print_low_hexadecimal(va_list list, t_fmt fmt)
 
 int		print_high_hexadecimal(va_list list, t_fmt fmt)
 {
-	display_fmt(fmt);
+	//display_fmt(fmt);
 	(void)list;
+	(fmt.options & HASH) ? ft_putstr("0X"): NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 0));
 	(void)fmt;
 	return (0);
@@ -214,6 +217,7 @@ int		get_options(char *str)
 	while (OPTIONS[++i])
 		if (~(index = ft_indexof(str, OPTIONS[i])) && ft_isdigit(str[index]))
 			(s |= (1 << i));
+	//printf("s vaut: %d \n", s);
 	return (s ? s : 0);
 }
 

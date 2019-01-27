@@ -6,67 +6,79 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 00:12:40 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/27 06:00:21 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft/includes/libft.h"
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <float.h>
 
-static void		ldtoa_fill(double n, t_printf *p, long value, int b)
+char *function(double f, int precision)
 {
-	int		len;
-	char	s[48];
+	double 	ff;;
+	char *str;
+	int a;
+	int b;
+	int c;
+	int k;
+	int l;
+	int m;
+	int i;
+	int j;
 
-	p->c = 'a' - 10 - ((p->f & F_UPCASE) >> 1);
-	len = p->printed - 1 - p->preci;
-	while (p->preci--)
+	i = 0;
+	l = 0;
+	j = 0;
+
+	str = malloc(100);
+	ff = f;
+	if (f < 0.0)
 	{
-		s[len + p->preci + 1] = value % b + ((value % b < 10) ? '0' : p->c);
-		value /= b;
+		str[i++] = '-';
+		f *= -1;
 	}
-	s[len] = '.';
-	value = (long)(n < 0 ? -n : n);
-	while (++p->preci < len)
+	a = f;
+	f -= a;
+	k = precision;
+
+	// number of digits in whole number
+	while (k >- 1)
 	{
-		s[len - p->preci - 1] = value % b + ((value % b < 10) ? '0' : p->c);
-		value /= b;
+		l = ft_pow(10, k);
+		m = a / l;
+		if ( m > 0)
+			break;
+			k--;
 	}
-	(p->f & F_APP_PRECI && p->f & F_ZERO) ? s[0] = ' ' : 0;
-	(p->f & F_SPACE) ? s[0] = ' ' : 0;
-	(n < 0) ? s[0] = '-' : 0;
-	(p->f & F_PLUS && n >= 0) ? s[0] = '+' : 0;
-	if (b == 16 && (p->len += 2))
-		buffer(p, "0x", 2);
-	buffer(p, s, p->printed);
-}
 
-void			pf_putdouble(t_printf *p)
-{
-	double		n;
-	long		tmp;
-	int			len;
-	double		decimal;
-	long		value;
+	// number of digits in whole number are k+1
 
-	n = (double)va_arg(p->ap, double);
-	(p->f & F_ZERO) ? p->preci = p->min_length : 0;
-	if (!(p->f & F_APP_PRECI))
-		p->preci = 7;
-	len = 1;
-	tmp = (long)(n < 0 ? -n : n);
-	while (tmp && ++len)
-		tmp /= 10;
-	p->printed = p->preci + len + ((n < 0) ? 1 : 0);
-	decimal = ft_dabs(n);
-	decimal = (decimal - (long)(ft_dabs(n))) * ft_pow(10, p->preci + 1);
-	decimal = ((long)decimal % 10 > 4) ? decimal / 10 + 1 : decimal / 10;
-	value = (long)decimal;
-	ldtoa_fill(n, p, value, 10);
+	/*
+	extracting most significant digit i.e. right most digit , and concatenating to string
+	obtained as quotient by dividing number by 10^k where k = (number of digit -1)
+	*/
+
+	for(l = k + 1;l > 0; l--)
+	{
+		b = ft_pow(10, l - 1);
+		c = a / b;
+		str[i++] = c + 48;
+		a %= b;
+	}
+	str[i++] = '.';
+
+	/* extracting decimal digits till precision */
+
+	for(l = 0; l < precision; l++)
+	{
+		f *= 10.0;
+		b = f;
+		str[i++] = b + 48;
+		f -= b;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
 int		main(int argc, char **argv)
@@ -142,10 +154,13 @@ int		main(int argc, char **argv)
 	//format_string((char)c, 7, 0, 1);
 	//ft_printf("|%-05.2s|%-010c|xd\n", "test", 'x');
 	//printf("|%p|\n", p);
-	 char str[25];
-	float num = 9.82766666;
-	float_to_string(num, str);
-	printf("string = %s\n", str);
+
+	double ff = 18.5535;
+	char *str = function(ff, 31);
+	printf("\n orignal printf %.31f\n",ff);
+	printf("|%s|\n", str);
 	return (0);
 
 }
+18.5534999999999996589394868351519
+18.5534999999999996589394868351519

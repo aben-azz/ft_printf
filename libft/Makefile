@@ -6,12 +6,12 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/01/27 08:02:07 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/01/29 23:55:36 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	libft.a
-SRC				=	ft_ftoa.c ft_pow.c ft_itoa_base.c ft_repeat_char.c \
+SRC				=	ft_intlen.c ft_ftoa.c ft_pow.c ft_itoa_base.c ft_repeat_char.c \
 ft_count.c ft_indexof.c ft_isupper.c ft_islower.c ft_atoi.c ft_isalnum.c \
 ft_bzero.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_lstadd.c  \
 ft_lstdelone.c ft_lstiter.c ft_lstmap.c ft_lstnew.c ft_memalloc.c ft_memccpy.c \

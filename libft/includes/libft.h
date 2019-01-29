@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 08:04:00 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:25:37 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ char			*ft_strrchr(char *s, int c);
 char			*ft_strstr(char *haystack, char *needle);
 char			*ft_strnstr(char *haystack, char *needle,
 		size_t len);
+int				intlen(long long len);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_strncmp(char *s1, char *s2, size_t n);
 int				ft_atoi(char *str);
-void			ft_ftoa(double n, int precision, char *str);
+void  			ft_ftoa(double n, int precision, char *str);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
@@ -81,7 +82,7 @@ void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 char			*ft_itoa_base(long long n, int base, int islower);
-int				ft_pow(int base, int i);
+long long		ft_pow(int base, int i);
 typedef struct	s_list
 {
 	void			*content;

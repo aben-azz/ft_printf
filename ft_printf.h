@@ -6,15 +6,15 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 08:43:43 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:58:27 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <stdarg.h>
-# define OPTIONS  " #0-+ "
-# define TYPES    "cspfdioOuXx"
+# define OPTIONS  "#0-+ "
+# define TYPES    "cspfdiouXx"
 # define LENGTH   "lhL"
 # define HASH     1 << 0
 # define ZERO     1 << 1
@@ -28,11 +28,10 @@
 # define F_       1 << 3
 # define D_       1 << 4
 # define I_       1 << 5
-# define LOWO_    1 << 6
-# define HIGHO_   1 << 7
-# define U_       1 << 8
-# define HIGHX_   1 << 9
-# define LOWX_    1 << 10
+# define O_       1 << 6
+# define U_       1 << 7
+# define HIGHX_   1 << 8
+# define LOWX_    1 << 9
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
@@ -72,11 +71,11 @@ int				print_pointer(va_list list, t_fmt fmt);
 int				print_float(va_list list, t_fmt fmt);
 int				print_signed_integer(va_list list, t_fmt fmt);
 int				print_unsigned_integer(va_list list, t_fmt fmt);
-int				print_high_octal(va_list list, t_fmt fmt);
-int				print_low_octal(va_list list, t_fmt fmt);
+int				print_octal(va_list list, t_fmt fmt);
 int				print_low_hexadecimal(va_list list, t_fmt fmt);
 int				print_high_hexadecimal(va_list list, t_fmt fmt);
 void			display_fmt(t_fmt fmt);
+int	intlen(long long len);
 /*
 	% -+0#espace	n				.n			h,hh,l,ll	(csp)diouXx
 	  options		minimal_length  precision	length		type

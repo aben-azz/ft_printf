@@ -6,33 +6,11 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:52:23 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/10/15 21:23:40 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/29 23:25:40 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int		intlen(int n)
-{
-	int		len;
-
-	if (n == -2147483648)
-		return (11);
-	len = 0;
-	if (n == 0)
-		return (1);
-	if (n < 0)
-	{
-		n = -n;
-		len++;
-	}
-	while (n)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
-}
 
 char			*ft_itoa(int n)
 {

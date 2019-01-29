@@ -1,18 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pow.c                                           :+:      :+:    :+:   */
+/*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/26 18:48:05 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/29 17:12:07 by aben-azz         ###   ########.fr       */
+/*   Created: 2019/01/29 23:03:25 by aben-azz          #+#    #+#             */
+/*   Updated: 2019/01/29 23:56:27 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long long		ft_pow(int base, int i)
+int		intlen(long long n)
 {
-	return (!i ? 1 : base * ft_pow(base, i - 1));
+	long long		len;
+
+	if (n == -9223372036854775807)
+		return (20);
+	len = 0;
+	if (n == 0)
+		return (1);
+	if (n < 0)
+	{
+		n = -n;
+		len++;
+	}
+	while (n)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
 }

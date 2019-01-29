@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/27 09:08:06 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 00:33:23 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,53 @@
 #include "libft/includes/libft.h"
 #include <stdio.h>
 
-// char *function_(double f, int precision)
-// {
-// 	char *str;
-// 	int a;
-// 	int b;
-// 	int c;
-// 	int k;
-// 	int l;
-// 	int m;
-// 	int i;
-// 	int j;
-//
-// 	i = 0;
-// 	l = 0;
-// 	j = 0;
-// 	str = malloc(100);
-// 	(f < 0.0) && (str[i++] = '-');
-// 	(f < 0.0) && (f *= -1);
-// 	a = f;
-// 	f -= a;
-// 	k = precision;
-// 	while (k >- 1)
-// 	{
-// 		l = ft_pow(10, k);
-// 		m = a / l;
-// 		if ( m > 0)
-// 			break;
-// 			k--;
-// 	}
-// 	for(l = k + 1;l > 0; l--)
-// 	{
-// 		b = ft_pow(10, l - 1);
-// 		c = a / b;
-// 		str[i++] = c + 48;
-// 		a %= b;
-// 	}
-// 	str[i++] = '.';
-// 	for(l = 0; l < precision; l++)
-// 	{
-// 		f *= 10.0;
-// 		b = f;
-// 		str[i++] = b + 48;
-// 		f -= b;
-// 	}
-// 	str[i] = '\0';
-// 	return (str);
-// }
+double rounds(long double fl, long precision)
+{
+	long double	diviseur;
+
+	diviseur =  0.05;
+	while (precision-- >= 0)
+		diviseur /= 10;
+	printf("\n|%.50Lf\n", diviseur);
+	return (fl + 0.0000000000000000000000000000000000005);
+	return (fl + (fl > 0.0 ? diviseur : -diviseur));
+}
+
+void	ft_ftoa(double f, int precision, char *str)
+{
+	long long a;
+	long long b;
+	long long k;
+
+	(f < 0.0) && (*str++ = '-');
+	(f < 0.0) && (f *= -1);
+	//precision == 1 f = f + 0.05;
+	f = rounds(f, precision);
+	a = f;
+	//precision <= 0 && (f = f < 0 ? f - 5.0 : f + 5.0);
 
 
-
-
+	//printf("f vaut %f\n", f);
+	k = intlen((int)f);
+	f -= a;
+	//printf("f vaut %f\n", f);
+	while (k > 0 && (*str++ = a / ft_pow(10, k - 1) + 48))
+		a %= ft_pow(10, k-- - 1);
+	precision <= 0 || (*str++ = '.');
+	while (precision-- > 0)
+	{
+		f *= 10.0;
+		b = f;
+		//printf("b: %d\n", b);
+		*str++ = b + 48;
+		f -= b;
+	}
+	*str = '\0';
+}
 
 int		main(int argc, char **argv)
 {
 	(void)argc;
-
 
 	// printf("|%i,%i|\n",
 	// count_flags(argv[1], ft_atoi(argv[2]))[0],
@@ -144,11 +135,21 @@ int		main(int argc, char **argv)
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
-	double num = 18.5535;
+	double num = -9.99;
 	// char *string = malloc(100);
 	// ft_ftoa(num, 30, string);
 	// printf("ftoa vaut: %s\n", string);
-	ft_printf("|%c|%-10.2s|%#x\n", 'c', "xdlol", 10);
+	//ft_printf("%s", "e");
+	//printf("%k");
+
+
+
+	char *string = malloc(intlen(num) + 2 + 100);
+	printf("%.40f\n", num);
+	ft_printf("%.40f\n", num);
+
+	// double arrondi = rounds(num, 1);
+	// printf("|%f|\n", arrondi);
 	return (0);
 
 }

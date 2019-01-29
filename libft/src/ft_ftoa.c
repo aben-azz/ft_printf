@@ -6,14 +6,14 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 08:00:33 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/29 23:07:05 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 00:53:03 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-void	ft_ftoa(double f, int precision, char *str)
+void	ft_ftoa(long double f, int precision, char *str)
 {
 	long long a;
 	long long b;
@@ -21,21 +21,13 @@ void	ft_ftoa(double f, int precision, char *str)
 
 	(f < 0.0) && (*str++ = '-');
 	(f < 0.0) && (f *= -1);
+	f = ft_round(f, precision);
 	a = f;
-	f -= a;
-	k = precision;
-	// while (k-- > -1)
-	// 	if (a / ft_pow(10, k) > 0)
-	// 		break ;
 	k = intlen((int)f);
-	printf("k vaut: %lld\n", k);
-	while (k > 0)
-	{
-		(*str++ = a / ft_pow(10, k - 1) + 48);
+	f -= a;
+	while (k > 0 && (*str++ = a / ft_pow(10, k - 1) + 48))
 		a %= ft_pow(10, k-- - 1);
-	}
-
-	*str++ = '.';
+	precision <= 0 || (*str++ = '.');
 	while (precision-- > 0)
 	{
 		f *= 10.0;

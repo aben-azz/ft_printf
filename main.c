@@ -6,57 +6,13 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 00:33:23 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 00:52:29 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft/includes/libft.h"
 #include <stdio.h>
-
-double rounds(long double fl, long precision)
-{
-	long double	diviseur;
-
-	diviseur =  0.05;
-	while (precision-- >= 0)
-		diviseur /= 10;
-	printf("\n|%.50Lf\n", diviseur);
-	return (fl + 0.0000000000000000000000000000000000005);
-	return (fl + (fl > 0.0 ? diviseur : -diviseur));
-}
-
-void	ft_ftoa(double f, int precision, char *str)
-{
-	long long a;
-	long long b;
-	long long k;
-
-	(f < 0.0) && (*str++ = '-');
-	(f < 0.0) && (f *= -1);
-	//precision == 1 f = f + 0.05;
-	f = rounds(f, precision);
-	a = f;
-	//precision <= 0 && (f = f < 0 ? f - 5.0 : f + 5.0);
-
-
-	//printf("f vaut %f\n", f);
-	k = intlen((int)f);
-	f -= a;
-	//printf("f vaut %f\n", f);
-	while (k > 0 && (*str++ = a / ft_pow(10, k - 1) + 48))
-		a %= ft_pow(10, k-- - 1);
-	precision <= 0 || (*str++ = '.');
-	while (precision-- > 0)
-	{
-		f *= 10.0;
-		b = f;
-		//printf("b: %d\n", b);
-		*str++ = b + 48;
-		f -= b;
-	}
-	*str = '\0';
-}
 
 int		main(int argc, char **argv)
 {

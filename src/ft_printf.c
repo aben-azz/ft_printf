@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 06:00:52 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 06:05:22 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_ype g_type[] = {
 	{HIGHX_, &print_high_hexadecimal},
 	{LOWX_, &print_low_hexadecimal}
 };
-
 
 int		print_char(va_list list, t_fmt fmt)
 {
@@ -57,7 +56,6 @@ int		print_string(va_list list, t_fmt fmt)
 
 int		print_pointer(va_list list, t_fmt fmt)
 {
-	//display_fmt(fmt);
 	(void)list;
 	printf("{%#x}\n", va_arg(list, unsigned int));
 	(void)fmt;
@@ -92,15 +90,9 @@ int		print_float(va_list list, t_fmt fmt)
 	str = malloc(len + (args[0] ? args[0] : 0));
 	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str, args);
 	l += fmt.opt & SUB ? splice(str, -1, 1) : 0;
-	//printf("args de :%d\n", args[0]);
 	(~fmt.opt & ZERO || fmt.opt & SUB) && (l += ft_repeat_char(' ',
-	 	fmt.field - len + 1));
+		fmt.field - len + 1));
 	l += !(fmt.opt & SUB) ? splice(str, -1, 1) : 0;
-	//double num = va_arg(list, double);
-	//printf("precision de %d", fmt.precision);
-	//char *str = malloc(intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6));
-	//ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str);
-	//ft_putstr(str);
 	return (l);
 }
 
@@ -217,11 +209,10 @@ int		get_length(char *s)
 
 int		get_type(char *str, int i)
 {
-	//printf("type gettype: %s|%d| %d\n", str, i, 1 << (ft_indexof(TYPES, str[i - 1]) - 1));
 	return (1 << (ft_indexof(TYPES, str[i - 1]) - 1));
 }
 
-int             get_options(char *str)
+int		get_options(char *str)
 {
 	int	s;
 	int	i;
@@ -232,14 +223,7 @@ int             get_options(char *str)
 	while (OPTIONS[++i])
 		if (~(index = ft_indexof(str, OPTIONS[i])) &&
 			(i != 1 || !ft_isdigit(str[index - 2])))
-		{
-			//printf("On est au %c|%d, caractere davant :%c|%d|%d\n",
-				//OPTIONS[i], index, str[index-2], ft_isdigit(str[index-2]), i);
-			//printf("OPTIONS: |%c|, str: |%s|\n", OPTIONS[i], str, i, idne)
 			(s |= (1 << i));
-		}
-
-	//printf("s vaut: %d \n", s);
 	return (s ? s : 0);
 }
 
@@ -328,7 +312,6 @@ t_fmt	*get_flags(char *s, int n)
 		next = count_flags(s, i + 1)[0];
 		flags[j++] = format(ft_strsub(s, i,
 			!n ? (int)ft_strlen(s) - i : next - i));
-
 		i += (next - i);
 	}
 	return (flags);
@@ -359,15 +342,19 @@ int		ft_printf(const char *format, ...)
 		if (flags[i].type == 1 << 30)
 	 	{
 			printf("Ce flags nexiste pas\n");
+			//break ;
 		}
-		while (g_type[++j].type)
+		else
 		{
-
-			if (g_type[j].type == flags[i].type)
+			while (g_type[++j].type)
 			{
-				g_type[j].function(ap, flags[i]);
-				display_string(flags[i].string, flags[i].index, -1);
-				break ;
+
+				if (g_type[j].type == flags[i].type)
+				{
+					g_type[j].function(ap, flags[i]);
+					display_string(flags[i].string, flags[i].index, -1);
+					break ;
+				}
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 00:28:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 05:52:07 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ t_ype g_type[] = {
 	{LOWX_, &print_low_hexadecimal}
 };
 
-int	splice(char *string, int precision, int v)
-{
-	char *l;
-
-	l = ft_strsub(string, 0, ~precision ? precision : ft_strlen(string));
-	v ? ft_putstr(l) : NULL;
-	return (ft_strlen(l));
-}
 
 int		print_char(va_list list, t_fmt fmt)
 {
@@ -43,9 +35,9 @@ int		print_char(va_list list, t_fmt fmt)
 
 	n = (char)va_arg(list, int);
 	l = 0;
-	fmt.options & SUB ? ft_putchar(n) : NULL;
-	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ', fmt.minimal_length - 1);
-	!(fmt.options & SUB) ? ft_putchar(n) : NULL;
+	fmt.opt & SUB ? ft_putchar(n) : NULL;
+	l += ft_repeat_char(fmt.opt & ZERO ? '0' : ' ', fmt.field - 1);
+	!(fmt.opt & SUB) ? ft_putchar(n) : NULL;
 	return (l + 1);
 }
 
@@ -56,10 +48,10 @@ int		print_string(va_list list, t_fmt fmt)
 
 	l = 0;
 	string = va_arg(list, char*);
-	l += fmt.options & SUB ? splice(string, fmt.precision, 1) : 0;
-	l += ft_repeat_char(fmt.options & ZERO ? '0' : ' ',
-		fmt.minimal_length - splice(string, fmt.precision, 0));
-	l += !(fmt.options & SUB) ? splice(string, fmt.precision, 1) : 0;
+	l += fmt.opt & SUB ? splice(string, fmt.precision, 1) : 0;
+	l += ft_repeat_char(fmt.opt & ZERO ? '0' : ' ',
+		fmt.field - splice(string, fmt.precision, 0));
+	l += !(fmt.opt & SUB) ? splice(string, fmt.precision, 1) : 0;
 	return (l);
 }
 
@@ -72,6 +64,15 @@ int		print_pointer(va_list list, t_fmt fmt)
 	return (0);
 }
 
+int	splice(char *string, int precision, int v)
+{
+	char *l;
+
+	l = ft_strsub(string, 0, ~precision ? precision : ft_strlen(string));
+	v ? ft_putstr(l) : NULL;
+	return (ft_strlen(l));
+}
+
 int		print_float(va_list list, t_fmt fmt)
 {
 	int l;
@@ -79,12 +80,27 @@ int		print_float(va_list list, t_fmt fmt)
 	l = 0;
 	(void)list;
 	(void)fmt;
-	//printf("FLOAT MON POTE\n");
-	double num = va_arg(list, double);
+	double num;
+	int len;
+	int args[2];
+	char *str;
+
+	num = va_arg(list, double);
+	len = intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6);
+	args[0] = fmt.field - (len + 1) ? fmt.field - len + 1 : -1;
+	args[1] = fmt.opt;
+	str = malloc(len + (args[0] ? args[0] : 0));
+	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str, args);
+	l += fmt.opt & SUB ? splice(str, -1, 1) : 0;
+	//printf("args de :%d\n", args[0]);
+	(~fmt.opt & ZERO || fmt.opt & SUB) && (l += ft_repeat_char(' ',
+	 	fmt.field - len + 1));
+	l += !(fmt.opt & SUB) ? splice(str, -1, 1) : 0;
+	//double num = va_arg(list, double);
 	//printf("precision de %d", fmt.precision);
-	char *str = malloc(intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6));
-	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str);
-	ft_putstr(str);
+	//char *str = malloc(intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6));
+	//ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str);
+	//ft_putstr(str);
 	return (l);
 }
 
@@ -110,7 +126,7 @@ int		print_octal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	(fmt.options & HASH) ? ft_putstr("0"): NULL;
+	(fmt.opt & HASH) ? ft_putstr("0"): NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 0));
 	(void)fmt;
 	return (0);
@@ -121,7 +137,7 @@ int		print_low_hexadecimal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	(fmt.options & HASH) ? ft_putstr("0x"): NULL;
+	(fmt.opt & HASH) ? ft_putstr("0x"): NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 1));
 	(void)fmt;
 	return (0);
@@ -131,7 +147,7 @@ int		print_high_hexadecimal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	(fmt.options & HASH) ? ft_putstr("0X"): NULL;
+	(fmt.opt & HASH) ? ft_putstr("0X"): NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 0));
 	(void)fmt;
 	return (0);
@@ -167,7 +183,7 @@ int		get_precision(char *string)
 	return (ft_atoi(ft_strsub(string, n, i)));
 }
 
-int		get_minimal_length(char *string)
+int		get_field(char *string)
 {
 	int n;
 	int i;
@@ -242,8 +258,8 @@ t_fmt	format(char *string)
 	return ((t_fmt) {
 		.precision = get_precision(string),
 		.length = get_length(string),
-		.minimal_length = get_minimal_length(string),
-		.options = get_options(string),
+		.field = get_field(string),
+		.opt = get_options(string),
 		.string = string,
 		.index = get_string(string),
 		.type = get_type(string, get_string(string))
@@ -263,8 +279,8 @@ void	view_fmt(t_fmt *flags, int length)
 	i = -1;
 	while (++i < length)
 		printf("Tour de boucle %i %i,%i,%i,%i,%i,%s,\n", i, flags[i].precision,
-			flags[i].length, flags[i].type, flags[i].minimal_length,
-			flags[i].options, flags[i].string);
+			flags[i].length, flags[i].type, flags[i].field,
+			flags[i].opt, flags[i].string);
 }
 
 void	display_fmt(t_fmt format)
@@ -283,14 +299,14 @@ void	display_fmt(t_fmt format)
 	HIGHX_ == format.type && printf("X\n");
 	O_ == format.type && printf("O\n");
 	LOWX_ == format.type && printf("x\n");
-	printf("format de %d\n", format.options);
-	(format.options & HASH) && printf("#\n");
-	(format.options & SUB) && printf("-\n");
-	(format.options & ZERO) && printf("0\n");
-	(format.options & ADD) && printf("+\n");
-	(format.options & SPACE) && printf("SPACE\n");
+	printf("format de %d\n", format.opt);
+	(format.opt & HASH) && printf("#\n");
+	(format.opt & SUB) && printf("-\n");
+	(format.opt & ZERO) && printf("0\n");
+	(format.opt & ADD) && printf("+\n");
+	(format.opt & SPACE) && printf("SPACE\n");
 	printf("Precision de |%d|\n", format.precision);
-	printf("Champs de |%d|\n", format.minimal_length);
+	printf("Champs de |%d|\n", format.field);
 	printf("String |%s|\n", format.string);
 	printf("Index de |%d|\n", format.index);
 }

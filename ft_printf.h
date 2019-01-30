@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/29 22:58:27 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 05:10:24 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct	s_fmt
 	int				precision;
 	int				length;
 	int				type;
-	int				minimal_length;
-	int				options;
+	int				field;
+	int				opt;
 	char			*string;
 	int				index;
 }				t_fmt;
@@ -75,6 +75,7 @@ int				print_octal(va_list list, t_fmt fmt);
 int				print_low_hexadecimal(va_list list, t_fmt fmt);
 int				print_high_hexadecimal(va_list list, t_fmt fmt);
 void			display_fmt(t_fmt fmt);
+int				splice(char *string, int precision, int v);
 int	intlen(long long len);
 /*
 	% -+0#espace	n				.n			h,hh,l,ll	(csp)diouXx

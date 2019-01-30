@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 00:52:29 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 05:52:34 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,15 @@ int		main(int argc, char **argv)
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
-	double num = -9.99;
-	// char *string = malloc(100);
+	double num = -9.944654;
+	// char *string = malloc(100)
 	// ft_ftoa(num, 30, string);
 	// printf("ftoa vaut: %s\n", string);
 	//ft_printf("%s", "e");
 	//printf("%k");
-
-
-
-	char *string = malloc(intlen(num) + 2 + 100);
-	printf("%.40f\n", num);
-	ft_printf("%.40f\n", num);
-
+	printf("[%-20.12f]\n", num);
+	ft_printf("[%-20.12f]\n", num);
+	//ft_printf("{%p}", "cc");
 	// double arrondi = rounds(num, 1);
 	// printf("|%f|\n", arrondi);
 	return (0);

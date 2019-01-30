@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 00:53:19 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 05:42:53 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int				intlen(long long len);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_strncmp(char *s1, char *s2, size_t n);
 int				ft_atoi(char *str);
-void			ft_ftoa(long double n, int precision, char *str);
+void			ft_ftoa(long double n, int precision, char *str, int args[2]);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);

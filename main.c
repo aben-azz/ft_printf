@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 05:52:34 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 06:00:39 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,22 @@ int		main(int argc, char **argv)
 	// printf("ftoa vaut: %s\n", string);
 	//ft_printf("%s", "e");
 	//printf("%k");
-	printf("[%-20.12f]\n", num);
-	ft_printf("[%-20.12f]\n", num);
+	// printf("[%0.-10f]\n", num);
+	// printf("{%10.-1s}\n", "sord");
+	// ft_printf("{%10.-1s}\n", "sord");
+	// ft_printf("[%0.-10f]\n", num);
+	ft_printf("%p", "xdd");
+	printf("{%p}\n", "xdd");
 	//ft_printf("{%p}", "cc");
 	// double arrondi = rounds(num, 1);
 	// printf("|%f|\n", arrondi);
 	return (0);
 
 }
+
+
+
+/*
+gerer les fields negatives pour %scf
+
+*/

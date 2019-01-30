@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 05:52:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/01/30 06:00:52 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		print_pointer(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	//printf("%lx", va_arg(list, void*));
+	printf("{%#x}\n", va_arg(list, unsigned int));
 	(void)fmt;
 	return (0);
 }

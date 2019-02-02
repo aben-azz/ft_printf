@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 06:05:22 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:41:21 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ t_fmt	format(char *string)
 		.field = get_field(string),
 		.opt = get_options(string),
 		.string = string,
-		.index = get_string(string),
+		.index = get_string(string) || "",
 		.type = get_type(string, get_string(string))
 	});
 }
@@ -283,6 +283,7 @@ void	display_fmt(t_fmt format)
 	HIGHX_ == format.type && printf("X\n");
 	O_ == format.type && printf("O\n");
 	LOWX_ == format.type && printf("x\n");
+	NO_ == format.type && printf("%%\n");
 	printf("format de %d\n", format.opt);
 	(format.opt & HASH) && printf("#\n");
 	(format.opt & SUB) && printf("-\n");
@@ -331,33 +332,31 @@ int		ft_printf(const char *format, ...)
 	va_start(ap, format);
 	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
 	{
+		printf("xd");
 		display_string((char*)format, 0, -1);
 		return (ft_strlen((char*)format));
 	}
 	while (++i < length)
 	{
+		display_fmt(flags[j]);
 		j = -1;
-		//printf("Tour de boucle %d\n", i);
-		//printf("flags actuel type: %d\n", flags[i].type);
-		if (flags[i].type == 1 << 30)
-	 	{
-			printf("Ce flags nexiste pas\n");
-			//break ;
+		if (flags[i].type == 1 << 30){
+			printf("Non reconnu\n");
 		}
 		else
 		{
 			while (g_type[++j].type)
 			{
-
 				if (g_type[j].type == flags[i].type)
 				{
-					g_type[j].function(ap, flags[i]);
+					g_type[j].function && g_type[j].function(ap, flags[i]);
 					display_string(flags[i].string, flags[i].index, -1);
 					break ;
 				}
 			}
 		}
 	}
+
 	va_end(ap);
 	return (length);
 }

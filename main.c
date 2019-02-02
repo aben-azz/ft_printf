@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 06:05:23 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:39:30 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		main(int argc, char **argv)
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
-	double num = -9.944654;
+	double num = 9.146555553;
 	// char *string = malloc(100)
 	// ft_ftoa(num, 30, string);
 	// printf("ftoa vaut: %s\n", string);
@@ -101,15 +101,20 @@ int		main(int argc, char **argv)
 	// printf("{%10.-1s}\n", "sord");
 	// ft_printf("{%10.-1s}\n", "sord");
 	// ft_printf("[%0.-10f]\n", num);
-	ft_printf("%e%d", 18);
+	//ft_printf("|%%|\n");
+	//printf("|%%|\n");
+	//printf("|%.0d|\n", 1;
 	//ft_printf("{%p}", "cc");
 	// double arrondi = rounds(num, 1);
 	// printf("|%f|\n", arrondi);
+	//int *a = count_flags(argv[1], 0);
+	printf("|%%|\n");
+	ft_printf("|%%|\n");
+
+//	printf("{%d,%d}\n", a[0], a[1]);
 	return (0);
 
 }
-
-
 
 /*
 gerer les fields negatives pour %scf

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/02 22:36:50 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/02 23:54:27 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspfdiouXx%"
+# define TYPES    "cspfdiouXx"
 # define LENGTH   "lhL"
 # define HASH     1 << 0
 # define ZERO     1 << 1
@@ -32,7 +32,6 @@
 # define U_       1 << 7
 # define HIGHX_   1 << 8
 # define LOWX_    1 << 9
-# define NO_      1 << 10
 
 
 # define L_      (1 << 1) + 1

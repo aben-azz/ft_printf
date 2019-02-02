@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/02 22:39:30 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 00:11:53 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ int		main(int argc, char **argv)
 	// double arrondi = rounds(num, 1);
 	// printf("|%f|\n", arrondi);
 	//int *a = count_flags(argv[1], 0);
-	printf("|%%|\n");
-	ft_printf("|%%|\n");
-
-//	printf("{%d,%d}\n", a[0], a[1]);
+	//printf("|%%||%s|\n", "xd");
+	ft_printf("|%s|%s|", "lol", "jpp");
+	ft_printf("%.3f\n", 188.5455);
+	printf("%.3f\n", 188.5455);
+	//printf("{%d,%d}\n", a[0], a[1]);
 	return (0);
 
 }

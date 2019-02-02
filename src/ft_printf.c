@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/02 22:41:21 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 00:11:10 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_ype g_type[] = {
 	{O_, &print_octal},
 	{U_, &print_unsigned_integer},
 	{HIGHX_, &print_high_hexadecimal},
-	{LOWX_, &print_low_hexadecimal}
+	{LOWX_, &print_low_hexadecimal},
 };
 
 int		print_char(va_list list, t_fmt fmt)
@@ -245,7 +245,7 @@ t_fmt	format(char *string)
 		.field = get_field(string),
 		.opt = get_options(string),
 		.string = string,
-		.index = get_string(string) || "",
+		.index = get_string(string),
 		.type = get_type(string, get_string(string))
 	});
 }
@@ -269,6 +269,7 @@ void	view_fmt(t_fmt *flags, int length)
 
 void	display_fmt(t_fmt format)
 {
+	printf("FORMAT____________________\n");
 	format.length == L_ && printf("L\n");
 	format.length == LL_ && printf("LL\n");
 	format.length == H_ && printf("H\n");
@@ -283,7 +284,6 @@ void	display_fmt(t_fmt format)
 	HIGHX_ == format.type && printf("X\n");
 	O_ == format.type && printf("O\n");
 	LOWX_ == format.type && printf("x\n");
-	NO_ == format.type && printf("%%\n");
 	printf("format de %d\n", format.opt);
 	(format.opt & HASH) && printf("#\n");
 	(format.opt & SUB) && printf("-\n");
@@ -294,6 +294,7 @@ void	display_fmt(t_fmt format)
 	printf("Champs de |%d|\n", format.field);
 	printf("String |%s|\n", format.string);
 	printf("Index de |%d|\n", format.index);
+	printf("FORMAT____________________\n");
 }
 
 t_fmt	*get_flags(char *s, int n)
@@ -313,6 +314,7 @@ t_fmt	*get_flags(char *s, int n)
 		next = count_flags(s, i + 1)[0];
 		flags[j++] = format(ft_strsub(s, i,
 			!n ? (int)ft_strlen(s) - i : next - i));
+			//display_fmt(flags[j-1]);
 		i += (next - i);
 	}
 	return (flags);
@@ -338,7 +340,7 @@ int		ft_printf(const char *format, ...)
 	}
 	while (++i < length)
 	{
-		display_fmt(flags[j]);
+		//display_fmt(flags[j]);
 		j = -1;
 		if (flags[i].type == 1 << 30){
 			printf("Non reconnu\n");

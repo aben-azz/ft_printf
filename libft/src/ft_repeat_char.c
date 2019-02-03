@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 14:06:20 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 15:23:11 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 09:00:12 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	ft_repeat_char(char c, int n)
 {
-	while (--n + 1 > 0)
+	int p;
+	p = n;
+	while (--p + 1 > 0)
 		ft_putchar(c);
 	return (n);
 }

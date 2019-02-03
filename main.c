@@ -6,13 +6,15 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 08:52:15 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 09:13:15 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft/includes/libft.h"
 #include <stdio.h>
+
+
 
 int		main(int argc, char **argv)
 {
@@ -92,40 +94,20 @@ int		main(int argc, char **argv)
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
 
-	long double n = 9.146555553;
-	long double n_ = -9.146555553;
-	char *string = "\n{%010.Lf}\n";
-	(void)n;
+	//long double n = 9.146555553;
+	//long double n_ = -9.146555553;
+	char *string = "\n{%s}\n";
+
 	//(void)n_;
 	(void)string;
-	// char *string = malloc(100)
-	// ft_ftoa(num, 30, string);
-	// printf("ftoa vaut: %s\n", string);
-	//ft_printf("%s", "e");
-	//printf("%k");
-	// printf("[%0.-10f]\n", num);
-	// printf("{%10.-1s}\n", "sord");
-	// ft_printf("{%10.-1s}\n", "sord");
-	// ft_printf("[%0.-10f]\n", num);
-	//ft_printf("|%%|\n");
-	//printf("|%%|\n");
-	//printf("|%.0d|\n", 1;
-	//ft_printf("{%p}", "cc");
-	// double arrondi = rounds(num, 1);
-	// printf("|%f|\n", arrondi);
-	//int *a = count_flags(argv[1], 0);
-	//printf("|%%||%s|\n", "xd");
-	//ft_printf(string, n);
-	//printf(string, n);
-	//ft_printf(string, n_);
-	ft_printf(string,n);
-	printf(string, n);
-	ft_printf( string,n_);
-	printf(string, n_);
+	char *strings = "chienne";
+	ft_printf(string,strings);
+	printf(string, strings);
+	//ft_printf( string,n_);
+//	printf(string, n_);
 	return (0);
 
 }
-
 /*
 gerer les fields negatives pour %scf
 

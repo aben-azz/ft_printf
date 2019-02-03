@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 08:51:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 09:15:02 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ int		print_string(va_list list, t_fmt fmt)
 	l = 0;
 	string = va_arg(list, char*);
 	l += fmt.opt & SUB ? splice(string, fmt.precision, 1) : 0;
-	l += ft_repeat_char(fmt.opt & ZERO ? '0' : ' ',
+	l += ft_repeat_char(fmt.opt & ZERO && (~fmt.opt & SUB) ? '0' : ' ',
 		fmt.field - splice(string, fmt.precision, 0));
 	l += !(fmt.opt & SUB) ? splice(string, fmt.precision, 1) : 0;
+	printf("\n%d\n", l);
 	return (l);
 }
 
@@ -68,7 +69,7 @@ int	splice(char *string, int precision, int v)
 
 	l = ft_strsub(string, 0, ~precision ? precision : ft_strlen(string));
 	v ? ft_putstr(l) : NULL;
-	return (ft_strlen(l));
+	return ((int)ft_strlen(l));
 }
 
 int		print_float(va_list list, t_fmt fmt)
@@ -90,7 +91,7 @@ int		print_float(va_list list, t_fmt fmt)
 	((fmt.opt & ADD && num > 0.0)) && fmt.field--;
 	((fmt.opt & ADD && num > 0.0)) && write(1, "+", 1);
 	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str, args);
-	
+
 	(fmt.opt & SPACE && num > 0.0 && (int)ft_strlen(str) > fmt.field &&
 	~fmt.opt & SUB && (~fmt.opt & ADD)) && write(1, " ", 1);
 	(fmt.opt & SUB) ? ft_putstr(str) : 0;
@@ -179,7 +180,6 @@ int		print_signed_integer(va_list list, t_fmt fmt)
 			pf_putnbr(number);
 		}
 	}
-
 	return (0);
 }
 int		print_unsigned_integer(va_list list, t_fmt fmt)
@@ -382,11 +382,14 @@ t_fmt	format(char *string)
 int		display_string(char *string, int index, int to)
 {
 	if (to > index)
+	{
 		ft_putstr(ft_strsub(string, index, to));
+		return (to);
+	}
 	else
 		while (*(string + index))
 			ft_putchar(*(string + index++));
-	return (0);
+	return (index);
 }
 
 void	view_fmt(t_fmt *flags, int length)
@@ -454,18 +457,15 @@ t_fmt	*get_flags(char *s, int n)
 	return (flags);
 }
 
-int		ft_printf(const char *format, ...)
+int		parse(const char *format, va_list ap)
 {
-	int		length;
-	int		i;
-	int		j;
-	va_list	ap;
+	int i = -1;
+	int length = 0;
+	int j;
 	t_fmt *flags;
-
-	i = -1;
+	int l = 0;
 	length = count_flags((char*)format, 0)[1];
 	flags = get_flags((char*)format, length);
-	va_start(ap, format);
 	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
 	{
 		//printf("xd");
@@ -485,13 +485,24 @@ int		ft_printf(const char *format, ...)
 			{
 				if (g_type[j].type == flags[i].type)
 				{
-					g_type[j].function && g_type[j].function(ap, flags[i]);
-					display_string(flags[i].string, flags[i].index, -1);
+					l += g_type[j].function ? g_type[j].function(ap, flags[i]) : 0;
+					l += display_string(flags[i].string, flags[i].index, -1);
 					break ;
 				}
 			}
 		}
 	}
+	return (l);
+}
+
+int		ft_printf(const char *format, ...)
+{
+	int		length;
+	va_list	ap;
+
+	va_start(ap, format);
+	length = parse(format, ap);
 	va_end(ap);
+	printf("Longueur de %d\n", length);
 	return (length);
 }

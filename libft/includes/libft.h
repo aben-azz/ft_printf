@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/30 05:42:53 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 03:25:35 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ char			*ft_itoa(int n);
 void			ft_putchar(char c);
 void			ft_putstr(char *s);
 void			ft_putendl(char *s);
-void			ft_putnbr(int n);
+void			ft_putnbr(long long n);
 void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
-void			ft_putnbr_fd(int n, int fd);
+void			ft_putnbr_fd(long long n, int fd);
 char			*ft_itoa_base(long long n, int base, int islower);
 long long		ft_pow(int base, int i);
 long double		ft_round(long double fl, long precision);

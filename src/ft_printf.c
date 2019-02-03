@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 03:13:31 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 08:51:07 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ int	splice(char *string, int precision, int v)
 
 int		print_float(va_list list, t_fmt fmt)
 {
-	int l;
 	double num;
 	int len;
 	int args[2];
 	char *str;
 
-	l = 0;
 	num = fmt.length == LU_ ? va_arg(list, long double) : va_arg(list, double);
 	len = intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6);
 	args[0] = fmt.field - (len + 1) ? fmt.field - len + 1 : 2;
@@ -89,18 +87,34 @@ int		print_float(va_list list, t_fmt fmt)
 	(fmt.opt & SPACE && num > 0.0) && args[0]--;
 	((fmt.opt & SPACE && (fmt.opt & SUB) && num > 0.0)) && write(1, " ", 1);
 	((fmt.opt & SPACE && (fmt.opt & SUB) && num > 0.0)) && fmt.field++;
+	((fmt.opt & ADD && num > 0.0)) && fmt.field--;
+	((fmt.opt & ADD && num > 0.0)) && write(1, "+", 1);
 	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str, args);
-	if(fmt.opt & SPACE && num > 0.0 && (int)ft_strlen(str) > fmt.field && ~fmt.opt & SUB)
-		write(1, " ", 1);
+	
+	(fmt.opt & SPACE && num > 0.0 && (int)ft_strlen(str) > fmt.field &&
+	~fmt.opt & SUB && (~fmt.opt & ADD)) && write(1, " ", 1);
 	(fmt.opt & SUB) ? ft_putstr(str) : 0;
-	ft_repeat_char(' ', fmt.field - ft_strlen(str) - (((fmt.opt & SUB) && (fmt.opt & SPACE) && num > 0.0) ? 2 : 0));
+	ft_repeat_char(' ', fmt.field - ft_strlen(str) - (((fmt.opt & SUB) &&
+		(fmt.opt & SPACE) && num > 0.0) ? 2 : 0));
 	!(fmt.opt & SUB) ? ft_putstr(str) : 0;
-	return (l);
+	return (0);
+}
+void	pf_putnbr(long long n)
+{
+	if (n < 0)
+	{
+		(n < -9223372036854775807) ? ft_putchar('2') : NULL;
+		(n < -9223372036854775807) && (n = -223372036854775808);
+		n = -n;
+	}
+	(n > 9) ? ft_putnbr(n / 10) : NULL;
+	ft_putchar(48 + n % 10);
 }
 int		print_signed_integer(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	long long number;
+	int length = 0;
 	if (fmt.length == HH_)
 		number = (char)va_arg(list, long long);
 	else if (fmt.length == H_)
@@ -109,18 +123,125 @@ int		print_signed_integer(va_list list, t_fmt fmt)
 		number = va_arg(list, long long);
 	else
 		number = va_arg(list, int);
-	ft_putnbr(number);
+	int champs;
+	int prec;
+
+	prec = (fmt.precision >= intlen(number) ? fmt.precision - intlen(number) : -1);
+	if (number < 0)
+		prec++;
+	champs = (fmt.field >= intlen(number) ? fmt.field - intlen(number) : 0);
+	champs -= (~prec ? prec : 0);
+	champs += (number >= 0 && fmt.opt & ADD);
+	length += intlen(number) + champs;
+	if (fmt.opt & SUB)
+	{
+		if (number < 0)
+			ft_putchar('-');
+		else if (number >= 0 && (fmt.opt & ADD || (fmt.opt & SPACE)))
+		{
+			ft_putchar(fmt.opt & ADD ? '+' : ' ');
+			champs -= 2;
+			fmt.opt & ADD || champs++;
+		}
+		if (~prec)
+			ft_repeat_char('0', prec);
+		pf_putnbr(number);
+		ft_repeat_char(' ', champs);
+	}
+	else
+	{
+		if (~fmt.precision)
+		{
+			if (number > 0 && (fmt.opt & ADD))
+				champs -= 2;
+			ft_repeat_char(' ', champs);
+			if (number < 0)
+				ft_putchar('-');
+			else if (fmt.opt & ADD)
+				ft_putchar('+');
+			ft_repeat_char('0', prec);
+			pf_putnbr(number);
+		}
+		else
+		{
+			if (number > 0 && (fmt.opt & ADD))
+				champs -= 2;
+			if (fmt.opt & SPACE && number > 0 && (~fmt.opt & ADD))
+			{
+				champs--;
+				ft_putchar(' ');
+			}
+			if (number < 0)
+				ft_putchar('-');
+			else if (fmt.opt & ADD)
+				ft_putchar('+');
+			ft_repeat_char('0', champs);
+			pf_putnbr(number);
+		}
+	}
+
+	return (0);
+}
+int		print_unsigned_integer(va_list list, t_fmt fmt)
+{
+	long long n;
+	int length;
+	int champs;
+	int prec;
+
+	length = 0;
+	if (fmt.length == HH_)
+		n = (char)va_arg(list, unsigned long long);
+	else if (fmt.length == H_)
+		n = (short)va_arg(list, unsigned long long);
+	else if (fmt.length == L_ || fmt.length == LL_)
+		n = va_arg(list, unsigned long long);
+	else
+		n = va_arg(list, unsigned int);
+	prec = (fmt.precision >= intlen(n) ? fmt.precision - intlen(n) : -1);
+	if (n < 0)
+		prec++;
+	champs = (fmt.field >= intlen(n) ? fmt.field - intlen(n) : 0);
+	champs -= (~prec ? prec : 0);
+	champs += (n >= 0 && fmt.opt & ADD);
+	length += intlen(n) + champs;
+	if (fmt.opt & SUB)
+	{
+		if (n > 0 && (fmt.opt & ADD))
+			champs -= 1;
+		if (~prec)
+			ft_repeat_char('0', prec);
+		pf_putnbr(n);
+		ft_repeat_char(' ', champs);
+	}
+	else
+	{
+		if (~fmt.precision)
+		{
+			if (n > 0 && (fmt.opt & ADD))
+				champs -= 1;
+			ft_repeat_char(' ', champs);
+			if (n < 0)
+				ft_putchar('-');
+			ft_repeat_char('0', prec);
+			pf_putnbr(n);
+		}
+		else
+		{
+			if (n > 0 && (fmt.opt & ADD))
+				champs -= 2;
+			if (fmt.opt & SPACE && n > 0 && (~fmt.opt & ADD))
+			{
+				champs--;
+				ft_putchar(' ');
+			}
+			ft_repeat_char('0', champs);
+			pf_putnbr(n);
+		}
+	}
 	return (0);
 }
 
-int		print_unsigned_integer(va_list list, t_fmt fmt)
-{
-	//display_fmt(fmt);
-	(void)list;
-	printf("%u", va_arg(list, unsigned int));
-	(void)fmt;
-	return (0);
-}
 int		print_octal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);

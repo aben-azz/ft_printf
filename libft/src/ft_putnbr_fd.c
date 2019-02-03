@@ -6,19 +6,19 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 15:05:21 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/10/15 21:10:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 03:24:59 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(long long n, int fd)
 {
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		(n == -2147483648) ? ft_putchar_fd('2', fd) : NULL;
-		(n == -2147483648) && (n = -147483648);
+		(n < -9223372036854775807) ? ft_putchar_fd('2', fd) : NULL;
+		(n < -9223372036854775807) && (n = -223372036854775808);
 		n = -n;
 	}
 	(n > 9) ? ft_putnbr_fd(n / 10, fd) : NULL;

@@ -6,13 +6,13 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/07 14:47:53 by aben-azz          #+#    #+#             */
-/*   Updated: 2018/11/14 10:59:35 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 03:25:57 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void	ft_putnbr(long long n)
 {
 	ft_putnbr_fd(n, 1);
 }

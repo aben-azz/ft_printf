@@ -6,43 +6,13 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 03:13:21 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 08:52:15 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft/includes/libft.h"
 #include <stdio.h>
-
-void	ft_ftoa(long double f, int precision, char *str, int arg[2])
-{
-
-	long long a;
-	long long b;
-	long long k;
-
-	(void)arg;
-	(f < 0.0) && (*str++ = '-');
-	while (arg[0]-- > 0)
-		(arg[1] & 1 << 1 && ~arg[1] & 1 << 2) && (*str++ = '0');
-	(f < 0.0) && (f *= -1);
-	f = ft_round(f, precision);
-	a = f;
-	k = intlen((int)f);
-	f -= a;
-	while (k > 0 && (*str++ = a / ft_pow(10, k - 1) + 48))
-		a %= ft_pow(10, k-- - 1);
-	precision <= 0 || (*str++ = '.');
-	while (precision-- > 0)
-	{
-		f *= 10.0;
-		b = f;
-		*str++ = b + 48;
-		f -= b;
-	}
-	*str = '\0';
-}
-
 
 int		main(int argc, char **argv)
 {
@@ -122,12 +92,11 @@ int		main(int argc, char **argv)
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
 
-	//long double num = 9.146555553;
-	double n = 9.146555553;
-	double n_ = -9.146555553;
-	char *string = "|% 30.20f|\n";
+	long double n = 9.146555553;
+	long double n_ = -9.146555553;
+	char *string = "\n{%010.Lf}\n";
 	(void)n;
-	(void)n_;
+	//(void)n_;
 	(void)string;
 	// char *string = malloc(100)
 	// ft_ftoa(num, 30, string);

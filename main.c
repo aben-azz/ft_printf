@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 00:11:53 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 03:13:21 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,40 @@
 #include "libft/includes/libft.h"
 #include <stdio.h>
 
+void	ft_ftoa(long double f, int precision, char *str, int arg[2])
+{
+
+	long long a;
+	long long b;
+	long long k;
+
+	(void)arg;
+	(f < 0.0) && (*str++ = '-');
+	while (arg[0]-- > 0)
+		(arg[1] & 1 << 1 && ~arg[1] & 1 << 2) && (*str++ = '0');
+	(f < 0.0) && (f *= -1);
+	f = ft_round(f, precision);
+	a = f;
+	k = intlen((int)f);
+	f -= a;
+	while (k > 0 && (*str++ = a / ft_pow(10, k - 1) + 48))
+		a %= ft_pow(10, k-- - 1);
+	precision <= 0 || (*str++ = '.');
+	while (precision-- > 0)
+	{
+		f *= 10.0;
+		b = f;
+		*str++ = b + 48;
+		f -= b;
+	}
+	*str = '\0';
+}
+
+
 int		main(int argc, char **argv)
 {
 	(void)argc;
-
+	(void)argv;
 	// printf("|%i,%i|\n",
 	// count_flags(argv[1], ft_atoi(argv[2]))[0],
 	// count_flags(argv[1], ft_atoi(argv[2]))[1]);
@@ -91,7 +121,14 @@ int		main(int argc, char **argv)
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
-	double num = 9.146555553;
+
+	//long double num = 9.146555553;
+	double n = 9.146555553;
+	double n_ = -9.146555553;
+	char *string = "|% 30.20f|\n";
+	(void)n;
+	(void)n_;
+	(void)string;
 	// char *string = malloc(100)
 	// ft_ftoa(num, 30, string);
 	// printf("ftoa vaut: %s\n", string);
@@ -109,10 +146,13 @@ int		main(int argc, char **argv)
 	// printf("|%f|\n", arrondi);
 	//int *a = count_flags(argv[1], 0);
 	//printf("|%%||%s|\n", "xd");
-	ft_printf("|%s|%s|", "lol", "jpp");
-	ft_printf("%.3f\n", 188.5455);
-	printf("%.3f\n", 188.5455);
-	//printf("{%d,%d}\n", a[0], a[1]);
+	//ft_printf(string, n);
+	//printf(string, n);
+	//ft_printf(string, n_);
+	ft_printf(string,n);
+	printf(string, n);
+	ft_printf( string,n_);
+	printf(string, n_);
 	return (0);
 
 }

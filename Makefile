@@ -6,7 +6,7 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/01/24 10:55:59 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/02/03 00:38:13 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_PATH) fclean
 	@rm -f $(NAME)
 debug :
-	@gcc main.c libftprintf.a -o o
+	@gcc main.c libftprintf.a -o o -Wall -Wextra -Werror
 	@printf "$(_GREEN)main.c pret$(_END)\n"
 re: fclean all
 .PHONY: all, clean, fclean, re, $(LIBFT_PATH)$(LIBFT_NAME)

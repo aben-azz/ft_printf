@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 00:11:10 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/03 03:13:31 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		print_string(va_list list, t_fmt fmt)
 int		print_pointer(va_list list, t_fmt fmt)
 {
 	(void)list;
-	printf("{%#x}\n", va_arg(list, unsigned int));
+	printf("%#x", va_arg(list, unsigned int));
 	(void)fmt;
 	return (0);
 }
@@ -74,34 +74,42 @@ int	splice(char *string, int precision, int v)
 int		print_float(va_list list, t_fmt fmt)
 {
 	int l;
-
-	l = 0;
-	(void)list;
-	(void)fmt;
 	double num;
 	int len;
 	int args[2];
 	char *str;
 
-	num = va_arg(list, double);
+	l = 0;
+	num = fmt.length == LU_ ? va_arg(list, long double) : va_arg(list, double);
 	len = intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6);
-	args[0] = fmt.field - (len + 1) ? fmt.field - len + 1 : -1;
+	args[0] = fmt.field - (len + 1) ? fmt.field - len + 1 : 2;
 	args[1] = fmt.opt;
-	str = malloc(len + (args[0] ? args[0] : 0));
+	if (!(str = malloc(len)))
+		return (0);
+	(fmt.opt & SPACE && num > 0.0) && args[0]--;
+	((fmt.opt & SPACE && (fmt.opt & SUB) && num > 0.0)) && write(1, " ", 1);
+	((fmt.opt & SPACE && (fmt.opt & SUB) && num > 0.0)) && fmt.field++;
 	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str, args);
-	l += fmt.opt & SUB ? splice(str, -1, 1) : 0;
-	(~fmt.opt & ZERO || fmt.opt & SUB) && (l += ft_repeat_char(' ',
-		fmt.field - len + 1));
-	l += !(fmt.opt & SUB) ? splice(str, -1, 1) : 0;
+	if(fmt.opt & SPACE && num > 0.0 && (int)ft_strlen(str) > fmt.field && ~fmt.opt & SUB)
+		write(1, " ", 1);
+	(fmt.opt & SUB) ? ft_putstr(str) : 0;
+	ft_repeat_char(' ', fmt.field - ft_strlen(str) - (((fmt.opt & SUB) && (fmt.opt & SPACE) && num > 0.0) ? 2 : 0));
+	!(fmt.opt & SUB) ? ft_putstr(str) : 0;
 	return (l);
 }
-
 int		print_signed_integer(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
-	(void)list;
-	printf("%d", va_arg(list, int));
-	(void)fmt;
+	long long number;
+	if (fmt.length == HH_)
+		number = (char)va_arg(list, long long);
+	else if (fmt.length == H_)
+		number = (short)va_arg(list, long long);
+	else if (fmt.length == L_ || fmt.length == LL_)
+		number = va_arg(list, long long);
+	else
+		number = va_arg(list, int);
+	ft_putnbr(number);
 	return (0);
 }
 
@@ -113,12 +121,11 @@ int		print_unsigned_integer(va_list list, t_fmt fmt)
 	(void)fmt;
 	return (0);
 }
-
 int		print_octal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	(fmt.opt & HASH) ? ft_putstr("0"): NULL;
+	(fmt.opt & HASH) ? ft_putstr("0") : NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 8, 0));
 	(void)fmt;
 	return (0);
@@ -129,7 +136,7 @@ int		print_low_hexadecimal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	(fmt.opt & HASH) ? ft_putstr("0x"): NULL;
+	(fmt.opt & HASH) ? ft_putstr("0x") : NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 1));
 	(void)fmt;
 	return (0);
@@ -139,7 +146,7 @@ int		print_high_hexadecimal(va_list list, t_fmt fmt)
 {
 	//display_fmt(fmt);
 	(void)list;
-	(fmt.opt & HASH) ? ft_putstr("0X"): NULL;
+	(fmt.opt & HASH) ? ft_putstr("0X") : NULL;
 	ft_putstr(ft_itoa_base(va_arg(list, int), 16, 0));
 	(void)fmt;
 	return (0);
@@ -170,6 +177,7 @@ int		get_precision(char *string)
 	i = 0;
 	if (!~(n = ft_indexof(string, '.')))
 		return (-1);
+	//printf(" n est a %d, <%s>\n", n, string);
 	while (ft_isdigit(string[n + i]))
 		(void)i++;
 	return (ft_atoi(ft_strsub(string, n, i)));
@@ -252,7 +260,11 @@ t_fmt	format(char *string)
 
 int		display_string(char *string, int index, int to)
 {
-	ft_putstr(ft_strsub(string, index, ~to ? to : ft_strlen(string) - index));
+	if (to > index)
+		ft_putstr(ft_strsub(string, index, to));
+	else
+		while (*(string + index))
+			ft_putchar(*(string + index++));
 	return (0);
 }
 
@@ -274,6 +286,7 @@ void	display_fmt(t_fmt format)
 	format.length == LL_ && printf("LL\n");
 	format.length == H_ && printf("H\n");
 	format.length == HH_ && printf("HH\n");
+	format.length == LU_ && printf("LU\n");
 	C_ == format.type && printf("C\n");
 	S_ == format.type && printf("S\n");
 	P_ == format.type && printf("P\n");
@@ -334,7 +347,7 @@ int		ft_printf(const char *format, ...)
 	va_start(ap, format);
 	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
 	{
-		printf("xd");
+		//printf("xd");
 		display_string((char*)format, 0, -1);
 		return (ft_strlen((char*)format));
 	}
@@ -358,7 +371,6 @@ int		ft_printf(const char *format, ...)
 			}
 		}
 	}
-
 	va_end(ap);
 	return (length);
 }

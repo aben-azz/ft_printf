@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/06 03:12:10 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/06 03:45:53 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ int		main(int argc, char **argv)
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
 
-	long double n = 9.146555553;
-	long double n_ = -9.146555553;
+	long double n = 9.1465555533234545456465456465465465;
+	long double n_ = -9.1465555533234545456465456465465465;
 	(void)n;
 	(void)n_;
 
-	char *string = "%L-35.30f\n";
+	char *string = "%L3.10f\n";
 	ft_printf(string, n);
 	printf(string, n);
 	ft_printf( string,n_);

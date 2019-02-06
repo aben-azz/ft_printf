@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/06 03:16:00 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/06 03:45:53 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int		print_float(va_list list, t_fmt fmt)
 	char *str;
 	double number;
 	int champs;
-	int length = 0;
-
+	int length;
+	length = 0;
 	number = fmt.length == LU_ ? va_arg(list, long double) : va_arg(list, double);
 	len = intlen(number) + 2 + (~fmt.precision ? fmt.precision : 6);
 	if (!(str = malloc(len)))
@@ -94,20 +94,20 @@ int		print_float(va_list list, t_fmt fmt)
 	champs = (fmt.field >= intlen(number) ? fmt.field - intlen(number) : 0);
 	champs -= (~prec ? prec : 0);
 	champs += (number >= 0 && fmt.opt & ADD);
-	length += intlen(number) + champs;
 	ft_ftoa(number, ~fmt.precision ? fmt.precision : 6, str);
+	length += ft_strlen(str);
 	if (fmt.opt & SUB)
 	{
 		if (number < 0)
-			ft_putchar('-');
+			length += ft_repeat_char('-', 1);
 		else if (number >= 0.0 && (fmt.opt & ADD || (fmt.opt & SPACE)))
 		{
-			ft_putchar(fmt.opt & ADD ? '+' : ' ');
+			length += ft_repeat_char(fmt.opt & ADD ? '+' : ' ', 1);
 			champs -= 2;
 			fmt.opt & ADD || champs++;
 		}
 		ft_putstr(str);
-		ft_repeat_char(' ', champs);
+		return (length + ft_repeat_char(' ', champs>0 ? champs : 0));
 	}
 	else
 	{
@@ -119,47 +119,48 @@ int		print_float(va_list list, t_fmt fmt)
 			if (fmt.opt & SPACE && (fmt.opt & ZERO) && number == 0.0)
 			{
 				args--;
-				(fmt.opt & SPACE) ? ft_putchar(' ') : NULL;
+				length += (fmt.opt & SPACE) ? ft_repeat_char(' ', 1) : 0;
 			}
 			if (fmt.opt & ADD && number >= 0.0)
 				args--;
 			if ((fmt.opt & ZERO) && (fmt.opt & SPACE) && number > 0.0)
 			{
-				(~fmt.opt & ADD) ? ft_putchar(' ') : NULL;
+				length += (~fmt.opt & ADD) ? ft_repeat_char(' ', 1) : 0;
 				args--;
 			}
 			if ((fmt.opt & ZERO) && (fmt.opt & SPACE) && number >= 0.0 && (fmt.opt & ADD))
 			{
-				number == 0.0 ? ft_putchar(' ') : NULL;
+				length += number == 0.0 ? ft_repeat_char(' ', 1) : 0;
 				args++;
 			}
 			if (~fmt.opt & ZERO)
-				ft_repeat_char(' ', args);
+				length += ft_repeat_char(' ', args>0 ? args : 0);
 			if (number < 0.0)
-				ft_putchar('-');
+				length += ft_repeat_char('-', 1);
 			else if (fmt.opt & ADD)
-				ft_putchar('+');
+				length += ft_repeat_char('+', 1);
 			if (fmt.opt & ZERO)
-				ft_repeat_char('0', args);
+				length += ft_repeat_char('0', args>0 ? args : 0);
 			ft_putstr(str);
+			return (length);
 		}
 		else
 		{
-			printf("la mon pti pote xd\n");
 			if (number > 0.0 && (fmt.opt & ADD))
 				champs -= 2;
 			if (fmt.opt & SPACE && number >= 0.0 && (~fmt.opt & ADD))
 			{
 				champs--;
-				ft_putchar(' ');
+				length += ft_repeat_char(' ', 1);
 			}
 			(~fmt.opt & ZERO) && ft_repeat_char(' ', champs);
 			if (number < 0.0)
-				ft_putchar('-');
+				length += ft_repeat_char('-', 1);
 			else if (fmt.opt & ADD)
-				ft_putchar('+');
-			(fmt.opt & ZERO) && ft_repeat_char('0', champs);
+				length += ft_repeat_char('+', 1);
+			length += (fmt.opt & ZERO) ? ft_repeat_char('0', champs) : 0;
 			ft_putstr(str);
+			return (length);
 		}
 	}
 	return (0);
@@ -177,7 +178,6 @@ void	pf_putnbr(long long n)
 }
 int		print_signed_integer(va_list list, t_fmt fmt)
 {
-	//display_fmt(fmt);
 	long long number;
 	int length = 0;
 	if (fmt.length == HH_)
@@ -549,13 +549,15 @@ int		parse(const char *format, va_list ap)
 			{
 				if (g_type[j].type == flags[i].type)
 				{
-					l += g_type[j].function ? g_type[j].function(ap, flags[i]) : 0;
+					int a = g_type[j].function ? g_type[j].function(ap, flags[i]) : 0;
+					printf("[{%d}]\n", a);
 					l += display_string(flags[i].string, flags[i].index, -1);
 					break ;
 				}
 			}
 		}
 	}
+
 	return (l);
 }
 

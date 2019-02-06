@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 09:15:02 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/06 03:16:00 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,94 @@ int	splice(char *string, int precision, int v)
 
 int		print_float(va_list list, t_fmt fmt)
 {
-	double num;
+	int args;
 	int len;
-	int args[2];
 	char *str;
+	double number;
+	int champs;
+	int length = 0;
 
-	num = fmt.length == LU_ ? va_arg(list, long double) : va_arg(list, double);
-	len = intlen(num) + 2 + (~fmt.precision ? fmt.precision : 6);
-	args[0] = fmt.field - (len + 1) ? fmt.field - len + 1 : 2;
-	args[1] = fmt.opt;
+	number = fmt.length == LU_ ? va_arg(list, long double) : va_arg(list, double);
+	len = intlen(number) + 2 + (~fmt.precision ? fmt.precision : 6);
 	if (!(str = malloc(len)))
 		return (0);
-	(fmt.opt & SPACE && num > 0.0) && args[0]--;
-	((fmt.opt & SPACE && (fmt.opt & SUB) && num > 0.0)) && write(1, " ", 1);
-	((fmt.opt & SPACE && (fmt.opt & SUB) && num > 0.0)) && fmt.field++;
-	((fmt.opt & ADD && num > 0.0)) && fmt.field--;
-	((fmt.opt & ADD && num > 0.0)) && write(1, "+", 1);
-	ft_ftoa(num, ~fmt.precision ? fmt.precision : 6, str, args);
+	args = fmt.field - (len + 1) ? fmt.field - len + 1 : 2;
+	int prec;
 
-	(fmt.opt & SPACE && num > 0.0 && (int)ft_strlen(str) > fmt.field &&
-	~fmt.opt & SUB && (~fmt.opt & ADD)) && write(1, " ", 1);
-	(fmt.opt & SUB) ? ft_putstr(str) : 0;
-	ft_repeat_char(' ', fmt.field - ft_strlen(str) - (((fmt.opt & SUB) &&
-		(fmt.opt & SPACE) && num > 0.0) ? 2 : 0));
-	!(fmt.opt & SUB) ? ft_putstr(str) : 0;
+	prec = (fmt.precision >= intlen(number) ? fmt.precision - intlen(number) : -1);
+	if (number < 0.0)
+		prec++;
+	champs = (fmt.field >= intlen(number) ? fmt.field - intlen(number) : 0);
+	champs -= (~prec ? prec : 0);
+	champs += (number >= 0 && fmt.opt & ADD);
+	length += intlen(number) + champs;
+	ft_ftoa(number, ~fmt.precision ? fmt.precision : 6, str);
+	if (fmt.opt & SUB)
+	{
+		if (number < 0)
+			ft_putchar('-');
+		else if (number >= 0.0 && (fmt.opt & ADD || (fmt.opt & SPACE)))
+		{
+			ft_putchar(fmt.opt & ADD ? '+' : ' ');
+			champs -= 2;
+			fmt.opt & ADD || champs++;
+		}
+		ft_putstr(str);
+		ft_repeat_char(' ', champs);
+	}
+	else
+	{
+		if (fmt.precision)
+		{
+			champs -= 4;
+			if (fmt.opt & ADD && number < 0.0)
+				champs += 2;
+			if (fmt.opt & SPACE && (fmt.opt & ZERO) && number == 0.0)
+			{
+				args--;
+				(fmt.opt & SPACE) ? ft_putchar(' ') : NULL;
+			}
+			if (fmt.opt & ADD && number >= 0.0)
+				args--;
+			if ((fmt.opt & ZERO) && (fmt.opt & SPACE) && number > 0.0)
+			{
+				(~fmt.opt & ADD) ? ft_putchar(' ') : NULL;
+				args--;
+			}
+			if ((fmt.opt & ZERO) && (fmt.opt & SPACE) && number >= 0.0 && (fmt.opt & ADD))
+			{
+				number == 0.0 ? ft_putchar(' ') : NULL;
+				args++;
+			}
+			if (~fmt.opt & ZERO)
+				ft_repeat_char(' ', args);
+			if (number < 0.0)
+				ft_putchar('-');
+			else if (fmt.opt & ADD)
+				ft_putchar('+');
+			if (fmt.opt & ZERO)
+				ft_repeat_char('0', args);
+			ft_putstr(str);
+		}
+		else
+		{
+			printf("la mon pti pote xd\n");
+			if (number > 0.0 && (fmt.opt & ADD))
+				champs -= 2;
+			if (fmt.opt & SPACE && number >= 0.0 && (~fmt.opt & ADD))
+			{
+				champs--;
+				ft_putchar(' ');
+			}
+			(~fmt.opt & ZERO) && ft_repeat_char(' ', champs);
+			if (number < 0.0)
+				ft_putchar('-');
+			else if (fmt.opt & ADD)
+				ft_putchar('+');
+			(fmt.opt & ZERO) && ft_repeat_char('0', champs);
+			ft_putstr(str);
+		}
+	}
 	return (0);
 }
 void	pf_putnbr(long long n)
@@ -503,6 +567,6 @@ int		ft_printf(const char *format, ...)
 	va_start(ap, format);
 	length = parse(format, ap);
 	va_end(ap);
-	printf("Longueur de %d\n", length);
+	//printf("Longueur de %d\n", length);
 	return (length);
 }

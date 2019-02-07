@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/07 22:25:36 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 23:39:51 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int		main(int argc, char **argv)
 	printf(string, n, n, n, n, n, n);
 	ft_printf(string, n_,n_, n_, n_, n_, n_);
 	printf(string, n_,n_,n_, n_, n_, n_);
+	ft_printf("{%f}\n", 1.5);
 	return (0);
 }
 /*

@@ -6,13 +6,13 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 23:46:55 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/05 23:50:13 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 19:48:21 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    *ft_utoa_base(unsigned long long nb, unsigned base, int uppercase)
+char    *ft_utoa_base(uintmax_t nb, unsigned base, int uppercase)
 {
 	int					len;
 	unsigned long long	tmp;

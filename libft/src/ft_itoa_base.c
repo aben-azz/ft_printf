@@ -6,13 +6,13 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/26 18:48:05 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/26 19:00:48 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 19:48:20 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa_base(long long value, int base, int islower)
+char	*ft_itoa_base(intmax_t value, int base, int islower)
 {
 	int		i;
 	char	*nbr;

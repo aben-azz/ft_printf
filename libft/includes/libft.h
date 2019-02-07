@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/07 21:48:17 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:29:32 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char			*ft_strrchr(char *s, int c);
 char			*ft_strstr(char *haystack, char *needle);
 char			*ft_strnstr(char *haystack, char *needle,
 		size_t len);
-int				intlen(long long len);
+int				ft_intlen(long long len);
+int				ft_intlen_base(uintmax_t nbr, int base);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_strncmp(char *s1, char *s2, size_t n);
 int				ft_atoi(char *str);

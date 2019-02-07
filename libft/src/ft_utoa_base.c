@@ -6,24 +6,11 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 23:46:55 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/07 22:00:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:27:05 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	count_digits(uintmax_t nbr, int base)
-{
-	int digits;
-
-	digits = 0;
-	while (nbr)
-	{
-		digits++;
-		nbr /= base;
-	}
-	return (digits);
-}
 
 
 char		*ft_utoa_base(uintmax_t nb, int base, int uppercase)
@@ -33,7 +20,7 @@ char		*ft_utoa_base(uintmax_t nb, int base, int uppercase)
 
 	if (nb == 0)
 		return (ft_strdup("0"));
-	digits = count_digits(nb, base);
+	digits = ft_intlen_base(nb, base);
 	output = ft_strnew(digits);
 	while (digits--)
 	{

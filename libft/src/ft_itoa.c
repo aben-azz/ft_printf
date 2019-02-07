@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:52:23 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/01/29 23:25:40 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:29:55 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char			*ft_itoa(int n)
 
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	len = intlen(n) + 1;
+	len = ft_intlen(n) + 1;
 	if (!(s = (char*)malloc(sizeof(char) * len)))
 		return (NULL);
 	(n == 0) && (s[0] = '0');

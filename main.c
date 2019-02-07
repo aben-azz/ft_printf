@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/06 03:45:53 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:25:36 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,25 @@ int		main(int argc, char **argv)
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
+	//
+	// long double n = 9.1465555533234545456465456465465465;
+	// long double n_ = -9.1465555533234545456465456465465465;
+	// (void)n;
+	// (void)n_;
+	//
+	// char *string = "%L3.10f\n";
+	//ft_printf(string, n);
+	//printf(string, n);
+	char *string = "|%x|%X|%u|%o|%p|\n";
+	int n =  1100;
 
-	long double n = 9.1465555533234545456465456465465465;
-	long double n_ = -9.1465555533234545456465456465465465;
-	(void)n;
-	(void)n_;
+	int n_ = -1100;
 
-	char *string = "%L3.10f\n";
-	ft_printf(string, n);
-	printf(string, n);
-	ft_printf( string,n_);
-	printf(string, n_);
+
+	ft_printf(string, n, n, n, n, n, n);
+	printf(string, n, n, n, n, n, n);
+	ft_printf(string, n_,n_, n_, n_, n_, n_);
+	printf(string, n_,n_,n_, n_, n_, n_);
 	return (0);
 }
 /*

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/06 03:14:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 21:48:17 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(long long n, int fd);
-char			*ft_itoa_base(long long n, int base, int islower);
+char			*ft_itoa_base(intmax_t n, int base, int islower);
+char			*ft_utoa_base(uintmax_t nb, int base, int uppercase);
 long long		ft_pow(int base, int i);
 long double		ft_round(long double fl, long precision);
 typedef struct	s_list

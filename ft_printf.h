@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/03 02:03:35 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/07 22:24:39 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspfdiouXx"
+# define TYPES    "cspPfdiouXx"
 # define LENGTH   "lhL"
 # define HASH     1 << 0
 # define ZERO     1 << 1
@@ -24,21 +24,24 @@
 
 # define C_       1 << 0
 # define S_       1 << 1
-# define P_       1 << 2
-# define F_       1 << 3
-# define D_       1 << 4
-# define I_       1 << 5
-# define O_       1 << 6
-# define U_       1 << 7
-# define HIGHX_   1 << 8
-# define LOWX_    1 << 9
-
+# define LOWP_    1 << 2
+# define HIGHP_   1 << 3
+# define F_       1 << 4
+# define D_       1 << 5
+# define I_       1 << 6
+# define O_       1 << 7
+# define U_       1 << 8
+# define HIGHX_   1 << 9
+# define LOWX_    1 << 10
+# define VV       (void)
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
 # define H_      (1 << 2) + 1
 # define HH_     (1 << 2)
 # define LU_     (1 << 3) + 1
+# define Z_      (1 << 2)
+# define J_      (1 << 3) + 1
 
 typedef struct	s_fmt
 {
@@ -74,8 +77,7 @@ int				print_float(va_list list, t_fmt fmt);
 int				print_signed_integer(va_list list, t_fmt fmt);
 int				print_unsigned_integer(va_list list, t_fmt fmt);
 int				print_octal(va_list list, t_fmt fmt);
-int				print_low_hexadecimal(va_list list, t_fmt fmt);
-int				print_high_hexadecimal(va_list list, t_fmt fmt);
+int				print_hexadecimal(va_list list, t_fmt fmt);
 void			display_fmt(t_fmt fmt);
 int				splice(char *string, int precision, int v);
 int	intlen(long long len);

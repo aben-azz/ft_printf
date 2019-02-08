@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 05:24:52 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 07:11:15 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ intmax_t    get_signed(t_fmt *fmt, va_list ap)
 
 uintmax_t    get_unsigned(t_fmt *fmt, va_list ap)
 {
-	if (fmt->length == HH_)
+	if (fmt->length == L_ || fmt->length == LL_ || fmt->type == LOWP_
+			|| fmt->type == HIGHP_)
+		return ((unsigned short)va_arg(ap, unsigned long long));
+	else if (fmt->length == HH_)
 		return ((unsigned char)va_arg(ap, unsigned long long));
 	else if (fmt->length == H_)
-		return ((unsigned short)va_arg(ap, unsigned long long));
-	else if (fmt->length == L_ || fmt->length == LL_ || fmt->type == LOWP_
-			|| fmt->type == HIGHP_)
 		return (va_arg(ap, unsigned long long));
 	else if (fmt->length == Z_)
 		return (va_arg(ap, size_t));
@@ -65,7 +65,7 @@ uintmax_t    get_unsigned(t_fmt *fmt, va_list ap)
 
 char		*ft_utoa_base(uintmax_t nb, int base, int uppercase)
 {
-	printf("[%ju,%d]\n", nb, base);
+	//printf("[%ju,%d]\n", nb, base);
 	char	*output;
 	int		digits;
 
@@ -106,13 +106,13 @@ char *get_s(t_fmt *fmt, va_list ap)
 	}
 	else
 	{
-		printf("\nupperacse: %c, base: %c\n", uppercase, b);
+		//printf("\nupperacse: %c, base: %c\n", uppercase, b);
 		if (fmt->type == D_ || fmt->type == I_)
 			str = ft_itoa_base(get_signed(fmt, ap), b, uppercase);
 		else
 		{
 			str = ft_utoa_base(get_unsigned(fmt, ap), b, uppercase);
-		printf("\n{%d,%d}\n", uppercase, b);
+		//printf("\n{%d,%d}\n", uppercase, b);
 		}
 	}
 	!str ? exit(0) : NULL;
@@ -153,6 +153,7 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 	int ret;
 
 	ret = 0;
+	//printf("len: %d\nfmt.precision: %d\nfield: %d\n", len, fmt->precision, fmt->field);
 	if (fmt->opt & SUB)
 	{
 		signe == '-' ? ft_putchar(signe) : NULL;
@@ -213,10 +214,11 @@ int format_width(char *string, t_fmt *fmt)
 		//printf("{%d}", fmt->field);
 		fmt->field = fmt->field > 0 ? fmt->field : 0;
 		len -= fmt->field;
-		if (fmt->precision <= 0)
-			len -= ~fmt->precision ? ft_strlen(string) : ft_strlen(string) + 1;
-		if (!~fmt->precision)
+		//if (fmt->precision <= 0)
+			//len -= ~fmt->precision ? ft_strlen(string) : ft_strlen(string) + 1;
+		if (fmt->opt & ZERO && (!~fmt->precision))
 		{
+
 			fmt->field = len;
 			len = 0;
 		}

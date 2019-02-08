@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 04:56:53 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 05:18:23 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		main(int argc, char **argv)
 	//char *string = "{%0+10d}\n";
 	//ft_printf(string, n);
 	//printf(string, n);
-	char *string = "|%+15.3x|%+15.3X|%+15.3u|%+15.3o|%p|\n";
+	char *string = "|%+15.3x|%+15.3X|%+15.3u|%+15.3o|%+15.3p|%+15.3P|\n";
 	int n =  11000;
 	int n_ = -11000;
 	ft_printf(string, n, n, n, n, n, n);

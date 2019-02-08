@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 04:56:52 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 05:24:52 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,24 @@ uintmax_t    get_unsigned(t_fmt *fmt, va_list ap)
 	return (0);
 }
 
+char		*ft_utoa_base(uintmax_t nb, int base, int uppercase)
+{
+	printf("[%ju,%d]\n", nb, base);
+	char	*output;
+	int		digits;
 
+	if (nb == 0)
+		return (ft_strdup("0"));
+	digits = ft_intlen_base(nb, base);
+	output = ft_strnew(digits);
+	while (digits--)
+	{
+		output[digits] = (nb % base) +
+			(nb % base > 9 ? "aA"[uppercase] - 10 : '0');
+		nb /= base;
+	}
+	return (output);
+}
 
 char *get_s(t_fmt *fmt, va_list ap)
 {
@@ -73,7 +90,8 @@ char *get_s(t_fmt *fmt, va_list ap)
 
 	uppercase = 0;
 	b = 10;
-	(fmt->type == HIGHX_ || fmt->type == LOWX_ || fmt->type == LOWP_) && (b = 16);
+	(fmt->type == HIGHX_ || fmt->type == LOWX_ || fmt->type == LOWP_ ||
+			fmt->type == HIGHP_) && (b = 16);
 	(fmt->type == HIGHX_ || fmt->type == HIGHP_) && (uppercase = 1);
 	(fmt->type == O_) && (b = 8);
 	if (fmt->type == F_)
@@ -88,10 +106,14 @@ char *get_s(t_fmt *fmt, va_list ap)
 	}
 	else
 	{
+		printf("\nupperacse: %c, base: %c\n", uppercase, b);
 		if (fmt->type == D_ || fmt->type == I_)
 			str = ft_itoa_base(get_signed(fmt, ap), b, uppercase);
 		else
+		{
 			str = ft_utoa_base(get_unsigned(fmt, ap), b, uppercase);
+		printf("\n{%d,%d}\n", uppercase, b);
+		}
 	}
 	!str ? exit(0) : NULL;
 	return (str);

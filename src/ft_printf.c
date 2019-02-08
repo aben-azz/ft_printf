@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 07:34:17 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 23:39:30 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ uintmax_t    get_unsigned(t_fmt *fmt, va_list ap)
 {
 	if (fmt->length == L_ || fmt->length == LL_ || fmt->type == LOWP_
 			|| fmt->type == HIGHP_)
-		return ((unsigned short)va_arg(ap, unsigned long long));
+		return (va_arg(ap, unsigned long long));
 	else if (fmt->length == HH_)
 		return ((unsigned char)va_arg(ap, unsigned long long));
 	else if (fmt->length == H_)
-		return (va_arg(ap, unsigned long long));
+		return ((unsigned short)va_arg(ap, unsigned long long));
 	else if (fmt->length == Z_)
 		return (va_arg(ap, size_t));
 	else if (fmt->length == J_)
@@ -119,8 +119,6 @@ char *get_s(t_fmt *fmt, va_list ap)
 	return (str);
 }
 
-
-
 int		print_char(va_list list, t_fmt *fmt)
 {
 	int		l;
@@ -145,9 +143,23 @@ int		print_string(va_list list, t_fmt *fmt)
 	l += ft_repeat_char(fmt->opt & ZERO && (~fmt->opt & SUB) ? '0' : ' ',
 		fmt->field - splice(string, fmt->precision, 0));
 	l += !(fmt->opt & SUB) ? splice(string, fmt->precision, 1) : 0;
-	printf("\n%d\n", l);
 	return (l);
 }
+int print_prefixe(int type, int mode)
+{
+	if (type == HIGHX_ || type == HIGHP_)
+		mode ? ft_putstr("0X") : NULL;
+	else if (type == LOWX_ || type == LOWP_)
+		mode ? ft_putstr("0x") : NULL;
+	else if (type == O_)
+		mode ? ft_putstr("0") : NULL;
+	if (type == HIGHX_ || type == HIGHP_ || type == LOWX_ || type == LOWP_)
+		return (2);
+	else if (type == O_)
+		return (1);
+	return (0);
+}
+
 int lol(t_fmt *fmt, char *str, int len, char signe)
 {
 	int ret;
@@ -157,20 +169,34 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 	{
 		signe == '-' ? ft_putchar(signe) : NULL;
 		(signe == '+' && (fmt->opt & ADD)) ? ft_putchar(signe) : 0;
-		//if (fmt->prefixe)
-			//ret = print_prefixe(fmt->conversion);
-		ft_repeat_char('0', fmt->field);
+		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+			len -= print_prefixe(fmt->type, 1);
+			ft_repeat_char('0', fmt->field);
 		ft_putstr(str);
-		ft_repeat_char(' ', len);
+		if (fmt->type == O_ && ((fmt->opt & HASH)))
+			ft_repeat_char(' ', len - ret);
+		else
+			ft_repeat_char(' ', len);
 	}
 	else
 	{
-		~(fmt->opt & ZERO) && ft_repeat_char(' ', len);
+		if (fmt->type == O_ && ((fmt->opt & HASH)))
+			~(fmt->opt & ZERO) && ft_repeat_char(' ', len - ret);
+		else
+		{
+			~(fmt->opt & ZERO) &&
+				ft_repeat_char(' ', len -
+				((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_ ?
+					print_prefixe(fmt->type, 0) : 0));
+		}
 		signe == '-' ? ft_putchar(signe) : NULL;
 		signe == '+' && fmt->opt & ADD ? ft_putchar(signe) : NULL;
-		//if (fmt->prefixe)
-			//ret = print_prefixe(fmt->conversion);
-		ft_repeat_char('0', fmt->field);
+		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+			ret = print_prefixe(fmt->type, 1);
+		if (fmt->type == HIGHP_ || fmt->type == LOWP_)
+			ft_repeat_char('0', fmt->field);
+		else
+			ft_repeat_char('0', fmt->field);
 		ft_putstr(str);
 	}
 	len = len < 0 ? 0 : len;
@@ -208,16 +234,22 @@ int format_width(char *string, t_fmt *fmt)
 	else
 	{
 		fmt->field = fmt->precision - (ft_strlen(string));
-		//printf("{%d}", fmt->field);
 		fmt->field = fmt->field > 0 ? fmt->field : 0;
 		len -= fmt->field;
-		//if (fmt->precision <= 0)
-			//len -= ~fmt->precision ? ft_strlen(string) : ft_strlen(string) + 1;
 		if (fmt->opt & ZERO && (!~fmt->precision))
 		{
 
 			fmt->field = len;
 			len = 0;
+		}
+		if (fmt->type == O_ && ((fmt->opt & HASH)))
+		{
+			fmt->field--;
+			if (~fmt->field)
+				len++;
+			if (~fmt->opt & SUB)
+				len--;
+
 		}
 	}
 	return (len);

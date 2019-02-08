@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 07:23:48 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 23:37:28 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,23 +102,42 @@ int		main(int argc, char **argv)
 	//char *string = "{%0+10d}\n";
 	//ft_printf(string, n);
 	//printf(string, n);
-	char *string = "|%+-15.10x|%+-15.10X|%+-15.10u|%+-15.10o|%-+15.10p|%+-15.10P|\n";
-	int n =  110;
-	int n_ = -110;
-	ft_printf(string, n, n, n, n, n, n);
-	printf(string, n, n, n, n, n, n);
-	ft_printf(string, n_,n_, n_, n_, n_, n_);
-	printf(string, n_,n_,n_, n_, n_, n_);
-	// ft_printf("|%+11d|\n", 100);
-	// printf("|%+11d|\n", 100);
-	// printf(string, -5);
+	// char *string = "|%020x|%020X|%020u|%020o|%020p|%0#2P|\n";
+	// int n =  110;
+	// int n_ = -3;
+	// ft_printf(string, n, n, n, n, n, n);
+	// printf(string, n, n, n, n, n, n);
+	// ft_printf(string, n_,n_, n_, n_, n_, n_);
+	// printf(string, n_,n_,n_, n_, n_, n_);
+	char *string = "|%020p|\n";
+   int n =  110;
+   int n_ = -3;
+   ft_printf(string,  n);
+   printf(string, n);
+   ft_printf(string,  n_);
+   printf(string,  n_);
+	// ft_printf("|%20p|\n", "xd");
+	// printf("|%20p|\n", "xd");
+	// // printf(string, -5);
 	// ft_printf(string, 5);
-	// printf(string, 5);
+	// ft_printf("%0.0f\n", 10.5);
+	// printf("%0.0f\n", 10.5);
 	return (0);
 }
 /*
 |     +10|
 |        +10|
 gerer les fields negatives pour %scf
-
+|{3, 13, 7}             0000000156|
+|{3, 13, 7}          0000000156|
+|{11, -2, 0}
+037777777775|
+|        037777777775|
 */
+// {3, 10, 7}
+// |          0000000156|
+// |          0000000156|
+// {11, 7, 0}
+// |
+// |       037777777775|
+// |        037777777775|

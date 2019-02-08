@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 07:23:47 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 07:34:17 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 	int ret;
 
 	ret = 0;
-	//printf("len: %d\nfmt.precision: %d\nfield: %d\n", len, fmt->precision, fmt->field);
 	if (fmt->opt & SUB)
 	{
 		signe == '-' ? ft_putchar(signe) : NULL;
@@ -171,14 +170,12 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 		signe == '+' && fmt->opt & ADD ? ft_putchar(signe) : NULL;
 		//if (fmt->prefixe)
 			//ret = print_prefixe(fmt->conversion);
-		//fmt->opt & ZERO ? ft_nputchar(3, len) : NULL;
 		ft_repeat_char('0', fmt->field);
 		ft_putstr(str);
 	}
 	len = len < 0 ? 0 : len;
 	if (signe == '+' && (fmt->opt & ADD))
 		len++;
-	//printf("len{%d} + signe{%c}\n", len, fmt->field);
 	return (ret + ft_strlen(str) + len + fmt->field + (signe == '-' ? 1 : 0));
 }
 

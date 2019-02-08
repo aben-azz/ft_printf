@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/07 23:39:51 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:29:33 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		main(int argc, char **argv)
 	//ft_printf("|%-05.2s|%-010c|xd\n", "test", 'x');
 	//printf("|%p|\n", p);
 	// char* str = malloc(100);
-	// double ff = 18.5535;
+	//long double ff = 18.567454564564568;
 	// ft_ftoa(ff, 30, str);
 	// printf("|%.30f|\n",ff);
 	// printf("|%s|\n", str);
@@ -99,20 +99,20 @@ int		main(int argc, char **argv)
 	// (void)n;
 	// (void)n_;
 	//
-	// char *string = "%L3.10f\n";
+	char *string = "{%030.3d}\n";
 	//ft_printf(string, n);
 	//printf(string, n);
-	char *string = "|%x|%X|%u|%o|%p|\n";
-	int n =  1100;
-
-	int n_ = -1100;
-
-
-	ft_printf(string, n, n, n, n, n, n);
-	printf(string, n, n, n, n, n, n);
-	ft_printf(string, n_,n_, n_, n_, n_, n_);
-	printf(string, n_,n_,n_, n_, n_, n_);
-	ft_printf("{%f}\n", 1.5);
+	// char *string = "|%15x|%15X|%15u|%15o|%15p|\n";
+	// int n =  1100;
+	// int n_ = -1100;
+	// ft_printf(string, n, n, n, n, n, n);
+	// printf(string, n, n, n, n, n, n);
+	// ft_printf(string, n_,n_, n_, n_, n_, n_);
+	// printf(string, n_,n_,n_, n_, n_, n_);
+	ft_printf(string, -5);
+	printf(string, -5);
+	ft_printf(string, 5);
+	printf(string, 5);
 	return (0);
 }
 /*

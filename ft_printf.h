@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/07 22:24:39 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 02:30:07 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ typedef struct	s_fmt
 	int				opt;
 	char			*string;
 	int				index;
+	int				signe;
 }				t_fmt;
 
 typedef struct	s_ype
 {
 	int				type;
-	int				(*function)(va_list list, t_fmt fmt);
+	int				(*function)(va_list list, t_fmt *fmt);
 }				t_ype;
 t_fmt			*get_flags(char *s, int n);
 t_fmt			format(char *string);
@@ -70,15 +71,15 @@ int				get_type(char *str, int index);
 int				get_options(char *str);
 int				display_string(char *string, int index, int to);
 void			view_fmt(t_fmt *flags, int length);
-int				print_char(va_list list, t_fmt fmt);
-int				print_string(va_list list, t_fmt fmt);
-int				print_pointer(va_list list, t_fmt fmt);
-int				print_float(va_list list, t_fmt fmt);
-int				print_signed_integer(va_list list, t_fmt fmt);
-int				print_unsigned_integer(va_list list, t_fmt fmt);
-int				print_octal(va_list list, t_fmt fmt);
-int				print_hexadecimal(va_list list, t_fmt fmt);
-void			display_fmt(t_fmt fmt);
+int				print_char(va_list list, t_fmt *fmt);
+int				print_string(va_list list, t_fmt *fmt);
+int				print_pointer(va_list list, t_fmt *fmt);
+int				print_float(va_list list, t_fmt *fmt);
+int				print_signed_integer(va_list list, t_fmt *fmt);
+int				print_unsigned_integer(va_list list, t_fmt *fmt);
+int				print_octal(va_list list, t_fmt *fmt);
+int				print_hexadecimal(va_list list, t_fmt *fmt);
+void			display_fmt(t_fmt *fmt);
 int				splice(char *string, int precision, int v);
 int	intlen(long long len);
 /*

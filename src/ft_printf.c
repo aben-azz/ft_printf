@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/07 22:25:32 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 03:29:44 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,85 +28,44 @@ t_ype g_type[] = {
 	{LOWX_, &print_hexadecimal},
 };
 
-intmax_t    get_signed(t_fmt fmt, va_list ap)
+intmax_t    get_signed(t_fmt *fmt, va_list ap)
 {
-	if (fmt.length == HH_)
+	if (fmt->length == HH_)
 		return ((char)va_arg(ap, long long));
-	else if (fmt.length == H_)
+	else if (fmt->length == H_)
 		return ((short)va_arg(ap, long long));
-	else if (fmt.length == L_ || fmt.length == LL_)
+	else if (fmt->length == L_ || fmt->length == LL_)
 		return (va_arg(ap, long long));
-	else if (fmt.length == Z_)
+	else if (fmt->length == Z_)
 		return (va_arg(ap, size_t));
-	else if (fmt.length == J_)
+	else if (fmt->length == J_)
 		return (va_arg(ap, intmax_t));
 	else
 		return (va_arg(ap, int));
 	return (0);
 }
 
-uintmax_t    get_unsigned(t_fmt fmt, va_list ap)
+uintmax_t    get_unsigned(t_fmt *fmt, va_list ap)
 {
-	if (fmt.length == HH_)
+	if (fmt->length == HH_)
 		return ((unsigned char)va_arg(ap, unsigned long long));
-	else if (fmt.length == H_)
+	else if (fmt->length == H_)
 		return ((unsigned short)va_arg(ap, unsigned long long));
-	else if (fmt.length == L_ || fmt.length == LL_ || fmt.type == LOWP_
-			|| fmt.type == HIGHP_)
+	else if (fmt->length == L_ || fmt->length == LL_ || fmt->type == LOWP_
+			|| fmt->type == HIGHP_)
 		return (va_arg(ap, unsigned long long));
-	else if (fmt.length == Z_)
+	else if (fmt->length == Z_)
 		return (va_arg(ap, size_t));
-	else if (fmt.length == J_)
+	else if (fmt->length == J_)
 		return (va_arg(ap, uintmax_t));
 	else
 		return (va_arg(ap, unsigned int));
 	return (0);
 }
 
-int lol(t_fmt fmt, char *str, int len)
-{
-	int length;
-
-	(void)fmt;
-	(void)len;
-	length = 0;
-	ft_putstr(str);
-	return (length);
-}
-
-static int	count_digits(uintmax_t nbr, int base)
-{
-	int digits;
-
-	digits = 0;
-	while (nbr)
-	{
-		digits++;
-		nbr /= base;
-	}
-	return (digits);
-}
-
-char		*ft_utoa_base(uintmax_t nb, int base, int uppercase)
-{
-	char	*output;
-	int		digits;
-
-	if (nb == 0)
-		return (ft_strdup("0"));
-	digits = count_digits(nb, base);
-	output = ft_strnew(digits);
-	while (digits--)
-	{
-		output[digits] = (nb % base) +
-			(nb % base > 9 ? "aA"[uppercase] - 10 : '0');
-		nb /= base;
-	}
-	return (output);
-}
 
 
-char *get_s(t_fmt fmt, va_list ap)
+char *get_s(t_fmt *fmt, va_list ap)
 {
 	char *str;
 	char b;
@@ -114,21 +73,22 @@ char *get_s(t_fmt fmt, va_list ap)
 
 	uppercase = 0;
 	b = 10;
-	str = NULL;
-	(fmt.type == HIGHX_ || fmt.type == LOWX_ || fmt.type == LOWP_) && (b = 16);
-	(fmt.type == HIGHX_ || fmt.type == HIGHP_) && (uppercase = 1);
-	(fmt.type == O_) && (b = 8);
-	// printf("base: %d, uppercase: %d\n", base, uppercase);
-	if (fmt.type == F_)
+	(fmt->type == HIGHX_ || fmt->type == LOWX_ || fmt->type == LOWP_) && (b = 16);
+	(fmt->type == HIGHX_ || fmt->type == HIGHP_) && (uppercase = 1);
+	(fmt->type == O_) && (b = 8);
+	if (fmt->type == F_)
 	{
-		if (fmt.length == LU_)
-			ft_ftoa(va_arg(ap, long double), fmt.precision, str);
+		str = malloc(100);
+		if (fmt->length == LU_)
+			ft_ftoa(va_arg(ap, long double),
+				!~fmt->precision ? 6 : fmt->precision, str);
 		else
-			ft_ftoa(va_arg(ap, double), fmt.precision, str);
+			ft_ftoa(va_arg(ap, double),
+				!~fmt->precision ? 6 : fmt->precision, str);
 	}
 	else
 	{
-		if (fmt.type == D_ || fmt.type == I_)
+		if (fmt->type == D_ || fmt->type == I_)
 			str = ft_itoa_base(get_signed(fmt, ap), b, uppercase);
 		else
 			str = ft_utoa_base(get_unsigned(fmt, ap), b, uppercase);
@@ -137,49 +97,74 @@ char *get_s(t_fmt fmt, va_list ap)
 	return (str);
 }
 
-int		print_signed_integer(va_list list, t_fmt fmt)
-{
-	char *string;
 
-	string = get_s(fmt, list);
-	lol(fmt, string, 10);
-	return (0);
-}
 
-int		print_char(va_list list, t_fmt fmt)
+int		print_char(va_list list, t_fmt *fmt)
 {
 	int		l;
 	char	n;
 
 	n = (char)va_arg(list, int);
 	l = 0;
-	fmt.opt & SUB ? ft_putchar(n) : NULL;
-	l += ft_repeat_char(fmt.opt & ZERO ? '0' : ' ', fmt.field - 1);
-	!(fmt.opt & SUB) ? ft_putchar(n) : NULL;
+	fmt->opt & SUB ? ft_putchar(n) : NULL;
+	l += ft_repeat_char(fmt->opt & ZERO ? '0' : ' ', fmt->field - 1);
+	!(fmt->opt & SUB) ? ft_putchar(n) : NULL;
 	return (l + 1);
 }
 
-int		print_string(va_list list, t_fmt fmt)
+int		print_string(va_list list, t_fmt *fmt)
 {
 	int		l;
 	char	*string;
 
 	l = 0;
 	string = va_arg(list, char*);
-	l += fmt.opt & SUB ? splice(string, fmt.precision, 1) : 0;
-	l += ft_repeat_char(fmt.opt & ZERO && (~fmt.opt & SUB) ? '0' : ' ',
-		fmt.field - splice(string, fmt.precision, 0));
-	l += !(fmt.opt & SUB) ? splice(string, fmt.precision, 1) : 0;
+	l += fmt->opt & SUB ? splice(string, fmt->precision, 1) : 0;
+	l += ft_repeat_char(fmt->opt & ZERO && (~fmt->opt & SUB) ? '0' : ' ',
+		fmt->field - splice(string, fmt->precision, 0));
+	l += !(fmt->opt & SUB) ? splice(string, fmt->precision, 1) : 0;
 	printf("\n%d\n", l);
 	return (l);
 }
+int lol(t_fmt *fmt, char *str, int len, char signe)
+{
+	int ret;
 
-int		print_pointer(va_list list, t_fmt fmt)
+	ret = 0;
+	if (fmt->opt & SUB)
+	{
+		signe == '-' ? ft_putchar(signe) : NULL;
+		(signe == '+' && (fmt->opt & ADD)) ? ft_putchar(signe) : 0;
+		//if (fmt->prefixe)
+			//ret = print_prefixe(fmt->conversion);
+		ft_repeat_char('0', fmt->field);
+		ft_putstr(str);
+		ft_repeat_char(' ', len);
+	}
+	else
+	{
+		~(fmt->opt & ZERO) && ft_repeat_char(' ', len);
+		signe == '-' ? ft_putchar(signe) : NULL;
+		signe == '+' && fmt->opt & ADD ? ft_putchar(signe) : NULL;
+		//if (fmt->prefixe)
+			//ret = print_prefixe(fmt->conversion);
+		//fmt->opt & ZERO ? ft_nputchar(3, len) : NULL;
+		ft_repeat_char('0', fmt->field);
+		ft_putstr(str);
+	}
+	len = len < 0 ? 0 : len;
+	if (signe == '+' && (fmt->opt & ADD))
+		len++;
+	//printf("len{%d} + signe{%c}\n", len, fmt->field);
+	return (ret + ft_strlen(str) + len + fmt->field + (signe == '-' ? 1 : 0));
+}
+
+int		print_pointer(va_list list, t_fmt *fmt)
 {
 	char *string;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10);
+	lol(fmt, string,10, 0);
 	return (0);
 }
 
@@ -192,13 +177,56 @@ int	splice(char *string, int precision, int v)
 	return ((int)ft_strlen(l));
 }
 
-int		print_float(va_list list, t_fmt fmt)
+int format_width(char *string, t_fmt *fmt)
+{
+	int len;
+	len = fmt->field - ft_strlen(string) - (fmt->signe == '-' ? 1 : 0);
+	if (fmt->opt & ADD)
+		fmt->signe == '+' && len--;
+	if (fmt->type == F_)
+	{
+		if (~fmt->opt & ZERO && fmt->type == F_)
+			fmt->field = 0;
+		else
+		{
+			len = 0;
+			fmt->field -= ft_strlen(string) + (fmt->signe == '-' ? 1 : 0);
+		}
+	}
+	else
+	{
+		fmt->field = fmt->precision - (ft_strlen(string));
+		len -= fmt->field;
+		if (fmt->precision <= 0)
+			len -= ~fmt->precision  ? 1 : 2;
+	}
+	return (len);
+}
+
+int		print_float(va_list list, t_fmt *fmt)
 {
 	char *string;
+	int len;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10);
-	return (0);
+	fmt->signe = '+';
+	(*string == '-') && (fmt->signe = '-');
+	(*string == '-') && string++;
+	len = format_width(string, fmt);
+	return (lol(fmt, string, len, fmt->signe));
+}
+
+int		print_signed_integer(va_list list, t_fmt *fmt)
+{
+	char *string;
+	int len;
+
+	string = get_s(fmt, list);
+	fmt->signe = '+';
+	(*string == '-') && (fmt->signe = '-');
+	(*string == '-') && string++;
+	len = format_width(string, fmt);
+	return (lol(fmt, string, len, fmt->signe));
 }
 
 void	pf_putnbr(long long n)
@@ -213,30 +241,30 @@ void	pf_putnbr(long long n)
 	ft_putchar(48 + n % 10);
 }
 
-int		print_unsigned_integer(va_list list, t_fmt fmt)
+int		print_unsigned_integer(va_list list, t_fmt *fmt)
 {
 	char *string;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10);
+	lol(fmt, string, 10, 0);
 	return (0);
 }
 
-int		print_octal(va_list list, t_fmt fmt)
+int		print_octal(va_list list, t_fmt *fmt)
 {
 	char *string;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10);
+	lol(fmt, string, 10, 0);
 	return (0);
 }
 
-int		print_hexadecimal(va_list list, t_fmt fmt)
+int		print_hexadecimal(va_list list, t_fmt *fmt)
 {
 	char *string;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10);
+	lol(fmt, string, 10, 0);
 	return (0);
 }
 
@@ -370,35 +398,35 @@ void	view_fmt(t_fmt *flags, int length)
 			flags[i].opt, flags[i].string);
 }
 
-void	display_fmt(t_fmt format)
+void	display_fmt(t_fmt *format)
 {
 	printf("FORMAT____________________\n");
-	format.length == L_ && printf("L\n");
-	format.length == LL_ && printf("LL\n");
-	format.length == H_ && printf("H\n");
-	format.length == HH_ && printf("HH\n");
-	format.length == LU_ && printf("LU\n");
-	C_ == format.type && printf("C\n");
-	S_ == format.type && printf("S\n");
-	LOWP_ == format.type && printf("p\n");
-	HIGHP_ == format.type && printf("P\n");
-	F_ == format.type && printf("F\n");
-	D_ == format.type && printf("D\n");
-	I_ == format.type && printf("I\n");
-	U_ == format.type && printf("U\n");
-	HIGHX_ == format.type && printf("X\n");
-	O_ == format.type && printf("O\n");
-	LOWX_ == format.type && printf("x\n");
-	printf("format de %d\n", format.opt);
-	(format.opt & HASH) && printf("#\n");
-	(format.opt & SUB) && printf("-\n");
-	(format.opt & ZERO) && printf("0\n");
-	(format.opt & ADD) && printf("+\n");
-	(format.opt & SPACE) && printf("SPACE\n");
-	printf("Precision de |%d|\n", format.precision);
-	printf("Champs de |%d|\n", format.field);
-	printf("String |%s|\n", format.string);
-	printf("Index de |%d|\n", format.index);
+	format->length == L_ && printf("L\n");
+	format->length == LL_ && printf("LL\n");
+	format->length == H_ && printf("H\n");
+	format->length == HH_ && printf("HH\n");
+	format->length == LU_ && printf("LU\n");
+	C_ == format->type && printf("C\n");
+	S_ == format->type && printf("S\n");
+	LOWP_ == format->type && printf("p\n");
+	HIGHP_ == format->type && printf("P\n");
+	F_ == format->type && printf("F\n");
+	D_ == format->type && printf("D\n");
+	I_ == format->type && printf("I\n");
+	U_ == format->type && printf("U\n");
+	HIGHX_ == format->type && printf("X\n");
+	O_ == format->type && printf("O\n");
+	LOWX_ == format->type && printf("x\n");
+	printf("format de %d\n", format->opt);
+	(format->opt & HASH) && printf("#\n");
+	(format->opt & SUB) && printf("-\n");
+	(format->opt & ZERO) && printf("0\n");
+	(format->opt & ADD) && printf("+\n");
+	(format->opt & SPACE) && printf("SPACE\n");
+	printf("Precision de |%d|\n", format->precision);
+	printf("Champs de |%d|\n", format->field);
+	printf("String |%s|\n", format->string);
+	printf("Index de |%d|\n", format->index);
 	printf("FORMAT____________________\n");
 }
 
@@ -453,7 +481,7 @@ int		parse(const char *format, va_list ap)
 			{
 				if (g_type[j].type == flags[i].type)
 				{
-					g_type[j].function ? g_type[j].function(ap, flags[i]) : 0;
+					g_type[j].function ? g_type[j].function(ap, &flags[i]) : 0;
 					l += display_string(flags[i].string, flags[i].index, -1);
 					break ;
 				}

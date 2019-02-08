@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 03:29:33 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 04:56:53 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,19 @@ int		main(int argc, char **argv)
 	// (void)n;
 	// (void)n_;
 	//
-	char *string = "{%030.3d}\n";
+	//char *string = "{%0+10d}\n";
 	//ft_printf(string, n);
 	//printf(string, n);
-	// char *string = "|%15x|%15X|%15u|%15o|%15p|\n";
-	// int n =  1100;
-	// int n_ = -1100;
-	// ft_printf(string, n, n, n, n, n, n);
-	// printf(string, n, n, n, n, n, n);
-	// ft_printf(string, n_,n_, n_, n_, n_, n_);
-	// printf(string, n_,n_,n_, n_, n_, n_);
-	ft_printf(string, -5);
-	printf(string, -5);
-	ft_printf(string, 5);
-	printf(string, 5);
+	char *string = "|%+15.3x|%+15.3X|%+15.3u|%+15.3o|%p|\n";
+	int n =  11000;
+	int n_ = -11000;
+	ft_printf(string, n, n, n, n, n, n);
+	printf(string, n, n, n, n, n, n);
+	ft_printf(string, n_,n_, n_, n_, n_, n_);
+	printf(string, n_,n_,n_, n_, n_, n_);
+	// printf(string, -5);
+	// ft_printf(string, 5);
+	// printf(string, 5);
 	return (0);
 }
 /*

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 03:29:44 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/08 04:56:52 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,6 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 	return (ret + ft_strlen(str) + len + fmt->field + (signe == '-' ? 1 : 0));
 }
 
-int		print_pointer(va_list list, t_fmt *fmt)
-{
-	char *string;
-
-	string = get_s(fmt, list);
-	lol(fmt, string,10, 0);
-	return (0);
-}
 
 int	splice(char *string, int precision, int v)
 {
@@ -196,11 +188,30 @@ int format_width(char *string, t_fmt *fmt)
 	else
 	{
 		fmt->field = fmt->precision - (ft_strlen(string));
+		//printf("{%d}", fmt->field);
+		fmt->field = fmt->field > 0 ? fmt->field : 0;
 		len -= fmt->field;
 		if (fmt->precision <= 0)
-			len -= ~fmt->precision  ? 1 : 2;
+			len -= ~fmt->precision ? ft_strlen(string) : ft_strlen(string) + 1;
+		if (!~fmt->precision)
+		{
+			fmt->field = len;
+			len = 0;
+		}
 	}
 	return (len);
+}
+
+
+int		print_pointer(va_list list, t_fmt *fmt)
+{
+	char *string;
+	int len;
+
+	string = get_s(fmt, list);
+	fmt->signe = 0;
+	len = format_width(string, fmt);
+	return (lol(fmt, string, len, fmt->signe));
 }
 
 int		print_float(va_list list, t_fmt *fmt)
@@ -244,28 +255,34 @@ void	pf_putnbr(long long n)
 int		print_unsigned_integer(va_list list, t_fmt *fmt)
 {
 	char *string;
+	int len;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10, 0);
-	return (0);
+	fmt->signe = 0;
+	len = format_width(string, fmt);
+	return (lol(fmt, string, len, fmt->signe));
 }
 
 int		print_octal(va_list list, t_fmt *fmt)
 {
 	char *string;
+	int len;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10, 0);
-	return (0);
+	fmt->signe = 0;
+	len = format_width(string, fmt);
+	return (lol(fmt, string, len, fmt->signe));
 }
 
 int		print_hexadecimal(va_list list, t_fmt *fmt)
 {
 	char *string;
+	int len;
 
 	string = get_s(fmt, list);
-	lol(fmt, string, 10, 0);
-	return (0);
+	fmt->signe = 0;
+	len = format_width(string, fmt);
+	return (lol(fmt, string, len, fmt->signe));
 }
 
 int		*count_flags(char *string, int index)

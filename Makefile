@@ -6,7 +6,7 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/02/05 22:56:48 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/02/09 02:31:38 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ LIBFT_PATH		?=	./libft/
 LIBFT_NAME		=	libft.a
 SRC_PATH		=	./src/
 SRC_NAME		=	ft_printf.c
-MSG				=	Compilation de
+MSG				=	Compilation de ft_printf:
 SRC				=	$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ_PATH		=	./obj/
 OBJ_NAME		=	$(SRC_NAME:.c=.o)

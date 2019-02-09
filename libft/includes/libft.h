@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 01:18:19 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/09 02:31:08 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char			*ft_itoa_base(intmax_t n, int base, int islower);
 char			*ft_utoa_base(uintmax_t nb, int base, int uppercase);
 long long		ft_pow(int base, int i);
 long double		ft_round(long double fl, long precision);
+int				ft_min(int a, int b);
+int				ft_max(int a, int b);
 typedef struct	s_list
 {
 	void			*content;

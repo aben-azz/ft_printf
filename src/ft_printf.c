@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 23:39:30 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/09 02:40:41 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,10 @@ char *get_s(t_fmt *fmt, va_list ap)
 	}
 	else
 	{
-		//printf("\nupperacse: %c, base: %c\n", uppercase, b);
 		if (fmt->type == D_ || fmt->type == I_)
 			str = ft_itoa_base(get_signed(fmt, ap), b, uppercase);
 		else
-		{
 			str = ft_utoa_base(get_unsigned(fmt, ap), b, uppercase);
-		//printf("\n{%d,%d}\n", uppercase, b);
-		}
 	}
 	!str ? exit(0) : NULL;
 	return (str);
@@ -139,11 +135,12 @@ int		print_string(va_list list, t_fmt *fmt)
 
 	l = 0;
 	string = va_arg(list, char*);
-	l += fmt->opt & SUB ? splice(string, fmt->precision, 1) : 0;
+	fmt->opt & SUB ? splice(string, fmt->precision, 1) : 0;
 	l += ft_repeat_char(fmt->opt & ZERO && (~fmt->opt & SUB) ? '0' : ' ',
 		fmt->field - splice(string, fmt->precision, 0));
-	l += !(fmt->opt & SUB) ? splice(string, fmt->precision, 1) : 0;
-	return (l);
+	l = ft_max(l, 0);
+	!(fmt->opt & SUB) ? splice(string, fmt->precision, 1) : 0;
+	return (l + splice(string, fmt->precision, 0));
 }
 int print_prefixe(int type, int mode)
 {
@@ -184,10 +181,9 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 			~(fmt->opt & ZERO) && ft_repeat_char(' ', len - ret);
 		else
 		{
-			~(fmt->opt & ZERO) &&
-				ft_repeat_char(' ', len -
-				((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_ ?
-					print_prefixe(fmt->type, 0) : 0));
+			~(fmt->opt & ZERO) && ft_repeat_char(' ', len -
+				((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_
+					? print_prefixe(fmt->type, 0) : 0));
 		}
 		signe == '-' ? ft_putchar(signe) : NULL;
 		signe == '+' && fmt->opt & ADD ? ft_putchar(signe) : NULL;
@@ -238,7 +234,6 @@ int format_width(char *string, t_fmt *fmt)
 		len -= fmt->field;
 		if (fmt->opt & ZERO && (!~fmt->precision))
 		{
-
 			fmt->field = len;
 			len = 0;
 		}
@@ -249,7 +244,6 @@ int format_width(char *string, t_fmt *fmt)
 				len++;
 			if (~fmt->opt & SUB)
 				len--;
-
 		}
 	}
 	return (len);
@@ -363,7 +357,6 @@ int		get_precision(char *string)
 	i = 0;
 	if (!~(n = ft_indexof(string, '.')))
 		return (-1);
-	//printf(" n est a %d, <%s>\n", n, string);
 	while (ft_isdigit(string[n + i]))
 		(void)i++;
 	return (ft_atoi(ft_strsub(string, n, i)));
@@ -446,6 +439,9 @@ t_fmt	format(char *string)
 
 int		display_string(char *string, int index, int to)
 {
+	int len;
+
+	len = 0;
 	if (to > index)
 	{
 		ft_putstr(ft_strsub(string, index, to));
@@ -453,8 +449,8 @@ int		display_string(char *string, int index, int to)
 	}
 	else
 		while (*(string + index))
-			ft_putchar(*(string + index++));
-	return (index);
+			len += ft_repeat_char(*(string + index++), 1);
+	return (len);
 }
 
 void	view_fmt(t_fmt *flags, int length)
@@ -517,7 +513,6 @@ t_fmt	*get_flags(char *s, int n)
 		next = count_flags(s, i + 1)[0];
 		flags[j++] = format(ft_strsub(s, i,
 			!n ? (int)ft_strlen(s) - i : next - i));
-			//display_fmt(flags[j-1]);
 		i += (next - i);
 	}
 	return (flags);
@@ -532,15 +527,15 @@ int		parse(const char *format, va_list ap)
 	int l = 0;
 	length = count_flags((char*)format, 0)[1];
 	flags = get_flags((char*)format, length);
+	j = count_flags((char*)format, 0)[0];
+	l += j ? splice((char*)format, j, 0) : 0;
 	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
 	{
-		//printf("xd");
-		display_string((char*)format, 0, -1);
-		return (ft_strlen((char*)format));
+		 l+= display_string((char*)format, 0, -1);
+		return (l);
 	}
 	while (++i < length)
 	{
-		//display_fmt(flags[j]);
 		j = -1;
 		if (flags[i].type == 1 << 30){
 			printf("Non reconnu\n");
@@ -551,7 +546,8 @@ int		parse(const char *format, va_list ap)
 			{
 				if (g_type[j].type == flags[i].type)
 				{
-					g_type[j].function ? g_type[j].function(ap, &flags[i]) : 0;
+					l += g_type[j].function ? g_type[j].function(ap, &flags[i]) : 0;
+					//printf("[|%s|, %d]\n", flags[i].string, flags[i].index);
 					l += display_string(flags[i].string, flags[i].index, -1);
 					break ;
 				}

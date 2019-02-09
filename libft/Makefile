@@ -6,7 +6,7 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/02/07 22:28:37 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/02/09 02:31:30 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlen.c ft_strmap.c ft_strtrim.c \
 ft_strsplit.c ft_strstr.c ft_strsub.c ft_toupper.c ft_strmapi.c ft_strncat.c \
 ft_strncmp.c ft_strncpy.c ft_strnequ.c ft_strnew.c ft_strnstr.c ft_strrchr.c \
 ft_putnbr.c ft_isalpha.c ft_tolower.c get_next_line.c ft_repeat_char.c \
-ft_utoa_base.c ft_intlen_base.c
+ft_utoa_base.c ft_intlen_base.c ft_min.c ft_max.c
 
 _END			=	\x1b[0m
 _BOLD			=	\x1b[1m
@@ -47,8 +47,7 @@ _ICYAN			=	\x1b[46m
 _IWHITE			=	\x1b[47m
 INCLUDE			=	-Iincludes/
 CFLAGS			=	-Wall -Wextra -Werror
-MSG				=	Compilation de
-
+MSG				=	Compilation de la libft:
 GCC				=	gcc $(CFLAGS) $(INCLUDE)
 
 SRCPATH			=	./src

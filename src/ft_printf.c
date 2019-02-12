@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 14:31:28 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 16:36:51 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,6 @@ int		get_string(char *string)
 
 void	get_options(char *str, t_fmt *fmt, va_list ap)
 {
-
 	fmt->length = get_length(str);
 	fmt->field = get_field(str, ap);
 	fmt->string = str;
@@ -366,7 +365,6 @@ void	get_options(char *str, t_fmt *fmt, va_list ap)
 		}
 		str++;
 	}
-
 }
 
 int		display_string(char *string, int index, int to)
@@ -458,7 +456,7 @@ int		parse(const char *format, va_list ap)
 	t_fmt *flags;
 	int l = 0;
 	length = count_flags((char*)format, 0)[1];
-	flags = get_flags((char*)format, length, ap);
+	f = get_flags((char*)format, length, ap);
 	j = count_flags((char*)format, 0)[0];
 	l += j ? splice((char*)format, j, 0) : 0;
 	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
@@ -466,24 +464,22 @@ int		parse(const char *format, va_list ap)
 	while (++i < length)
 	{
 		j = -1;
-		if (flags[i].type == 1 << 30){
+		if (f[i].type == 1 << 30){
 			printf("Non reconnu\n");
 		}
 		else
 		{
 			while (g_type[++j].type)
 			{
-				if (g_type[j].type == flags[i].type)
+				if (g_type[j].type == f[i].type)
 				{
-					l += g_type[j].function ? g_type[j].function(ap, &flags[i]) : 0;
-					//printf("[|%s|, %d]\n", flags[i].string, flags[i].index);
-					l += display_string(flags[i].string, flags[i].index, -1);
+					l += g_type[j].function ? g_type[j].function(ap, &f[i]) : 0;
+					l += display_string(f[i].string, f[i].index, -1);
 					break ;
 				}
 			}
 		}
 	}
-
 	return (l);
 }
 

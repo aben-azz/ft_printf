@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 16:36:51 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 16:38:00 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,7 +453,7 @@ int		parse(const char *format, va_list ap)
 	int i = -1;
 	int length = 0;
 	int j;
-	t_fmt *flags;
+	t_fmt *f;
 	int l = 0;
 	length = count_flags((char*)format, 0)[1];
 	f = get_flags((char*)format, length, ap);

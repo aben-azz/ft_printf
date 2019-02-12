@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 02:30:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 09:44:30 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
 # define TYPES    "cspPfdiouXx"
-# define LENGTH   "lhL"
+# define LENGTH   "lhLZJ"
 # define HASH     1 << 0
 # define ZERO     1 << 1
 # define SUB      1 << 2
@@ -33,7 +33,6 @@
 # define U_       1 << 8
 # define HIGHX_   1 << 9
 # define LOWX_    1 << 10
-# define VV       (void)
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)

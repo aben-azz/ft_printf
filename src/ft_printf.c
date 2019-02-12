@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/09 02:40:41 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 09:54:10 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ int lol(t_fmt *fmt, char *str, int len, char signe)
 	len = len < 0 ? 0 : len;
 	if (signe == '+' && (fmt->opt & ADD))
 		len++;
+	if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+		len += print_prefixe(fmt->type, 0);
 	return (ret + ft_strlen(str) + len + fmt->field + (signe == '-' ? 1 : 0));
 }
 

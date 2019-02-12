@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 00:50:21 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/08 23:13:43 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 13:53:48 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 #include <stdio.h>
 
-long double	ft_round(long double fl, long precision)
+long double	ft_round(long double d, long precision)
 {
-	long double	diviseur;
+	long double		diviseur;
 
 	diviseur = 5;
 	if (!precision)
-		return (fl + (fl > 0.0 ? 0.5 : -0.5));
-	while (--precision >= 0)
+		return (d + (d > 0.0 ? 0.5 : -0.5));
+	while (precision-- >= 0)
 		diviseur /= 10;
-	return (fl + (fl > 0.0 ? diviseur : -diviseur));
+	return (d + (d > 0.0 ? diviseur : -diviseur));
 }

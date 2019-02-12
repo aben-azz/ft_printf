@@ -6,11 +6,11 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 12:24:19 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 14:31:13 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "includes/ft_printf.h"
 #include "libft/includes/libft.h"
 #include <stdio.h>
 
@@ -110,11 +110,12 @@ int		main(int argc, char **argv)
 	// int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
 	// int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
 	// printf("%d == %d && %d == %d\n", a, ap, b, bp);
-	char *string = "[%x]\n";
-	int n =  0;
+	char *string = "%10.*s\n";
+	//int n =  100000000;
+	//double n = 10.2645;
 	// /int n_ = -30;
-	ft_printf(string,  n);
-	printf(string, n);
+	ft_printf(string, "10", "222");
+	printf(string, "10", "222");
 	// ft_printf(string,  n_);
 	// printf(string,  n_);
 	// ft_printf("|%20p|\n", "xd");

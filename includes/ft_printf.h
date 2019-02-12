@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 11:22:07 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 14:30:39 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
 # define TYPES    "cspPfdiouXx"
-# define LENGTH   "lhLZJ"
+# define LENGTH   "lhLzj"
 # define HASH     1 << 0
 # define ZERO     1 << 1
 # define SUB      1 << 2
@@ -39,8 +39,8 @@
 # define H_      (1 << 2) + 1
 # define HH_     (1 << 2)
 # define LU_     (1 << 3) + 1
-# define Z_      (1 << 2)
-# define J_      (1 << 3) + 1
+# define Z_      (1 << 4) + 1
+# define J_      (1 << 5) + 1
 
 typedef struct	s_fmt
 {
@@ -59,15 +59,15 @@ typedef struct	s_ype
 	int				type;
 	int				(*function)(va_list list, t_fmt *fmt);
 }				t_ype;
-t_fmt			*get_flags(char *s, int n);
+t_fmt			*get_flags(char *s, int n, va_list ap);
 t_fmt			format(char *string);
 int				ft_printf(const char *format, ...);
 int				*count_flags(char *string, int index);
-int				get_precision(char *string);
-int				get_minimal_length(char *string);
+int		get_precision(char *string, t_fmt *fmt, va_list ap);
+int		get_field(char *string, va_list ap);
 int				get_length(char *s);
 int				get_type(char *str, int index);
-void			get_options(char *str, t_fmt *fmt);
+void			get_options(char *str, t_fmt *fmt, va_list ap);
 int				display_string(char *string, int index, int to);
 void			view_fmt(t_fmt *flags, int length);
 int				print_char(va_list list, t_fmt *fmt);

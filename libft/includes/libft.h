@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/09 02:31:08 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 13:52:40 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits.h>
 # define MAX OPEN_MAX
 # define BUFF_SIZE 32
+# define ABS(x) ((x < 0) ? -x : x)
 
 typedef	unsigned short int	t_bits;
 void			*ft_memset(void *b, int c, size_t len);
@@ -44,7 +45,7 @@ int				ft_intlen_base(uintmax_t nbr, int base);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_strncmp(char *s1, char *s2, size_t n);
 int				ft_atoi(char *str);
-void			ft_ftoa(long double n, int precision, char *str);
+char			*ft_ftoa(long double n, int precision);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);

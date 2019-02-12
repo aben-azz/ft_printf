@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 09:54:09 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 11:41:12 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,21 +102,21 @@ int		main(int argc, char **argv)
 	//char *string = "{%0+10d}\n";
 	//ft_printf(string, n);
 	//printf(string, n);
-	// char *string = "|%#-20d|%#-20x|%#-20X|%#-20u|%#-20o|%#-20p\n";
-	// int n =  110;
-	// int n_ = -3;
-	// int a = ft_printf(string,n, n, n, n, n, n, n);
-	// int ap = printf(string,n, n, n, n, n, n, n);
-	// int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
-	// int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
-	// printf("%d == %d && %d == %d\n", a, ap, b, bp);
-	char *string = "|%00d|\n";
-   int n =  42;
-   int n_ = -30;
-   ft_printf(string,  n);
-   printf(string, n);
-   ft_printf(string,  n_);
-   printf(string,  n_);
+	char *string = "|%#-20d|%#-20x|%#-20X|%#-20u|%#-20o|%#-20p\n";
+	int n =  110;
+	int n_ = -3;
+	int a = ft_printf(string,n, n, n, n, n, n, n);
+	int ap = printf(string,n, n, n, n, n, n, n);
+	int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
+	int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
+	printf("%d == %d && %d == %d\n", a, ap, b, bp);
+	// char *string = "[%d]\n";
+	// int n =  42;
+	// // /int n_ = -30;
+	// ft_printf(string,  n);
+	// printf(string, n);
+	// ft_printf(string,  n_);
+	// printf(string,  n_);
 	// ft_printf("|%20p|\n", "xd");
 	// printf("|%20p|\n", "xd");
 	// // printf(string, -5);

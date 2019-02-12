@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 09:54:10 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 11:40:58 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,6 @@ uintmax_t    get_unsigned(t_fmt *fmt, va_list ap)
 	return (0);
 }
 
-char		*ft_utoa_base(uintmax_t nb, int base, int uppercase)
-{
-	//printf("[%ju,%d]\n", nb, base);
-	char	*output;
-	int		digits;
-
-	if (nb == 0)
-		return (ft_strdup("0"));
-	digits = ft_intlen_base(nb, base);
-	output = ft_strnew(digits);
-	while (digits--)
-	{
-		output[digits] = (nb % base) +
-			(nb % base > 9 ? "aA"[uppercase] - 10 : '0');
-		nb /= base;
-	}
-	return (output);
-}
 
 char *get_s(t_fmt *fmt, va_list ap)
 {
@@ -157,52 +139,110 @@ int print_prefixe(int type, int mode)
 	return (0);
 }
 
-int lol(t_fmt *fmt, char *str, int len, char signe)
+// int lol(t_fmt *fmt, char *str, int len, char signe)
+// {
+// 	int ret;
+//
+// 	ret = 0;
+// 	if (fmt->opt & SUB)
+// 	{
+// 		signe == '-' ? ft_putchar(signe) : NULL;
+// 		(signe == '+' && (fmt->opt & ADD)) ? ft_putchar(signe) : 0;
+// 		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+// 			len -= print_prefixe(fmt->type, 1);
+// 			ft_repeat_char('0', fmt->field);
+// 		ft_putstr(str);
+// 		if (fmt->type == O_ && ((fmt->opt & HASH)))
+// 			ft_repeat_char(' ', len - ret);
+// 		else
+// 			ft_repeat_char(' ', len);
+// 	}
+// 	else
+// 	{
+// 		if (fmt->type == O_ && ((fmt->opt & HASH)))
+// 			~(fmt->opt & ZERO) && ft_repeat_char(' ', len - ret);
+// 		else
+// 		{
+// 			~(fmt->opt & ZERO) && ft_repeat_char(' ', len -
+// 				((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_
+// 					? print_prefixe(fmt->type, 0) : 0));
+// 		}
+// 		signe == '-' ? ft_putchar(signe) : NULL;
+// 		signe == '+' && fmt->opt & ADD ? ft_putchar(signe) : NULL;
+// 		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+// 			ret = print_prefixe(fmt->type, 1);
+// 		if (fmt->type == HIGHP_ || fmt->type == LOWP_)
+// 			ft_repeat_char('0', fmt->field);
+// 		else
+// 			ft_repeat_char('0', fmt->field);
+// 		// if (fmt->opt & SPACE && (fmt->type >= F_ && fmt->type <= I_) && (signe == '+'))
+// 		// 	len += ft_repeat_char(' ', 1);
+// 		ft_putstr(str);
+// 	}
+// 	len = len < 0 ? 0 : len;
+// 	if (signe == '+' && (fmt->opt & ADD))
+// 		len++;
+// 	if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+// 		len += print_prefixe(fmt->type, 0);
+// 	return (ret + ft_strlen(str) + len + fmt->field + (signe == '-' ? 1 : 0));
+// }
+
+
+
+int				print_numbers(t_fmt *fmt, char *str, int len)
 {
 	int ret;
 
 	ret = 0;
 	if (fmt->opt & SUB)
 	{
-		signe == '-' ? ft_putchar(signe) : NULL;
-		(signe == '+' && (fmt->opt & ADD)) ? ft_putchar(signe) : 0;
-		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
-			len -= print_prefixe(fmt->type, 1);
-			ft_repeat_char('0', fmt->field);
+		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		if (fmt->opt & HASH)
+			ret = print_prefixe(fmt->type, 1);
+		ft_repeat_char('0', fmt->precision);
 		ft_putstr(str);
-		if (fmt->type == O_ && ((fmt->opt & HASH)))
-			ft_repeat_char(' ', len - ret);
-		else
-			ft_repeat_char(' ', len);
+		ft_repeat_char(' ', len);
 	}
 	else
 	{
-		if (fmt->type == O_ && ((fmt->opt & HASH)))
-			~(fmt->opt & ZERO) && ft_repeat_char(' ', len - ret);
-		else
-		{
-			~(fmt->opt & ZERO) && ft_repeat_char(' ', len -
-				((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_
-					? print_prefixe(fmt->type, 0) : 0));
-		}
-		signe == '-' ? ft_putchar(signe) : NULL;
-		signe == '+' && fmt->opt & ADD ? ft_putchar(signe) : NULL;
-		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+		(~fmt->opt & ZERO) ? ft_repeat_char(' ', len) : 0;
+		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		if (fmt->opt & HASH)
 			ret = print_prefixe(fmt->type, 1);
-		if (fmt->type == HIGHP_ || fmt->type == LOWP_)
-			ft_repeat_char('0', fmt->field);
-		else
-			ft_repeat_char('0', fmt->field);
+		(fmt->opt & ZERO) ? ft_repeat_char('0', len) : 0;
+		ft_repeat_char('0', fmt->precision);
 		ft_putstr(str);
 	}
 	len = len < 0 ? 0 : len;
-	if (signe == '+' && (fmt->opt & ADD))
-		len++;
-	if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
-		len += print_prefixe(fmt->type, 0);
-	return (ret + ft_strlen(str) + len + fmt->field + (signe == '-' ? 1 : 0));
+	return (ret + ft_strlen(str) + len + fmt->precision + (fmt->signe != 0));
 }
 
+int		handle_numbers(t_fmt *fmt, va_list ap)
+{
+	char		*str;
+	int			len;
+
+	str = get_s(fmt, ap);
+	if (!fmt->precision && str[0] == '0' && fmt->type != F_)
+	{
+		str[0] = '\0';
+	}
+	if (*str == '-')
+		fmt->signe = *(str++);
+	fmt->precision -= ft_strlen(str);
+	fmt->precision = print_prefixe(fmt->type, 0) == 1 ? fmt->precision - 1 : fmt->precision;
+	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
+	len = fmt->field - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
+	len -= print_prefixe(fmt->type, 0);
+	len = print_numbers(fmt, str, len);
+	fmt->signe == '-' ? free(--str) : ft_strdel(&str);
+	return (len);
+}
+
+int		print_signed_integer(va_list list, t_fmt *fmt)
+{
+	return (handle_numbers(fmt, list));
+}
 
 int	splice(char *string, int precision, int v)
 {
@@ -212,82 +252,58 @@ int	splice(char *string, int precision, int v)
 	v ? ft_putstr(l) : NULL;
 	return ((int)ft_strlen(l));
 }
-
-int format_width(char *string, t_fmt *fmt)
-{
-	int len;
-	len = fmt->field - ft_strlen(string) - (fmt->signe == '-' ? 1 : 0);
-	if (fmt->opt & ADD)
-		fmt->signe == '+' && len--;
-	if (fmt->type == F_)
-	{
-		if (~fmt->opt & ZERO && fmt->type == F_)
-			fmt->field = 0;
-		else
-		{
-			len = 0;
-			fmt->field -= ft_strlen(string) + (fmt->signe == '-' ? 1 : 0);
-		}
-	}
-	else
-	{
-		fmt->field = fmt->precision - (ft_strlen(string));
-		fmt->field = fmt->field > 0 ? fmt->field : 0;
-		len -= fmt->field;
-		if (fmt->opt & ZERO && (!~fmt->precision))
-		{
-			fmt->field = len;
-			len = 0;
-		}
-		if (fmt->type == O_ && ((fmt->opt & HASH)))
-		{
-			fmt->field--;
-			if (~fmt->field)
-				len++;
-			if (~fmt->opt & SUB)
-				len--;
-		}
-	}
-	return (len);
-}
+//
+// int format_width(char *string, t_fmt *fmt)
+// {
+// 	int len;
+// 	len = fmt->field - ft_strlen(string) - (fmt->signe == '-' ? 1 : 0);
+// 	if (fmt->opt & ADD)
+// 		fmt->signe == '+' && len--;
+// 	if (fmt->type == F_)
+// 	{
+// 		if (~fmt->opt & ZERO && fmt->type == F_)
+// 			fmt->field = 0;
+// 		else
+// 		{
+// 			len = 0;
+// 			fmt->field -= ft_strlen(string) + (fmt->signe == '-' ? 1 : 0);
+// 		}
+// 	}
+// 	else
+// 	{
+//
+// 		fmt->field = fmt->precision - (ft_strlen(string));
+// 		fmt->field = fmt->field > 0 ? fmt->field : 0;
+// 		len -= fmt->field;
+// 		if (fmt->opt & ZERO && (!~fmt->precision))
+// 		{
+// 			fmt->field = len;
+// 			len = 0;
+// 		}
+// 		if (fmt->type == O_ && ((fmt->opt & HASH)))
+// 		{
+// 			fmt->field--;
+// 			if (~fmt->field)
+// 				len++;
+// 			if (~fmt->opt & SUB)
+// 				len--;
+// 		}
+// 	}
+// 	return (len);
+// }
 
 
 int		print_pointer(va_list list, t_fmt *fmt)
 {
-	char *string;
-	int len;
-
-	string = get_s(fmt, list);
-	fmt->signe = 0;
-	len = format_width(string, fmt);
-	return (lol(fmt, string, len, fmt->signe));
+	return (handle_numbers(fmt, list));
 }
 
 int		print_float(va_list list, t_fmt *fmt)
 {
-	char *string;
-	int len;
-
-	string = get_s(fmt, list);
-	fmt->signe = '+';
-	(*string == '-') && (fmt->signe = '-');
-	(*string == '-') && string++;
-	len = format_width(string, fmt);
-	return (lol(fmt, string, len, fmt->signe));
+	return (handle_numbers(fmt, list));
 }
 
-int		print_signed_integer(va_list list, t_fmt *fmt)
-{
-	char *string;
-	int len;
 
-	string = get_s(fmt, list);
-	fmt->signe = '+';
-	(*string == '-') && (fmt->signe = '-');
-	(*string == '-') && string++;
-	len = format_width(string, fmt);
-	return (lol(fmt, string, len, fmt->signe));
-}
 
 void	pf_putnbr(long long n)
 {
@@ -303,35 +319,17 @@ void	pf_putnbr(long long n)
 
 int		print_unsigned_integer(va_list list, t_fmt *fmt)
 {
-	char *string;
-	int len;
-
-	string = get_s(fmt, list);
-	fmt->signe = 0;
-	len = format_width(string, fmt);
-	return (lol(fmt, string, len, fmt->signe));
+	return (handle_numbers(fmt, list));
 }
 
 int		print_octal(va_list list, t_fmt *fmt)
 {
-	char *string;
-	int len;
-
-	string = get_s(fmt, list);
-	fmt->signe = 0;
-	len = format_width(string, fmt);
-	return (lol(fmt, string, len, fmt->signe));
+	return (handle_numbers(fmt, list));
 }
 
 int		print_hexadecimal(va_list list, t_fmt *fmt)
 {
-	char *string;
-	int len;
-
-	string = get_s(fmt, list);
-	fmt->signe = 0;
-	len = format_width(string, fmt);
-	return (lol(fmt, string, len, fmt->signe));
+	return (handle_numbers(fmt, list));
 }
 
 int		*count_flags(char *string, int index)
@@ -398,22 +396,7 @@ int		get_length(char *s)
 
 int		get_type(char *str, int i)
 {
-	return (1 << (ft_indexof(TYPES, str[i - 1]) - 1));
-}
-
-int		get_options(char *str)
-{
-	int	s;
-	int	i;
-	int	index;
-
-	i = -1;
-	s = 0;
-	while (OPTIONS[++i])
-		if (~(index = ft_indexof(str, OPTIONS[i])) &&
-			(i != 1 || !ft_isdigit(str[index - 2])))
-			(s |= (1 << i));
-	return (s ? s : 0);
+	return (1 << (ft_indexof(TYPES, str[i]) - 1));
 }
 
 int		get_string(char *string)
@@ -426,17 +409,34 @@ int		get_string(char *string)
 	return (i);
 }
 
-t_fmt	format(char *string)
+void	get_options(char *str, t_fmt *fmt)
 {
-	return ((t_fmt) {
-		.precision = get_precision(string),
-		.length = get_length(string),
-		.field = get_field(string),
-		.opt = get_options(string),
-		.string = string,
-		.index = get_string(string),
-		.type = get_type(string, get_string(string))
-	});
+	fmt->precision = get_precision(str);
+	fmt->length = get_length(str);
+	fmt->field = get_field(str);
+	fmt->string = str;
+	fmt->index = get_string(str);
+	fmt->type = get_type(str, fmt->index - 1);
+	fmt->opt = 0;
+	while (*str && !~ft_indexof("diouxXcspfDOUb", *str))
+	{
+		//printf("tour de boucle : %c, %d\n", *str, ft_indexof("diouxXcspfDOUb%", *str));
+		if (*str == '0' && !ft_isdigit(*(str - 1)) && *(str - 1) != '.')
+			fmt->opt |= ZERO;
+		if (*str == ' ' && !fmt->signe && (fmt->type >= F_ && fmt->type <= I_))
+			fmt->signe = ' ';
+		if (*str == '+' && (fmt->type >= F_ && fmt->type <= I_))
+			fmt->signe = '+';
+		if (*str == '#')
+			fmt->opt |= HASH;
+		if(*str == '-')
+		{
+			//printf("c ok pour le sub: %d\n", fmt->opt & SUB);
+			(fmt->opt |= SUB);
+			//printf("c ok pour le sub: %d\n", fmt->opt & SUB);
+		}
+	str++;
+	}
 }
 
 int		display_string(char *string, int index, int to)
@@ -513,8 +513,8 @@ t_fmt	*get_flags(char *s, int n)
 	while (n-- > 0)
 	{
 		next = count_flags(s, i + 1)[0];
-		flags[j++] = format(ft_strsub(s, i,
-			!n ? (int)ft_strlen(s) - i : next - i));
+		get_options(ft_strsub(s, i,
+			!n ? (int)ft_strlen(s) - i : next - i), &flags[j++]);
 		i += (next - i);
 	}
 	return (flags);

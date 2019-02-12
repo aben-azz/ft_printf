@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 09:44:30 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 11:22:07 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int				get_precision(char *string);
 int				get_minimal_length(char *string);
 int				get_length(char *s);
 int				get_type(char *str, int index);
-int				get_options(char *str);
+void			get_options(char *str, t_fmt *fmt);
 int				display_string(char *string, int index, int to);
 void			view_fmt(t_fmt *flags, int length);
 int				print_char(va_list list, t_fmt *fmt);

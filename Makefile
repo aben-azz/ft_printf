@@ -6,7 +6,7 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/02/09 02:31:38 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/02/12 12:53:13 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,12 +45,12 @@ OBJ				=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INCLUDES		=	$(LIBFT_PATH)includes ./includes/
 INC_CC	 		=	$(foreach DIR,$(INCLUDES),-I$(DIR) )
 CFLAGS			+=	$(INC_CC)
-LONGEST			=	$(shell echo $(notdir $(SRCS)) | tr " " "\n" | awk ' { if (\
+LONGEST			=	$(shell echo $(notdir $(SRC)) | tr " " "\n" | awk ' { if (\
 				length > x ) { x = length; y = $$0 } }END{ print y }' | wc -c)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
-	@$(CC) $(CFLAGS) -I./ -o $@ -c $<
+	@$(CC) $(CFLAGS) -Iinclude -o $@ -c $<
 	@printf "$(_BOLD)$(_PURPLE)$(MSG)$(_END) $(_CYAN)%-$(LONGEST)s\
 	$(_END)" $(notdir $<)
 	@if test -s src/$*.c; then \
@@ -67,7 +67,7 @@ $(NAME): $(OBJ)
 	@echo "$(_BOLD)$(_YELLOW)Creation de la libftprintf ...$(_END)"
 	@cp $(LIBFT_PATH)$(LIBFT_NAME) $(NAME)
 	@$(AR) rcs $(NAME) $^
-		@echo "$(_BOLD)$(_GREEN)Compilation de la libftprintf terminée => ${NAME}$(_END)"
+	@echo "$(_BOLD)$(_GREEN)Compilation de la libftprintf terminée => ${NAME}$(_END)"
 clean:
 	@$(MAKE) -C $(LIBFT_PATH) clean
 	@rm -rf $(OBJ_PATH)
@@ -75,6 +75,7 @@ clean:
 fclean: clean
 	@$(MAKE) -C $(LIBFT_PATH) fclean
 	@rm -f $(NAME)
+
 debug :
 	@gcc main.c libftprintf.a -o o -Wall -Wextra -Werror
 	@printf "$(_GREEN)main.c pret$(_END)\n"

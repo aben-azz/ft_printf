@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 11:40:58 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/12 12:24:35 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		print_string(va_list list, t_fmt *fmt)
 
 	l = 0;
 	string = va_arg(list, char*);
+	string = !string ? "(null)" : string;
 	fmt->opt & SUB ? splice(string, fmt->precision, 1) : 0;
 	l += ft_repeat_char(fmt->opt & ZERO && (~fmt->opt & SUB) ? '0' : ' ',
 		fmt->field - splice(string, fmt->precision, 0));
@@ -189,7 +190,7 @@ int print_prefixe(int type, int mode)
 
 
 
-int				print_numbers(t_fmt *fmt, char *str, int len)
+int		print_numbers(t_fmt *fmt, char *str, int len)
 {
 	int ret;
 
@@ -197,7 +198,7 @@ int				print_numbers(t_fmt *fmt, char *str, int len)
 	if (fmt->opt & SUB)
 	{
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
-		if (fmt->opt & HASH)
+		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
 			ret = print_prefixe(fmt->type, 1);
 		ft_repeat_char('0', fmt->precision);
 		ft_putstr(str);
@@ -207,7 +208,7 @@ int				print_numbers(t_fmt *fmt, char *str, int len)
 	{
 		(~fmt->opt & ZERO) ? ft_repeat_char(' ', len) : 0;
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
-		if (fmt->opt & HASH)
+		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
 			ret = print_prefixe(fmt->type, 1);
 		(fmt->opt & ZERO) ? ft_repeat_char('0', len) : 0;
 		ft_repeat_char('0', fmt->precision);
@@ -225,15 +226,21 @@ int		handle_numbers(t_fmt *fmt, va_list ap)
 	str = get_s(fmt, ap);
 	if (!fmt->precision && str[0] == '0' && fmt->type != F_)
 	{
+		if (fmt->type == HIGHX_ || fmt->type == LOWX_)
+			fmt->opt &= ~(HASH);
 		str[0] = '\0';
 	}
+	if ((fmt->type != LOWP_ || fmt->type != HIGHP_) && (str[0] == '0'))
+		fmt->opt &= ~(HASH);
 	if (*str == '-')
 		fmt->signe = *(str++);
 	fmt->precision -= ft_strlen(str);
-	fmt->precision = print_prefixe(fmt->type, 0) == 1 ? fmt->precision - 1 : fmt->precision;
+	fmt->precision = print_prefixe(fmt->type, 0) == 1 ?
+		fmt->precision - 1 : fmt->precision;
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
 	len = fmt->field - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
-	len -= print_prefixe(fmt->type, 0);
+	if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+		(len -= print_prefixe(fmt->type, 0));
 	len = print_numbers(fmt, str, len);
 	fmt->signe == '-' ? free(--str) : ft_strdel(&str);
 	return (len);
@@ -252,46 +259,6 @@ int	splice(char *string, int precision, int v)
 	v ? ft_putstr(l) : NULL;
 	return ((int)ft_strlen(l));
 }
-//
-// int format_width(char *string, t_fmt *fmt)
-// {
-// 	int len;
-// 	len = fmt->field - ft_strlen(string) - (fmt->signe == '-' ? 1 : 0);
-// 	if (fmt->opt & ADD)
-// 		fmt->signe == '+' && len--;
-// 	if (fmt->type == F_)
-// 	{
-// 		if (~fmt->opt & ZERO && fmt->type == F_)
-// 			fmt->field = 0;
-// 		else
-// 		{
-// 			len = 0;
-// 			fmt->field -= ft_strlen(string) + (fmt->signe == '-' ? 1 : 0);
-// 		}
-// 	}
-// 	else
-// 	{
-//
-// 		fmt->field = fmt->precision - (ft_strlen(string));
-// 		fmt->field = fmt->field > 0 ? fmt->field : 0;
-// 		len -= fmt->field;
-// 		if (fmt->opt & ZERO && (!~fmt->precision))
-// 		{
-// 			fmt->field = len;
-// 			len = 0;
-// 		}
-// 		if (fmt->type == O_ && ((fmt->opt & HASH)))
-// 		{
-// 			fmt->field--;
-// 			if (~fmt->field)
-// 				len++;
-// 			if (~fmt->opt & SUB)
-// 				len--;
-// 		}
-// 	}
-// 	return (len);
-// }
-
 
 int		print_pointer(va_list list, t_fmt *fmt)
 {
@@ -420,7 +387,6 @@ void	get_options(char *str, t_fmt *fmt)
 	fmt->opt = 0;
 	while (*str && !~ft_indexof("diouxXcspfDOUb", *str))
 	{
-		//printf("tour de boucle : %c, %d\n", *str, ft_indexof("diouxXcspfDOUb%", *str));
 		if (*str == '0' && !ft_isdigit(*(str - 1)) && *(str - 1) != '.')
 			fmt->opt |= ZERO;
 		if (*str == ' ' && !fmt->signe && (fmt->type >= F_ && fmt->type <= I_))
@@ -431,9 +397,7 @@ void	get_options(char *str, t_fmt *fmt)
 			fmt->opt |= HASH;
 		if(*str == '-')
 		{
-			//printf("c ok pour le sub: %d\n", fmt->opt & SUB);
 			(fmt->opt |= SUB);
-			//printf("c ok pour le sub: %d\n", fmt->opt & SUB);
 		}
 	str++;
 	}
@@ -532,10 +496,7 @@ int		parse(const char *format, va_list ap)
 	j = count_flags((char*)format, 0)[0];
 	l += j ? splice((char*)format, j, 0) : 0;
 	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
-	{
-		 l+= display_string((char*)format, 0, -1);
-		return (l);
-	}
+		return (display_string((char*)format, 0, -1));
 	while (++i < length)
 	{
 		j = -1;

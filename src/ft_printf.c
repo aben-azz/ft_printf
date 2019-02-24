@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/24 02:32:23 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/24 02:43:37 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 	if (fmt->opt & SUB)
 	{
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
-		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+		if (fmt->prefixe)
 			ret = print_prefixe(fmt->type, 1);
 		ft_repeat_char('0', fmt->precision);
 		ft_putstr(str);
@@ -159,7 +159,7 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 	{
 		(~fmt->opt & ZERO) ? ft_repeat_char(' ', len) : 0;
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
-		if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
+		if (fmt->prefixe)
 			ret = print_prefixe(fmt->type, 1);
 		(fmt->opt & ZERO) ? ft_repeat_char('0', len) : 0;
 		ft_repeat_char('0', fmt->precision);
@@ -178,20 +178,18 @@ int		handle_numbers(t_fmt *fmt, va_list ap)
 	if (!fmt->precision && str[0] == '0' && fmt->type != F_)
 	{
 		if (fmt->type == HIGHX_ || fmt->type == LOWX_)
-			fmt->opt &= ~(HASH);
+			fmt->prefixe = 0;
 		str[0] = '\0';
 	}
-	if ((fmt->type != LOWP_ || fmt->type != HIGHP_) && (str[0] == '0'))
-		fmt->opt &= ~(HASH);
+	if (fmt->type != LOWP_ || fmt->type != HIGHP_)
+		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
 	if (*str == '-')
 		fmt->signe = *(str++);
 	fmt->precision -= ft_strlen(str);
-	fmt->precision = print_prefixe(fmt->type, 0) == 1 ?
-		fmt->precision - 1 : fmt->precision;
+	fmt->precision = fmt->prefixe == 1 ? fmt->precision - 1 : fmt->precision;
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
 	len = fmt->field - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
-	if ((fmt->opt & HASH) || fmt->type == HIGHP_ || fmt->type == LOWP_)
-		(len -= print_prefixe(fmt->type, 0));
+	len -= fmt->prefixe;
 	len = print_numbers(fmt, str, len);
 	fmt->signe == '-' ? free(--str) : ft_strdel(&str);
 	return (len);
@@ -327,6 +325,7 @@ void	get_options(char *str, t_fmt *fmt, va_list ap)
 	fmt->index = get_string(str);
 	fmt->type = get_type(str, fmt->index - 1);
 	fmt->precision = get_precision(str, fmt, ap);
+	fmt->prefixe = 0;
 	fmt->opt = 0;
 	while (*str && !~ft_indexof("diouxXcspfDOUb", *str))
 	{
@@ -342,8 +341,14 @@ void	get_options(char *str, t_fmt *fmt, va_list ap)
 		{
 			(fmt->opt |= SUB);
 		}
+		if (*str == '#' && (fmt->type== O_ || fmt->type== F_))
+			fmt->prefixe = 1;
+		if ((*str == '#' && (fmt->type== LOWX_ || fmt->type== HIGHX_)))
+			fmt->prefixe = 2;
 		str++;
 	}
+	if (fmt->type == LOWP_ || fmt->type == HIGHP_)
+		fmt->prefixe = 2;
 }
 
 int		display_string(char *string, int index, int to)

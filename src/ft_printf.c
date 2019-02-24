@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/24 02:43:37 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/24 03:18:49 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,21 +126,24 @@ int		print_string(va_list list, t_fmt *fmt)
 	return (l + splice(string, fmt->precision, 0));
 }
 
-int print_prefixe(int type, int mode)
+static int		print_prefixe(int c)
 {
-	if (type == HIGHX_ || type == HIGHP_)
-		mode ? ft_putstr("0X") : NULL;
-	else if (type == LOWX_ || type == LOWP_)
-		mode ? ft_putstr("0x") : NULL;
-	else if (type == O_)
-		mode ? ft_putstr("0") : NULL;
-	if (type == HIGHX_ || type == HIGHP_ || type == LOWX_ || type == LOWP_)
-		return (2);
-	else if (type == O_)
-		return (1);
-	return (0);
-}
+	int i;
 
+	i = 0;
+	c = (c == LOWP_ || c == HIGHP_) ? LOWX_ : c;
+	if (c == O_ || c == LOWX_ || c == HIGHX_)
+	{
+		ft_putchar('0');
+		i++;
+	}
+	if (c == LOWX_ || c == HIGHX_)
+	{
+		ft_putchar( c == HIGHX_ ? 'X' :'x');
+		i++;
+	}
+	return (i);
+}
 int		print_numbers(t_fmt *fmt, char *str, int len)
 {
 	int ret;
@@ -150,7 +153,7 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 	{
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
 		if (fmt->prefixe)
-			ret = print_prefixe(fmt->type, 1);
+			ret = print_prefixe(fmt->type);
 		ft_repeat_char('0', fmt->precision);
 		ft_putstr(str);
 		ft_repeat_char(' ', len);
@@ -160,9 +163,9 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 		(~fmt->opt & ZERO) ? ft_repeat_char(' ', len) : 0;
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
 		if (fmt->prefixe)
-			ret = print_prefixe(fmt->type, 1);
+			ret = print_prefixe(fmt->type);
 		(fmt->opt & ZERO) ? ft_repeat_char('0', len) : 0;
-		ft_repeat_char('0', fmt->precision);
+		ft_repeat_char('&', fmt->precision);
 		ft_putstr(str);
 	}
 	len = len < 0 ? 0 : len;
@@ -181,7 +184,7 @@ int		handle_numbers(t_fmt *fmt, va_list ap)
 			fmt->prefixe = 0;
 		str[0] = '\0';
 	}
-	if (fmt->type != LOWP_ || fmt->type != HIGHP_)
+	if (fmt->type != LOWP_ && fmt->type != HIGHP_)
 		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
 	if (*str == '-')
 		fmt->signe = *(str++);
@@ -208,8 +211,6 @@ int	splice(char *string, int precision, int v)
 	v ? ft_putstr(l) : NULL;
 	return ((int)ft_strlen(l));
 }
-
-
 
 void	pf_putnbr(long long n)
 {
@@ -269,22 +270,33 @@ int				get_precision(char *str, t_fmt *fmt, va_list ap)
 	return (precision);
 }
 
-int		get_field(char *string, va_list ap)
+int		get_field(char *str, va_list ap)
 {
-	int n;
-	int i;
+	int width;
+	int temp;
 
-	(void)ap;
-	i = 1;
-	n = ft_indexof(string, '.');
-	while ((!ft_isdigit(string[i]) || string[i] == '0') && string[i])
-		(void)(string[i++]);
-	if (i >= n && ~n)
-		return (0);
-	n = 0;
-	while (ft_isdigit(string[n + i]) && string[i + n])
-		(void)(string[n++ + i]);
-	return (ft_atoi(ft_strsub(string, i, n)));
+	width = 0;
+	while (*str && !ft_strchr("diouxXcspfDOUb", *str))
+	{
+		if (*str == '.' && str++)
+		{
+			while (ft_isdigit(*str))
+				str++;
+			str += (*str == '*' && *(str - 1) == '.');
+			continue;
+		}
+		(*str == '*') && (width = va_arg(ap, int));
+		//(*str == '*') && (fmt->minus = width < 0 ? '-' : 0);
+		(*str == '*') && (width = ABS(width));
+		if (ft_isdigit(*str) && (temp = ft_atoi(str)))
+		{
+			width = temp;
+			while (ft_isdigit(*(str + 1)))
+				str++;
+		}
+		str++;
+	}
+	return (width);
 }
 
 int		get_length(char *s)

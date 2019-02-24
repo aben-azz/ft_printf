@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/15 21:28:23 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/24 02:32:23 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 t_ype g_type[] = {
 	{C_, &print_char},
 	{S_, &print_string},
-	{LOWP_, &print_pointer},
-	{HIGHP_, &print_pointer},
-	{F_, &print_float},
+	{LOWP_, &print_signed_integer},
+	{HIGHP_, &print_signed_integer},
+	{F_, &print_signed_integer},
 	{D_, &print_signed_integer},
 	{I_, &print_signed_integer},
-	{O_, &print_octal},
-	{U_, &print_unsigned_integer},
-	{HIGHX_, &print_hexadecimal},
-	{LOWX_, &print_hexadecimal},
+	{O_,&print_signed_integer},
+	{U_, &print_signed_integer},
+	{HIGHX_, &print_signed_integer},
+	{LOWX_, &print_signed_integer},
+	{B_, &print_signed_integer}
 };
 
 intmax_t		get_signed(t_fmt *fmt, va_list ap)
@@ -75,6 +76,7 @@ char *get_s(t_fmt *fmt, va_list ap)
 			fmt->type == HIGHP_) && (b = 16);
 	(fmt->type == HIGHX_ || fmt->type == HIGHP_) && (uppercase = 1);
 	(fmt->type == O_) && (b = 8);
+	(fmt->type == B_) && (b = 2);
 	if (fmt->type == F_)
 	{
 		if (fmt->length == LU_)
@@ -123,6 +125,7 @@ int		print_string(va_list list, t_fmt *fmt)
 	!(fmt->opt & SUB) ? splice(string, fmt->precision, 1) : 0;
 	return (l + splice(string, fmt->precision, 0));
 }
+
 int print_prefixe(int type, int mode)
 {
 	if (type == HIGHX_ || type == HIGHP_)
@@ -208,16 +211,6 @@ int	splice(char *string, int precision, int v)
 	return ((int)ft_strlen(l));
 }
 
-int		print_pointer(va_list list, t_fmt *fmt)
-{
-	return (handle_numbers(fmt, list));
-}
-
-int		print_float(va_list list, t_fmt *fmt)
-{
-	return (handle_numbers(fmt, list));
-}
-
 
 
 void	pf_putnbr(long long n)
@@ -230,21 +223,6 @@ void	pf_putnbr(long long n)
 	}
 	(n > 9) ? ft_putnbr(n / 10) : NULL;
 	ft_putchar(48 + n % 10);
-}
-
-int		print_unsigned_integer(va_list list, t_fmt *fmt)
-{
-	return (handle_numbers(fmt, list));
-}
-
-int		print_octal(va_list list, t_fmt *fmt)
-{
-	return (handle_numbers(fmt, list));
-}
-
-int		print_hexadecimal(va_list list, t_fmt *fmt)
-{
-	return (handle_numbers(fmt, list));
 }
 
 int		*count_flags(char *string, int index)
@@ -292,6 +270,7 @@ int				get_precision(char *str, t_fmt *fmt, va_list ap)
 		precision = 6;
 	return (precision);
 }
+
 int		get_field(char *string, va_list ap)
 {
 	int n;
@@ -464,9 +443,8 @@ int		parse(const char *format, va_list ap)
 	while (++i < length)
 	{
 		j = -1;
-		if (f[i].type == 1 << 30){
-			printf("Non reconnu\n");
-		}
+		if (f[i].type == 1 << 30)
+			(void)f;
 		else
 		{
 			while (g_type[++j].type)

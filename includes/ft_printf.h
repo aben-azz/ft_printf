@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 14:30:39 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/24 02:26:41 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspPfdiouXx"
+# define TYPES    "cspPfdiouXxb"
 # define LENGTH   "lhLzj"
 # define HASH     1 << 0
 # define ZERO     1 << 1
@@ -33,6 +33,7 @@
 # define U_       1 << 8
 # define HIGHX_   1 << 9
 # define LOWX_    1 << 10
+# define B_       1 << 11
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
@@ -78,6 +79,7 @@ int				print_signed_integer(va_list list, t_fmt *fmt);
 int				print_unsigned_integer(va_list list, t_fmt *fmt);
 int				print_octal(va_list list, t_fmt *fmt);
 int				print_hexadecimal(va_list list, t_fmt *fmt);
+int				print_binary(va_list list, t_fmt *fmt);
 void			display_fmt(t_fmt *fmt);
 int				splice(char *string, int precision, int v);
 int	intlen(long long len);

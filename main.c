@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/15 21:28:23 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/24 02:31:04 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,28 +108,29 @@ int		main(int argc, char **argv)
 	// int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
 	// int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
 	// printf("%d == %d && %d == %d\n", a, ap, b, bp);
-	// ft_printf("|%20p|\n", "xd");
-	// printf("|%20p|\n", "xd");
+	char *string = "|%5b|\n";
+	ft_printf(string, 10000);
+	printf(string, 10000);
 	// // printf(string, -5);
 	// ft_printf(string, 5);
 	//wchar_t t = L'\u00C6';
 	//wchar_t *star = L"0x26050x2605";
     //printf("\n");
 	// printf("OCTAL____\n");
-	    ft_printf ("printf1     :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n", 0,0,0,0,0);
-		   printf ("ft_printf1  :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n\n", 0,0,0,0,0);
-		//2
-	    ft_printf ("printf2     :|%#5o|%#5.3o|%#5.1o|%#5.0o|%#5.o|\n", 0,0,0,0,0);
-		   printf ("ft_printf2  :|%#5o|%#5.3o|%#5.1o|%#5.0o|%#5.o|\n\n", 0,0,0,0,0);
-		//3
-		ft_printf ("printf3     :|%-#5o|%-#5.3o|%-#5.1o|%-#5.0o|%-#5.o|\n", 0,0,0,0,0);
-		   printf ("ft_printf3  :|%-#5o|%-#5.3o|%-#5.1o|%-#5.0o|%-#5.o|\n\n", 0,0,0,0,0);
-		//4
-		ft_printf ("printf4     :|%0#5o|%0#5.3o|%0#5.1o|%0#5.0o|%0#5.o|\n", 0,0,0,0,0);
-		   printf ("ft_printf4  :|%0#5o|%0#5.3o|%0#5.1o|%0#5.0o|%0#5.o|\n\n", 0,0,0,0,0);
-		//5
-		ft_printf ("printf5     :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n", 0,0,0,0,0);
-		   printf ("ft_printf5  :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n\n", 0,0,0,0,0);
+	    // ft_printf ("printf1     :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n", 0,0,0,0,0);
+		//    printf ("ft_printf1  :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n\n", 0,0,0,0,0);
+		// //2
+	    // ft_printf ("printf2     :|%#5o|%#5.3o|%#5.1o|%#5.0o|%#5.o|\n", 0,0,0,0,0);
+		//    printf ("ft_printf2  :|%#5o|%#5.3o|%#5.1o|%#5.0o|%#5.o|\n\n", 0,0,0,0,0);
+		// //3
+		// ft_printf ("printf3     :|%-#5o|%-#5.3o|%-#5.1o|%-#5.0o|%-#5.o|\n", 0,0,0,0,0);
+		//    printf ("ft_printf3  :|%-#5o|%-#5.3o|%-#5.1o|%-#5.0o|%-#5.o|\n\n", 0,0,0,0,0);
+		// //4
+		// ft_printf ("printf4     :|%0#5o|%0#5.3o|%0#5.1o|%0#5.0o|%0#5.o|\n", 0,0,0,0,0);
+		//    printf ("ft_printf4  :|%0#5o|%0#5.3o|%0#5.1o|%0#5.0o|%0#5.o|\n\n", 0,0,0,0,0);
+		// //5
+		// ft_printf ("printf5     :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n", 0,0,0,0,0);
+		//    printf ("ft_printf5  :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n\n", 0,0,0,0,0);
 	//
 	// 	//HEXA\\
 	//

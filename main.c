@@ -108,14 +108,14 @@ int		main(int argc, char **argv)
 	// int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
 	// int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
 	// printf("%d == %d && %d == %d\n", a, ap, b, bp);
-	// char *string = "|%+c|\n";
-	// ft_printf(string, 0);
-	// printf(string, 0);
+	ft_printf("|%0#5.3o|\n", 0);
+	printf("|%0#5.3o|\n", 0);
 	// // printf(string, -5);
 	// ft_printf(string, 5);
 	//wchar_t t = L'\u00C6';
 	//wchar_t *star = L"0x26050x2605";
     //printf("\n");
+	printf("ZERO MON POTE ___________________________");
 	printf("OCTAL____\n");
 	    printf ("printf1     :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n", 0,0,0,0,0);
 		   ft_printf ("ft_printf1  :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n\n", 0,0,0,0,0);
@@ -219,6 +219,149 @@ int		main(int argc, char **argv)
 		//7
 		printf("printf7      :|% 03u|\n", 0);
 		ft_printf("ft_printf7   :|% 03u|\n", 0);
+		printf("FLOAT____\n");
+		    printf ("printf1     :|%5f|%5.3f|%5.1f|%5.0f|%5.f|\n", 0.0,0.0,0.0,0.0,0.0);
+			   ft_printf ("ft_printf1  :|%5f|%5.3f|%5.1f|%5.0f|%5.f|\n\n", 0.0,0.0,0.0,0.0,0.0);
+			//2
+		    printf ("printf2     :|%#5f|%#5.3f|%#5.1f|%#5.0f|%#5.f|\n", 0.0,0.0,0.0,0.0,0.0);
+			   ft_printf ("ft_printf2  :|%#5f|%#5.3f|%#5.1f|%#5.0f|%#5.f|\n\n", 0.0,0.0,0.0,0.0,0.0);
+			//3
+			printf ("printf3     :|%-#5f|%-#5.3f|%-#5.1f|%-#5.0f|%-#5.f|\n", 0.0,0.0,0.0,0.0,0.0);
+			   ft_printf ("ft_printf3  :|%-#5f|%-#5.3f|%-#5.1f|%-#5.0f|%-#5.f|\n\n", 0.0,0.0,0.0,0.0,0.0);
+			//4
+			printf ("printf4     :|%0#5f|%0#5.3f|%0#5.1f|%0#5.0f|%0#5.f|\n", 0.0,0.0,0.0,0.0,0.0);
+			   ft_printf ("ft_printf4  :|%0#5f|%0#5.3f|%0#5.1f|%0#5.0f|%0#5.f|\n\n", 0.0,0.0,0.0,0.0,0.0);
+			//5
+			printf ("printf5     :|%-0#5f|%-0#5.3f|%-0#5.1f|%-0#5.0f|%-0#5.f|\n", 0.0,0.0,0.0,0.0,0.0);
+			   ft_printf ("ft_printf5  :|%-0#5f|%-0#5.3f|%-0#5.1f|%-0#5.0f|%-0#5.f|\n\n", 0.0,0.0,0.0,0.0,0.0);
+
+
+
+
+
+printf("NOMBRE MON POTE_________________________________");
+
+int nombre = -185;
+printf("OCTAL____\n");
+		printf ("printf1     :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n", nombre,nombre,nombre,nombre,nombre);
+		 ft_printf ("ft_printf1  :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//2
+		printf ("printf2     :|%#5o|%#5.3o|%#5.1o|%#5.0o|%#5.o|\n", nombre,nombre,nombre,nombre,nombre);
+		 ft_printf ("ft_printf2  :|%#5o|%#5.3o|%#5.1o|%#5.0o|%#5.o|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//3
+	printf ("printf3     :|%-#5o|%-#5.3o|%-#5.1o|%-#5.0o|%-#5.o|\n", nombre,nombre,nombre,nombre,nombre);
+		 ft_printf ("ft_printf3  :|%-#5o|%-#5.3o|%-#5.1o|%-#5.0o|%-#5.o|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//4
+	printf ("printf4     :|%0#5o|%0#5.3o|%0#5.1o|%0#5.0o|%0#5.o|\n", nombre,nombre,nombre,nombre,nombre);
+		 ft_printf ("ft_printf4  :|%0#5o|%0#5.3o|%0#5.1o|%0#5.0o|%0#5.o|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//5
+	printf ("printf5     :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n", nombre,nombre,nombre,nombre,nombre);
+		 ft_printf ("ft_printf5  :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n\n", nombre,nombre,nombre,nombre,nombre);
+
+	//HEXA\\
+
+	//1
+	printf("HEX____\n");
+	printf ("printf1     :|%5x|%5.3x|%5.1x|%5.0x|%5.x|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf1  :|%5x|%5.3x|%5.1x|%5.0x|%5.x|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//2
+	printf ("printf2     :|%#5x|%#5.3x|%#5.1x|%#5.0x|%#5.x|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf2  :|%#5x|%#5.3x|%#5.1x|%#5.0x|%#5.x|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//3
+	printf ("printf3     :|%-#5x|%-#5.3x|%-#5.1x|%-#5.0x|%-#5.x|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf3  :|%-#5x|%-#5.3x|%-#5.1x|%-#5.0x|%-#5.x|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//4
+	printf ("printf4     :|%0#5x|%0#5.3x|%0#5.1x|%0#5.0x|%0#5.x|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf4  :|%0#5x|%0#5.3x|%0#5.1x|%0#5.0x|%0#5.x|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//5
+	printf ("printf5     :|%-0#5x|%-0#5.3x|%-0#5.1x|%-0#5.0x|%-0#5.x|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf5  :|%-0#5x|%-0#5.3x|%-0#5.1x|%-0#5.0x|%-0#5.x|\n\n", nombre,nombre,nombre,nombre,nombre);
+
+	//P\\
+
+	//1
+	printf("POINTER____\n");
+	printf ("printf1     :|%7p|%7.3p|%7.1p|%7.0p|%7.p|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf1  :|%7p|%7.3p|%7.1p|%7.0p|%7.p|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//2
+	printf ("printf2     :|%#7p|%#7.3p|%#7.1p|%#7.0p|%#7.p|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf2  :|%#7p|%#7.3p|%#7.1p|%#7.0p|%#7.p|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//3
+	printf ("printf3     :|%-#7p|%-#7.3p|%-#7.1p|%-#7.0p|%-#7.p|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf3  :|%-#7p|%-#7.3p|%-#7.1p|%-#7.0p|%-#7.p|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//4
+	printf ("printf4     :|%0#7p|%0#7.3p|%0#7.1p|%0#7.0p|%0#7.p|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf4  :|%0#7p|%0#7.3p|%0#7.1p|%0#7.0p|%0#7.p|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//5
+	printf ("printf5     :|%-0#7p|%-0#7.3p|%-0#7.1p|%-0#7.0p|%-0#7.p|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf5  :|%-0#7p|%-0#7.3p|%-0#7.1p|%-0#7.0p|%-0#7.p|\n\n", nombre,nombre,nombre,nombre,nombre);
+
+
+	//DECI\\
+
+	//1
+	printf("decimal____\n");
+	printf ("printf1     :|%+ 5d|%+ 5.3d|%+ 5.1d|%+ 5.0d|%+ 5.d|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf1  :|%+ 5d|%+ 5.3d|%+ 5.1d|%+ 5.0d|%+ 5.d|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//2
+	printf ("printf2     :|% 5d|% 5.3d|% 5.1d|% 5.0d|% 5.d|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf2  :|% 5d|% 5.3d|% 5.1d|% 5.0d|% 5.d|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//3
+	printf ("printf3     :|%-+5d|%-+5.3d|%-+5.1d|%-+5.0d|%-+5.d|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf3  :|%-+5d|%-+5.3d|%-+5.1d|%-+5.0d|%-+5.d|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//4
+	printf ("printf4     :|%0+5d|%0+5.3d|%0+5.1d|%0+5.0d|%0+5.d|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf4  :|%0+5d|%0+5.3d|%0+5.1d|%0+5.0d|%0+5.d|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//5
+	printf ("printf5     :|%-+05d|%-+05.3d|%-+05.1d|%-+05.0d|%-+05.d|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf5  :|%-+05d|%-+05.3d|%-+05.1d|%-+05.0d|%-+05.d|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//6
+	printf ("printf6     :|% 05d|% 05.3d|% 05.1d|% 05.0d|% 05.d|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf6  :|% 05d|% 05.3d|% 05.1d|% 05.0d|% 05.d|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//7
+	printf("printf7      :|% 03d|\n", nombre);
+	ft_printf("ft_printf7   :|% 03d|\n", nombre);
+
+	//unsigned\\
+	//1
+	printf("UNSIGNED____\n");
+	printf ("printf1     :|%+ 5u|%+ 5.3u|%+ 5.1u|%+ 5.0u|%+ 5.u|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf1  :|%+ 5u|%+ 5.3u|%+ 5.1u|%+ 5.0u|%+ 5.u|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//2
+	printf ("printf2     :|% 5u|% 5.3u|% 5.1u|% 5.0u|% 5.u|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf2  :|% 5u|% 5.3u|% 5.1u|% 5.0u|% 5.u|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//3
+	printf ("printf3     :|%-+5u|%-+5.3u|%-+5.1u|%-+5.0u|%-+5.u|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf3  :|%-+5u|%-+5.3u|%-+5.1u|%-+5.0u|%-+5.u|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//4
+	printf ("printf4     :|%0+5u|%0+5.3u|%0+5.1u|%0+5.0u|%0+5.u|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf4  :|%0+5u|%0+5.3u|%0+5.1u|%0+5.0u|%0+5.u|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//5
+	printf ("printf5     :|%-+05u|%-+05.3u|%-+05.1u|%-+05.0u|%-+05.u|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf5  :|%-+05u|%-+05.3u|%-+05.1u|%-+05.0u|%-+05.u|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//6
+	printf ("printf6     :|% 05u|% 05.3u|% 05.1u|% 05.0u|% 05.u|\n", nombre,nombre,nombre,nombre,nombre);
+	ft_printf ("ft_printf6  :|% 05u|% 05.3u|% 05.1u|% 05.0u|% 05.u|\n\n", nombre,nombre,nombre,nombre,nombre);
+	//7
+	printf("printf7      :|% 03u|\n", nombre);
+	ft_printf("ft_printf7   :|% 03u|\n", nombre);
+	nombre = -185.6568;
+	printf("FLOAT____\n");
+			printf ("printf1     :|%5f|%5.3f|%5.1f|%5.0f|%5.f|\n", nombre,nombre,nombre,nombre,nombre);
+			 ft_printf ("ft_printf1  :|%5f|%5.3f|%5.1f|%5.0f|%5.f|\n\n", nombre,nombre,nombre,nombre,nombre);
+		//2
+			printf ("printf2     :|%#5f|%#5.3f|%#5.1f|%#5.0f|%#5.f|\n", nombre,nombre,nombre,nombre,nombre);
+			 ft_printf ("ft_printf2  :|%#5f|%#5.3f|%#5.1f|%#5.0f|%#5.f|\n\n", nombre,nombre,nombre,nombre,nombre);
+		//3
+		printf ("printf3     :|%-#5f|%-#5.3f|%-#5.1f|%-#5.0f|%-#5.f|\n", nombre,nombre,nombre,nombre,nombre);
+			 ft_printf ("ft_printf3  :|%-#5f|%-#5.3f|%-#5.1f|%-#5.0f|%-#5.f|\n\n", nombre,nombre,nombre,nombre,nombre);
+		//4
+		printf ("printf4     :|%0#5f|%0#5.3f|%0#5.1f|%0#5.0f|%0#5.f|\n", nombre,nombre,nombre,nombre,nombre);
+			 ft_printf ("ft_printf4  :|%0#5f|%0#5.3f|%0#5.1f|%0#5.0f|%0#5.f|\n\n", nombre,nombre,nombre,nombre,nombre);
+		//5
+		printf ("printf5     :|%-0#5f|%-0#5.3f|%-0#5.1f|%-0#5.0f|%-0#5.f|\n", nombre,nombre,nombre,nombre,nombre);
+			 ft_printf ("ft_printf5  :|%-0#5f|%-0#5.3f|%-0#5.1f|%-0#5.0f|%-0#5.f|\n\n", nombre,nombre,nombre,nombre,nombre);
+
 	return (0);
 }
 /*
@@ -231,7 +374,7 @@ gerer les fields negatives pour %scf
 037777777775|
 |        037777777775|
 */
-// {3, 10, 7}
+// {3, 10.0, 7}
 // |          0000000156|
 // |          0000000156|
 // {11, 7, 0}

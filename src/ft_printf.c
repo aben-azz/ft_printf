@@ -146,6 +146,7 @@ static int		print_prefixe(int c)
 }
 int		print_numbers(t_fmt *fmt, char *str, int len)
 {
+	//printf("{%d,%d}\n", len, fmt->precision);
 	int ret;
 
 	ret = 0;
@@ -160,12 +161,22 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 	}
 	else
 	{
-		(~fmt->opt & ZERO) ? ft_repeat_char(' ', len) : 0;
+		//printf("@\n");
+		if(~fmt->opt & ZERO)
+		{
+			 ft_repeat_char(' ', len);
+		}
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		//printf("@\n");
 		if (fmt->prefixe)
 			ret = print_prefixe(fmt->type);
-		(fmt->opt & ZERO) ? ft_repeat_char('0', len) : 0;
-		ft_repeat_char('&', fmt->precision);
+		//printf("@\n");
+		if(fmt->opt & ZERO)
+		{
+			ft_repeat_char('0', len);
+		}
+		//printf("@\n");
+		ft_repeat_char('0', fmt->precision);
 		ft_putstr(str);
 	}
 	len = len < 0 ? 0 : len;
@@ -180,6 +191,7 @@ int		handle_numbers(t_fmt *fmt, va_list ap)
 	str = get_s(fmt, ap);
 	if (!fmt->precision && str[0] == '0' && fmt->type != F_)
 	{
+		//printf("L\n");
 		if (fmt->type == HIGHX_ || fmt->type == LOWX_)
 			fmt->prefixe = 0;
 		str[0] = '\0';
@@ -200,6 +212,7 @@ int		handle_numbers(t_fmt *fmt, va_list ap)
 
 int		print_signed_integer(va_list list, t_fmt *fmt)
 {
+	(fmt->type != F_ && ~fmt->precision) && (fmt->opt &= ~(ZERO));
 	return (handle_numbers(fmt, list));
 }
 
@@ -489,3 +502,20 @@ int		ft_printf(const char *format, ...)
 	//printf("Longueur de %d\n", length);
 	return (length);
 }
+/*
+|     +10|
+|        +10|
+gerer les fields negatives pour %scf
+|{3, 13, 7}             0000000156|
+|{3, 13, 7}          0000000156|
+|{11, -2, 0}
+037777777775|
+|        037777777775|
+*/
+// {3, 10, 7}
+// |          0000000156|
+// |          0000000156|
+// {11, 7, 0}
+// |
+// |       037777777775|
+// |        037777777775|

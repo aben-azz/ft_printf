@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:27:44 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 09:50:33 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 09:56:19 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,31 @@ int			handle_char(va_list list, t_fmt *fmt)
 
 int			handle_string(va_list list, t_fmt *fmt)
 {
-	int		l;
-	char	*string;
+	char	*str;
+	int		ret;
 
-	l = 0;
-	string = va_arg(list, char*);
-	string = !string ? "(null)" : string;
-	fmt->opt & SUB ? splice(string, fmt->prec, 1) : 0;
-	l += ft_repeat_char(fmt->opt & ZERO && (~fmt->opt & SUB) ? '0' : ' ',
-		fmt->field - splice(string, fmt->prec, 0));
-	l = ft_max(l, 0);
-	!(fmt->opt & SUB) ? splice(string, fmt->prec, 1) : 0;
-	return (l + splice(string, fmt->prec, 0));
+	str = va_arg(ap, char*);
+	str = !str ? "(null)" : str;
+	if (fmt->precision >= 0 && ((size_t)fmt->precision < ft_strlen(str)))
+	{
+		str = ft_strsub(str, 0, (size_t)fmt->precision);
+		fmt->precision = -5;
+	}
+	str == NULL ? exit(1) : NULL;
+	ret = ft_strlen(str);
+	if (fmt->opt & SUB)
+	{
+		ft_putstr(str);
+		ft_nputchar(' ', fmt->width - ret);
+	}
+	else
+	{
+		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - ret);
+		ft_putstr(str);
+	}
+	if (fmt->precision == -5)
+		ft_strdel(&str);
+	return (ret < fmt->width ? fmt->width : ret);
 }
 
 int			handle_array(va_list list, t_fmt *fmt)

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 01:05:30 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 02:33:22 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +108,16 @@ int		main(int argc, char **argv)
 	// int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
 	// int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
 	// printf("%d == %d && %d == %d\n", a, ap, b, bp);
-	// int *array;
-	// array = malloc(sizeof(int) * 2);
-	// array[0] = 125;
-	// array[1] = 126;
+	int *array = malloc(sizeof(int) * 2);
+	array[0] = 125;
+	array[1] = 126;
 	//
-	// char **string = malloc(sizeof(char*) * 3);
-	// string[0] = "coucou";
-	// string[1] = "xdddd";
-	// string[2] = "xddddlol";
-	// ft_printf("%v\n", array, 2, ", ");
+	char **string = malloc(sizeof(char*) * 3);
+	string[0] = "coucou";
+	string[1] = "xdddd";
+	string[2] = "xddddlol";
+	//ft_printf("%v\n", array, 2, ", ");
+	ft_printf("e%f e%se||| %r//%v", 10.656456, "stirng", string, 3, ", ", array, 2, "|");
 	// ft_printf("%r\n", string, 3, "|");
 	//printf("|%0#5.3v|\n", 0);
 	// // printf(string, -5);

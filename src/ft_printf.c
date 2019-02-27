@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 00:57:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 02:33:21 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 t_ype g_type[] = {
 	{C_, &handle_char},
+	{PERCENT_, &handle_char},
 	{S_, &handle_string},
 	{LOWP_, &handle_number},
 	{HIGHP_, &handle_number},
@@ -101,15 +102,24 @@ char *get_s(t_fmt *fmt, va_list ap)
 
 int		handle_char(va_list list, t_fmt *fmt)
 {
-	int		l;
-	char	n;
 
-	n = (char)va_arg(list, int);
-	l = 0;
-	fmt->opt & SUB ? ft_putchar(n) : NULL;
-	l += ft_repeat_char(fmt->opt & ZERO ? '0' : ' ', fmt->field - 1);
-	!(fmt->opt & SUB) ? ft_putchar(n) : NULL;
-	return (l + 1);
+	char	c;
+
+	if (fmt->type == C_)
+		c = (char)va_arg(list, int);
+	else
+		c = '%';
+	if (fmt->opt & SUB)
+	{
+		ft_putchar(c);
+		ft_repeat_char(' ', fmt->field - 1);
+	}
+	else
+	{
+		ft_repeat_char(fmt->opt & ZERO ? '0' : ' ', fmt->field - 1);
+		ft_putchar(c);
+	}
+	return (fmt->field > 0 ? fmt->field : 1);
 }
 
 int		handle_string(va_list list, t_fmt *fmt)
@@ -163,7 +173,7 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 	}
 	else
 	{
-		//printf("@\n");
+
 		if(~fmt->opt & ZERO)
 		{
 			 ft_repeat_char(' ', len);
@@ -179,6 +189,9 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 		}
 		//printf("@\n");
 		ft_repeat_char('0', fmt->precision);
+
+
+
 		ft_putstr(str);
 	}
 	len = len < 0 ? 0 : len;
@@ -189,6 +202,7 @@ int		handle_number(va_list ap, t_fmt *fmt )
 {
 	char		*str;
 	int			len;
+
 
 	(fmt->type != F_ && ~fmt->precision) && (fmt->opt &= ~(ZERO));
 	str = get_s(fmt, ap);
@@ -207,7 +221,6 @@ int		handle_number(va_list ap, t_fmt *fmt )
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
 	len = fmt->field - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
 	len -= fmt->prefixe;
-
 	len = print_numbers(fmt, str, len);
 	fmt->signe == '-' ? free(--str) : ft_strdel(&str);
 
@@ -283,7 +296,7 @@ int				get_precision(char *str, t_fmt *fmt, va_list ap)
 	int point;
 
 	point = 0;
-	while (*str && !ft_strchr("diouxXcspfDOUb", *str))
+	while (*str && !ft_strchr("diouxXcspfDOUbvr%", *str))
 	{
 		if (*str == '.' && (point = 1) && str++)
 		{
@@ -312,7 +325,7 @@ int		get_field(char *str, va_list ap)
 	int temp;
 
 	width = 0;
-	while (*str && !ft_strchr("diouxXcspfDOUb", *str))
+	while (*str && !ft_strchr("diouxXcspfDOUbvr%", *str))
 	{
 		if (*str == '.' && str++)
 		{
@@ -350,8 +363,13 @@ int		get_length(char *s)
 		return (-1);
 }
 
-int		get_type(char *str, int i)
+int		get_type(char *str)
 {
+	int i;
+
+	i = 0;
+	while (!~ft_indexof("diouxXcspfDOUbvr%", str[i]))
+		i++;
 	return (1 << (ft_indexof(TYPES, str[i]) - 1));
 }
 
@@ -363,40 +381,6 @@ int		get_string(char *string)
 	while (!~ft_indexof(TYPES, string[i++]) && string[i])
 		(void)i;
 	return (i);
-}
-
-void	get_options(char *str, t_fmt *fmt, va_list ap)
-{
-	fmt->length = get_length(str);
-	fmt->field = get_field(str, ap);
-	fmt->string = str;
-	fmt->index = get_string(str);
-	fmt->type = get_type(str, fmt->index - 1);
-	fmt->precision = get_precision(str, fmt, ap);
-	fmt->prefixe = 0;
-	fmt->opt = 0;
-	while (*str && !~ft_indexof("diouxXcspfDOUb", *str))
-	{
-		if (*str == '0' && !ft_isdigit(*(str - 1)) && *(str - 1) != '.')
-			fmt->opt |= ZERO;
-		if (*str == ' ' && !fmt->signe && (fmt->type >= F_ && fmt->type <= I_))
-			fmt->signe = ' ';
-		if (*str == '+' && (fmt->type >= F_ && fmt->type <= I_))
-			fmt->signe = '+';
-		if (*str == '#')
-			fmt->opt |= HASH;
-		if (*str == '-')
-		{
-			(fmt->opt |= SUB);
-		}
-		if (*str == '#' && (fmt->type== O_ || fmt->type== F_))
-			fmt->prefixe = 1;
-		if ((*str == '#' && (fmt->type== LOWX_ || fmt->type== HIGHX_)))
-			fmt->prefixe = 2;
-		str++;
-	}
-	if (fmt->type == LOWP_ || fmt->type == HIGHP_)
-		fmt->prefixe = 2;
 }
 
 int		display_string(char *string, int index, int to)
@@ -453,92 +437,154 @@ void	display_fmt(t_fmt *format)
 	(format->opt & SPACE) && printf("SPACE\n");
 	printf("Precision de |%d|\n", format->precision);
 	printf("Champs de |%d|\n", format->field);
-	printf("String |%s|\n", format->string);
 	printf("Index de |%d|\n", format->index);
 	printf("FORMAT____________________\n");
 }
 
-t_fmt	*get_flags(char *s, int n, va_list ap)
+// t_fmt	*get_flags(char *s, int n, va_list ap)
+// {
+// 	int		i;
+// 	int		next;
+// 	int		j;
+// 	t_fmt	*flags;
+//
+// 	j = 0;
+// 	if (!(flags = ft_memalloc(sizeof(t_fmt) * n)) || !n)
+// 		return (0);
+// 	i = count_flags(s, 0)[0];
+// 	i && display_string(s, 0, i);
+// 	while (n-- > 0)
+// 	{
+// 		next = count_flags(s, i + 1)[0];
+// 		get_options(ft_strsub(s, i,
+// 			!n ? (int)ft_strlen(s) - i : next - i), &flags[j++], ap);
+// 		i += (next - i);
+// 	}
+// 	return (flags);
+// }
+int			check_conversion(char **str)
 {
-	int		i;
-	int		next;
-	int		j;
-	t_fmt	*flags;
-
-	j = 0;
-	if (!(flags = ft_memalloc(sizeof(t_fmt) * n)) || !n)
-		return (0);
-	i = count_flags(s, 0)[0];
-	i && display_string(s, 0, i);
-	while (n-- > 0)
+	while (**str && !ft_strchr("diouxXcspfDOUbvr%", **str))
 	{
-		next = count_flags(s, i + 1)[0];
-		get_options(ft_strsub(s, i,
-			!n ? (int)ft_strlen(s) - i : next - i), &flags[j++], ap);
-		i += (next - i);
+		if (!ft_strchr("-+ #0lLhzj*.", **str) && !ft_isdigit(**str))
+			return (0);
+		(*str)++;
 	}
-	return (flags);
+	if (!(**str))
+		return (0);
+	(*str)++;
+	return (1);
 }
-
-int		parse(const char *format, va_list ap)
+t_fmt	*get_options(char *str, va_list ap)
 {
-	int i = -1;
-	int length = 0;
+	//printf("str: {%s}\n", str);
+	t_fmt *fmt;
+	if (!(fmt = (t_fmt *)malloc(sizeof(t_fmt))))
+		exit(1);
+	fmt->length = get_length(str);
+	fmt->field = get_field(str, ap);
+	fmt->type = get_type(str);
+	fmt->precision = get_precision(str, fmt, ap);
+	fmt->prefixe = 0;
+	fmt->opt = 0;
+	fmt->signe = 0;
+	while (*str && !~ft_indexof("diouxXcspfDOUbvr%", *str))
+	{
+		if (*str == '0' && !ft_isdigit(*(str - 1)) && *(str - 1) != '.')
+			fmt->opt |= ZERO;
+		if (*str == ' ' && !fmt->signe && (fmt->type >= F_ && fmt->type <= I_))
+			fmt->signe = ' ';
+		if (*str == '+' && (fmt->type >= F_ && fmt->type <= I_))
+			fmt->signe = '+';
+		if (*str == '#')
+			fmt->opt |= HASH;
+		if (*str == '-')
+		{
+			(fmt->opt |= SUB);
+		}
+		if (*str == '#' && (fmt->type== O_ || fmt->type== F_))
+			fmt->prefixe = 1;
+		if ((*str == '#' && (fmt->type== LOWX_ || fmt->type== HIGHX_)))
+			fmt->prefixe = 2;
+		str++;
+	}
+	if (fmt->type == LOWP_ || fmt->type == HIGHP_)
+		fmt->prefixe = 2;
+	return fmt;
+}
+int		parse(char *str, va_list ap)
+{
+	// int i = -1;
+	// int length = 0;
 	int j;
-	t_fmt *f;
-	int l = 0;
-	length = count_flags((char*)format, 0)[1];
-	f = get_flags((char*)format, length, ap);
-	j = count_flags((char*)format, 0)[0];
-	l += j ? splice((char*)format, j, 0) : 0;
-	if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
-		return (display_string((char*)format, 0, -1));
-	while (++i < length)
+	// t_fmt *f;
+	// int l = 0;
+	// length = count_flags((char*)format, 0)[1];
+	// f = get_flags((char*)format, length, ap);
+	// j = count_flags((char*)format, 0)[0];
+	// l += j ? splice((char*)format, j, 0) : 0;
+	// if (!(count_flags((char*)format, 0)[0] + count_flags((char*)format, 0)[1]))
+	// 	return (display_string((char*)format, 0, -1));
+	// while (++i < length)
+	// {
+	// 	j = -1;
+	// 	if (f[i].type == 1 << 30)
+	// 		(void)f;
+	// 	else
+	// 	{
+	// 		while (g_type[++j].type)
+	// 		{
+	// 			if (g_type[j].type == f[i].type)
+	// 			{
+	// 				l += g_type[j].function ? g_type[j].function(ap, &f[i]) : 0;
+	// 				l += display_string(f[i].string, f[i].index, -1);
+	// 				break ;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	t_fmt	*fmt;
+	int			ret;
+
+	ret = 0;
+	while (*str)
 	{
 		j = -1;
-		if (f[i].type == 1 << 30)
-			(void)f;
-		else
+		//printf("char: %c\n", *str);
+		if (*str == '%')
 		{
-			while (g_type[++j].type)
+			fmt = get_options(++str, ap);
+			if (check_conversion(&str))
 			{
-				if (g_type[j].type == f[i].type)
+				while (g_type[++j].type)
 				{
-					l += g_type[j].function ? g_type[j].function(ap, &f[i]) : 0;
-					l += display_string(f[i].string, f[i].index, -1);
-					break ;
+					if (g_type[j].type == fmt->type)
+					{
+						//display_fmt(fmt);
+						ret += g_type[j].function ? g_type[j].function(ap, fmt) : 0;
+						break ;
+					}
 				}
+				free(fmt);
 			}
 		}
+		else
+		{
+			//printf("lol\n");
+			write(1, str++, 1);
+			ret++;
+		}
 	}
-	return (l);
+	return (ret);
 }
 
 int		ft_printf(const char *format, ...)
 {
 	int		length;
 	va_list	ap;
-
 	va_start(ap, format);
-	length = parse(format, ap);
+	length = parse((char *)format, ap);
 	va_end(ap);
 	//printf("Longueur de %d\n", length);
 	return (length);
 }
-/*
-|     +10|
-|        +10|
-gerer les fields negatives pour %scf
-|{3, 13, 7}             0000000156|
-|{3, 13, 7}          0000000156|
-|{11, -2, 0}
-037777777775|
-|        037777777775|
-*/
-// {3, 10, 7}
-// |          0000000156|
-// |          0000000156|
-// {11, 7, 0}
-// |
-// |       037777777775|
-// |        037777777775|

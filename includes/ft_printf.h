@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 00:54:09 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 02:21:45 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspPfdiouXxbvr"
+# define TYPES    "cspPfdiouXxbvr%"
 # define LENGTH   "lhLzj"
+# define pf printf
 # define HASH     1 << 0
 # define ZERO     1 << 1
 # define SUB      1 << 2
@@ -36,6 +37,7 @@
 # define B_       1 << 11
 # define V_       1 << 12
 # define R_       1 << 13
+# define PERCENT_ 1 << 14
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
@@ -70,8 +72,8 @@ int				*count_flags(char *string, int index);
 int		get_precision(char *string, t_fmt *fmt, va_list ap);
 int		get_field(char *string, va_list ap);
 int				get_length(char *s);
-int				get_type(char *str, int index);
-void			get_options(char *str, t_fmt *fmt, va_list ap);
+int				get_type(char *str);
+t_fmt			*get_options(char *str, va_list ap);
 int				display_string(char *string, int index, int to);
 void			view_fmt(t_fmt *flags, int length);
 int				handle_char(va_list list, t_fmt *fmt);

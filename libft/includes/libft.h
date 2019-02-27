@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/12 13:52:40 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 10:58:57 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void			ft_lstadd(t_list **alst, t_list *new);
 int				get_next_line(int fd, char **line, char separator);
 int				is_even(int number);
 int				abs(int n);
+int				ft_counti(char *string, char c, int i);
 t_bits			get_bit(t_bits i, t_bits n);
 t_bits			rev_bit(t_bits i, t_bits n);
 t_bits			up_bit(t_bits i, t_bits n);

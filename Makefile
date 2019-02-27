@@ -6,7 +6,7 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/02/27 05:27:36 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/02/27 09:33:43 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CFLAGS			+=	-Wall -Werror -Wextra
 LIBFT_PATH		?=	./libft/
 LIBFT_NAME		=	libft.a
 SRC_PATH		=	./src/
-SRC_NAME		=	ft_printf.c
+SRC_NAME		=	ft_printf.c geters.c handle_numbers.c special.c
 MSG				=	Compilation de ft_printf:
 SRC				=	$(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ_PATH		=	./obj/

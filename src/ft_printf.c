@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 02:33:21 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 07:53:49 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,27 @@
 #include "ft_printf.h"
 
 t_ype g_type[] = {
-	{C_, &handle_char},
-	{PERCENT_, &handle_char},
-	{S_, &handle_string},
-	{LOWP_, &handle_number},
-	{HIGHP_, &handle_number},
-	{F_, &handle_number},
-	{D_, &handle_number},
-	{I_, &handle_number},
-	{O_,&handle_number},
-	{U_, &handle_number},
-	{HIGHX_, &handle_number},
-	{LOWX_, &handle_number},
-	{B_, &handle_number},
-	{V_, &handle_array},
-	{R_, &handle_array}
+	{'c', &handle_char},
+	{'%', &handle_char},
+	{'s', &handle_string},
+	{'p', &handle_number},
+	{'P', &handle_number},
+	{'f', &handle_number},
+	{'F', &handle_number},
+	{'d', &handle_number},
+	{'D', &handle_number},
+	{'i', &handle_number},
+	{'I', &handle_number},
+	{'o', &handle_number},
+	{'O', &handle_number},
+	{'u', &handle_number},
+	{'U', &handle_number},
+	{'X', &handle_number},
+	{'x', &handle_number},
+	{'b', &handle_number},
+	{'B', &handle_number},
+	{'v', &handle_array},
+	{'r', &handle_array}
 };
 
 intmax_t		get_signed(t_fmt *fmt, va_list ap)
@@ -51,8 +57,7 @@ intmax_t		get_signed(t_fmt *fmt, va_list ap)
 
 uintmax_t		get_unsigned(t_fmt *fmt, va_list ap)
 {
-	if (fmt->length == L_ || fmt->length == LL_ || fmt->type == LOWP_
-			|| fmt->type == HIGHP_)
+	if (fmt->length == L_ || fmt->length == LL_ || ~ft_indexof("pP", fmt->type))
 		return (va_arg(ap, unsigned long long));
 	else if (fmt->length == H_)
 		return ((unsigned short)va_arg(ap, unsigned long long));
@@ -72,15 +77,16 @@ char *get_s(t_fmt *fmt, va_list ap)
 	char *str;
 	char b;
 	char uppercase;
+	char *temp;
 
+	temp = NULL;
 	uppercase = 0;
 	b = 10;
-	(fmt->type == HIGHX_ || fmt->type == LOWX_ || fmt->type == LOWP_ ||
-			fmt->type == HIGHP_) && (b = 16);
-	(fmt->type == HIGHX_ || fmt->type == HIGHP_) && (uppercase = 1);
-	(fmt->type == O_) && (b = 8);
-	(fmt->type == B_) && (b = 2);
-	if (fmt->type == F_)
+	(~ft_indexof("xXpP", fmt->type)) && (b = 16);
+	(~ft_indexof("XP", fmt->type)) && (uppercase = 1);
+	(~ft_indexof("oO", fmt->type)) && (b = 8);
+	(~ft_indexof("bB", fmt->type)) && (b = 2);
+	if (fmt->type == 'f')
 	{
 		if (fmt->length == LU_)
 			str = ft_ftoa(va_arg(ap, long double),
@@ -88,10 +94,13 @@ char *get_s(t_fmt *fmt, va_list ap)
 		else
 			str = ft_ftoa(va_arg(ap, double),
 				!~fmt->precision ? 6 : fmt->precision);
+		if (str && fmt->prefixe && !ft_strchr(str, '.') && (temp = str))
+			str = ft_strjoin(str, ".");
+		ft_strdel(&temp);
 	}
 	else
 	{
-		if (fmt->type == D_ || fmt->type == I_)
+		if (~ft_indexof("DdIi", fmt->type))
 			str = ft_itoa_base(get_signed(fmt, ap), b, uppercase);
 		else
 			str = ft_utoa_base(get_unsigned(fmt, ap), b, uppercase);
@@ -105,7 +114,7 @@ int		handle_char(va_list list, t_fmt *fmt)
 
 	char	c;
 
-	if (fmt->type == C_)
+	if (fmt->type == 'c')
 		c = (char)va_arg(list, int);
 	else
 		c = '%';
@@ -143,15 +152,15 @@ static int		print_prefixe(int c)
 	int i;
 
 	i = 0;
-	c = (c == LOWP_ || c == HIGHP_) ? LOWX_ : c;
-	if (c == O_ || c == LOWX_ || c == HIGHX_)
+	c = (~ft_indexof("pP", c)) ? "xX"[c == 'P'] : c;
+	if (~ft_indexof("oOxX", c))
 	{
 		ft_putchar('0');
 		i++;
 	}
-	if (c == LOWX_ || c == HIGHX_)
+	if (~ft_indexof("xX", c))
 	{
-		ft_putchar( c == HIGHX_ ? 'X' :'x');
+		ft_putchar("Xx"[c == 'x']);
 		i++;
 	}
 	return (i);
@@ -203,16 +212,15 @@ int		handle_number(va_list ap, t_fmt *fmt )
 	char		*str;
 	int			len;
 
-
-	(fmt->type != F_ && ~fmt->precision) && (fmt->opt &= ~(ZERO));
+	(!~ft_indexof("fF", fmt->type) && ~fmt->precision) && (fmt->opt &= ~(ZERO));
 	str = get_s(fmt, ap);
-	if (!fmt->precision && str[0] == '0' && fmt->type != F_)
+	if (!fmt->precision && str[0] == '0' && !~ft_indexof("fF", fmt->type))
 	{
-		if (fmt->type == HIGHX_ || fmt->type == LOWX_)
+		if (~ft_indexof("Xx", fmt->type))
 			fmt->prefixe = 0;
 		str[0] = '\0';
 	}
-	if (fmt->type != LOWP_ && fmt->type != HIGHP_)
+	if (!~ft_indexof("Pp", fmt->type))
 		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
 	if (*str == '-')
 		fmt->signe = *(str++);
@@ -223,7 +231,6 @@ int		handle_number(va_list ap, t_fmt *fmt )
 	len -= fmt->prefixe;
 	len = print_numbers(fmt, str, len);
 	fmt->signe == '-' ? free(--str) : ft_strdel(&str);
-
 	return (len);
 }
 
@@ -235,7 +242,7 @@ int		handle_array(va_list list, t_fmt *fmt)
 	char	*separator;
 	int		number;
 
-	if (fmt->type == V_)
+	if (fmt->type == 'v')
 		array = va_arg(list, int *);
 	else
 		string = va_arg(list, char **);
@@ -246,7 +253,7 @@ int		handle_array(va_list list, t_fmt *fmt)
 	separator = va_arg(list, char *);
 	while (i < number)
 	{
-		fmt->type == V_ ? ft_putnbr(array[i++]) : ft_putstr(string[i++]);
+		fmt->type == 'v' ? ft_putnbr(array[i++]) : ft_putstr(string[i++]);
 		i != number ? ft_putstr(separator) : 0;
 	}
 	return (0);
@@ -296,7 +303,7 @@ int				get_precision(char *str, t_fmt *fmt, va_list ap)
 	int point;
 
 	point = 0;
-	while (*str && !ft_strchr("diouxXcspfDOUbvr%", *str))
+	while (*str && !~ft_indexof(TYPES, *str))
 	{
 		if (*str == '.' && (point = 1) && str++)
 		{
@@ -314,7 +321,7 @@ int				get_precision(char *str, t_fmt *fmt, va_list ap)
 		str++;
 	}
 	(!point) && (precision = -1);
-	if (!point && fmt->type == F_)
+	if (!point && ~ft_indexof("fF", fmt->type))
 		precision = 6;
 	return (precision);
 }
@@ -325,7 +332,7 @@ int		get_field(char *str, va_list ap)
 	int temp;
 
 	width = 0;
-	while (*str && !ft_strchr("diouxXcspfDOUbvr%", *str))
+	while (*str && !~ft_indexof(TYPES, *str))
 	{
 		if (*str == '.' && str++)
 		{
@@ -363,14 +370,15 @@ int		get_length(char *s)
 		return (-1);
 }
 
-int		get_type(char *str)
+char		get_type(char *str)
 {
 	int i;
 
 	i = 0;
-	while (!~ft_indexof("diouxXcspfDOUbvr%", str[i]))
+	while (!~ft_indexof(TYPES, str[i]))
 		i++;
-	return (1 << (ft_indexof(TYPES, str[i]) - 1));
+	//return (1 << (ft_indexof(TYPES, str[i]) - 1));
+	return (str[i]);
 }
 
 int		get_string(char *string)
@@ -418,17 +426,17 @@ void	display_fmt(t_fmt *format)
 	format->length == H_ && printf("H\n");
 	format->length == HH_ && printf("HH\n");
 	format->length == LU_ && printf("LU\n");
-	C_ == format->type && printf("C\n");
-	S_ == format->type && printf("S\n");
-	LOWP_ == format->type && printf("p\n");
-	HIGHP_ == format->type && printf("P\n");
-	F_ == format->type && printf("F\n");
-	D_ == format->type && printf("D\n");
-	I_ == format->type && printf("I\n");
-	U_ == format->type && printf("U\n");
-	HIGHX_ == format->type && printf("X\n");
-	O_ == format->type && printf("O\n");
-	LOWX_ == format->type && printf("x\n");
+	'c' == format->type && printf("C\n");
+	's' == format->type && printf("S\n");
+	'p' == format->type && printf("p\n");
+	'P' == format->type && printf("P\n");
+	'f' == format->type && printf("F\n");
+	'd' == format->type && printf("D\n");
+	'i' == format->type && printf("I\n");
+	'u' == format->type && printf("U\n");
+	'X' == format->type && printf("X\n");
+	'o' == format->type && printf("O\n");
+	'x' == format->type && printf("x\n");
 	printf("format de %d\n", format->opt);
 	(format->opt & HASH) && printf("#\n");
 	(format->opt & SUB) && printf("-\n");
@@ -464,9 +472,9 @@ void	display_fmt(t_fmt *format)
 // }
 int			check_conversion(char **str)
 {
-	while (**str && !ft_strchr("diouxXcspfDOUbvr%", **str))
+	while (**str && !~ft_indexof(TYPES, **str))
 	{
-		if (!ft_strchr("-+ #0lLhzj*.", **str) && !ft_isdigit(**str))
+		if (!~ft_indexof("-+ #0lLhzj*.", **str) && !ft_isdigit(**str))
 			return (0);
 		(*str)++;
 	}
@@ -484,17 +492,22 @@ t_fmt	*get_options(char *str, va_list ap)
 	fmt->length = get_length(str);
 	fmt->field = get_field(str, ap);
 	fmt->type = get_type(str);
+	if (~ft_indexof("DOU", fmt->type))
+	{
+		fmt->length = L_;
+		fmt->type = ft_tolower(fmt->type);
+	}
 	fmt->precision = get_precision(str, fmt, ap);
 	fmt->prefixe = 0;
 	fmt->opt = 0;
 	fmt->signe = 0;
-	while (*str && !~ft_indexof("diouxXcspfDOUbvr%", *str))
+	while (*str && !~ft_indexof(TYPES, *str))
 	{
 		if (*str == '0' && !ft_isdigit(*(str - 1)) && *(str - 1) != '.')
 			fmt->opt |= ZERO;
-		if (*str == ' ' && !fmt->signe && (fmt->type >= F_ && fmt->type <= I_))
+		if (*str == ' ' && !fmt->signe && (~ft_indexof("FfiIdD", fmt->type)))
 			fmt->signe = ' ';
-		if (*str == '+' && (fmt->type >= F_ && fmt->type <= I_))
+		if (*str == '+' && (~ft_indexof("fFiIdD", fmt->type)))
 			fmt->signe = '+';
 		if (*str == '#')
 			fmt->opt |= HASH;
@@ -502,13 +515,13 @@ t_fmt	*get_options(char *str, va_list ap)
 		{
 			(fmt->opt |= SUB);
 		}
-		if (*str == '#' && (fmt->type== O_ || fmt->type== F_))
+		if (*str == '#' && (~ft_indexof("oOfF", fmt->type)))
 			fmt->prefixe = 1;
-		if ((*str == '#' && (fmt->type== LOWX_ || fmt->type== HIGHX_)))
+		if ((*str == '#' && (~ft_indexof("xX", fmt->type))))
 			fmt->prefixe = 2;
 		str++;
 	}
-	if (fmt->type == LOWP_ || fmt->type == HIGHP_)
+	if (~ft_indexof("pP", fmt->type))
 		fmt->prefixe = 2;
 	return fmt;
 }
@@ -560,6 +573,7 @@ int		parse(char *str, va_list ap)
 				{
 					if (g_type[j].type == fmt->type)
 					{
+						//printf("lolix\n");
 						//display_fmt(fmt);
 						ret += g_type[j].function ? g_type[j].function(ap, fmt) : 0;
 						break ;

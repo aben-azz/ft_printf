@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 02:21:45 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 07:47:25 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspPfdiouXxbvr%"
+# define TYPES    "cspPfdDiIoOuUXxbvr%"
 # define LENGTH   "lhLzj"
 # define pf printf
 # define HASH     1 << 0
@@ -22,22 +22,6 @@
 # define SUB      1 << 2
 # define ADD      1 << 3
 # define SPACE    1 << 4
-
-# define C_       1 << 0
-# define S_       1 << 1
-# define LOWP_    1 << 2
-# define HIGHP_   1 << 3
-# define F_       1 << 4
-# define D_       1 << 5
-# define I_       1 << 6
-# define O_       1 << 7
-# define U_       1 << 8
-# define HIGHX_   1 << 9
-# define LOWX_    1 << 10
-# define B_       1 << 11
-# define V_       1 << 12
-# define R_       1 << 13
-# define PERCENT_ 1 << 14
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
@@ -72,7 +56,7 @@ int				*count_flags(char *string, int index);
 int		get_precision(char *string, t_fmt *fmt, va_list ap);
 int		get_field(char *string, va_list ap);
 int				get_length(char *s);
-int				get_type(char *str);
+char			get_type(char *str);
 t_fmt			*get_options(char *str, va_list ap);
 int				display_string(char *string, int index, int to);
 void			view_fmt(t_fmt *flags, int length);
@@ -86,7 +70,6 @@ int	intlen(long long len);
 /*
 	% -+0#espace	n				.n			h,hh,l,ll	(csp)diouXx
 	  options		minimal_length  precision	length		type
-
 	options
 		+	signed ? add sign (+ || -) to output : NULL
 		-	left align the field

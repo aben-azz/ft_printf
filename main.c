@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 07:53:50 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 08:50:22 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,13 @@ int		main(int argc, char **argv)
 	// ft_printf("e%f e%se||| %r//%v\n", 10.656456, "stirng", string, 3, ", ", array, 2, "|");
 	// ft_printf("%r\n", string, 3, "|");
 	//printf("|%0#5.3v|\n", 0);
-	// // printf(string, -5);
+	// // printf(str42	ing, -5);
 	// ft_printf(string, 5);
 	//wchar_t t = L'\u00C6';
 	//wchar_t *star = L"0x26050x2605";
     //printf("\n");
-	ft_printf("% Zoooo\n");
-	printf("% Zoooo\n");
+	ft_printf("%u,, %hho\n", -42, -42);
+	printf("%u,, %hho\n", -42, -42);
 // 	printf("ZERO MON POTE ___________________________");
 // 	printf("OCTAL____\n");
 // 	    printf ("printf1     :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n", 0,0,0,0,0);

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 07:47:25 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 08:48:42 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspPfdDiIoOuUXxbvr%"
+# define TYPES    "cspPfFdDiIoOuUXxbvr%"
 # define LENGTH   "lhLzj"
 # define pf printf
 # define HASH     1 << 0
@@ -53,9 +53,9 @@ t_fmt			*get_flags(char *s, int n, va_list ap);
 t_fmt			format(char *string);
 int				ft_printf(const char *format, ...);
 int				*count_flags(char *string, int index);
-int		get_precision(char *string, t_fmt *fmt, va_list ap);
-int		get_field(char *string, va_list ap);
-int				get_length(char *s);
+int				get_precision(char *string, t_fmt *fmt, va_list ap);
+int				get_field(char *string, t_fmt *fmt, va_list ap);
+int				get_length(char *s, char c);
 char			get_type(char *str);
 t_fmt			*get_options(char *str, va_list ap);
 int				display_string(char *string, int index, int to);

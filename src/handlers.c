@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   special.c                                          :+:      :+:    :+:   */
+/*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:27:44 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 09:56:19 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 10:00:44 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static int	splice(char *string, int prec, int v)
-{
-	char *l;
-
-	l = ft_strsub(string, 0, ~prec ? prec : ft_strlen(string));
-	v ? ft_putstr(l) : NULL;
-	return ((int)ft_strlen(l));
-}
 
 int			handle_char(va_list list, t_fmt *fmt)
 {
@@ -42,33 +33,32 @@ int			handle_char(va_list list, t_fmt *fmt)
 	return (fmt->field > 0 ? fmt->field : 1);
 }
 
-int			handle_string(va_list list, t_fmt *fmt)
+int			handle_string(va_list ap, t_fmt *fmt)
 {
 	char	*str;
 	int		ret;
 
 	str = va_arg(ap, char*);
 	str = !str ? "(null)" : str;
-	if (fmt->precision >= 0 && ((size_t)fmt->precision < ft_strlen(str)))
+	if (fmt->prec >= 0 && ((size_t)fmt->prec < ft_strlen(str)))
 	{
-		str = ft_strsub(str, 0, (size_t)fmt->precision);
-		fmt->precision = -5;
+		str = ft_strsub(str, 0, (size_t)fmt->prec);
+		fmt->prec = -5;
 	}
 	str == NULL ? exit(1) : NULL;
 	ret = ft_strlen(str);
 	if (fmt->opt & SUB)
 	{
 		ft_putstr(str);
-		ft_nputchar(' ', fmt->width - ret);
+		ft_repeat_char(' ', fmt->field - ret);
 	}
 	else
 	{
-		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - ret);
+		ft_repeat_char(fmt->opt & ZERO ? '0' : ' ', fmt->field - ret);
 		ft_putstr(str);
 	}
-	if (fmt->precision == -5)
-		ft_strdel(&str);
-	return (ret < fmt->width ? fmt->width : ret);
+	(fmt->prec == -5) ? ft_strdel(&str) : 0;
+	return (ret < fmt->field ? fmt->field : ret);
 }
 
 int			handle_array(va_list list, t_fmt *fmt)

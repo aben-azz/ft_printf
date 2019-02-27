@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:19 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/24 03:18:49 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 00:57:56 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,20 @@
 #include "ft_printf.h"
 
 t_ype g_type[] = {
-	{C_, &print_char},
-	{S_, &print_string},
-	{LOWP_, &print_signed_integer},
-	{HIGHP_, &print_signed_integer},
-	{F_, &print_signed_integer},
-	{D_, &print_signed_integer},
-	{I_, &print_signed_integer},
-	{O_,&print_signed_integer},
-	{U_, &print_signed_integer},
-	{HIGHX_, &print_signed_integer},
-	{LOWX_, &print_signed_integer},
-	{B_, &print_signed_integer}
+	{C_, &handle_char},
+	{S_, &handle_string},
+	{LOWP_, &handle_number},
+	{HIGHP_, &handle_number},
+	{F_, &handle_number},
+	{D_, &handle_number},
+	{I_, &handle_number},
+	{O_,&handle_number},
+	{U_, &handle_number},
+	{HIGHX_, &handle_number},
+	{LOWX_, &handle_number},
+	{B_, &handle_number},
+	{V_, &handle_array},
+	{R_, &handle_array}
 };
 
 intmax_t		get_signed(t_fmt *fmt, va_list ap)
@@ -97,7 +99,7 @@ char *get_s(t_fmt *fmt, va_list ap)
 	return (str);
 }
 
-int		print_char(va_list list, t_fmt *fmt)
+int		handle_char(va_list list, t_fmt *fmt)
 {
 	int		l;
 	char	n;
@@ -110,7 +112,7 @@ int		print_char(va_list list, t_fmt *fmt)
 	return (l + 1);
 }
 
-int		print_string(va_list list, t_fmt *fmt)
+int		handle_string(va_list list, t_fmt *fmt)
 {
 	int		l;
 	char	*string;
@@ -183,15 +185,15 @@ int		print_numbers(t_fmt *fmt, char *str, int len)
 	return (ret + ft_strlen(str) + len + fmt->precision + (fmt->signe != 0));
 }
 
-int		handle_numbers(t_fmt *fmt, va_list ap)
+int		handle_number(va_list ap, t_fmt *fmt )
 {
 	char		*str;
 	int			len;
 
+	(fmt->type != F_ && ~fmt->precision) && (fmt->opt &= ~(ZERO));
 	str = get_s(fmt, ap);
 	if (!fmt->precision && str[0] == '0' && fmt->type != F_)
 	{
-		//printf("L\n");
 		if (fmt->type == HIGHX_ || fmt->type == LOWX_)
 			fmt->prefixe = 0;
 		str[0] = '\0';
@@ -205,15 +207,36 @@ int		handle_numbers(t_fmt *fmt, va_list ap)
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
 	len = fmt->field - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
 	len -= fmt->prefixe;
+
 	len = print_numbers(fmt, str, len);
 	fmt->signe == '-' ? free(--str) : ft_strdel(&str);
+
 	return (len);
 }
 
-int		print_signed_integer(va_list list, t_fmt *fmt)
+int		handle_array(va_list list, t_fmt *fmt)
 {
-	(fmt->type != F_ && ~fmt->precision) && (fmt->opt &= ~(ZERO));
-	return (handle_numbers(fmt, list));
+	int		*array;
+	char	**string;
+	int		i;
+	char	*separator;
+	int		number;
+
+	if (fmt->type == V_)
+		array = va_arg(list, int *);
+	else
+		string = va_arg(list, char **);
+	(void)string;
+	(void)array;
+	number = va_arg(list, int);
+	i = 0;
+	separator = va_arg(list, char *);
+	while (i < number)
+	{
+		fmt->type == V_ ? ft_putnbr(array[i++]) : ft_putstr(string[i++]);
+		i != number ? ft_putstr(separator) : 0;
+	}
+	return (0);
 }
 
 int	splice(char *string, int precision, int v)

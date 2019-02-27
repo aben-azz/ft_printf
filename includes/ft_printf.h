@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/24 02:47:34 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 00:54:09 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # define OPTIONS  "#0-+ "
-# define TYPES    "cspPfdiouXxb"
+# define TYPES    "cspPfdiouXxbvr"
 # define LENGTH   "lhLzj"
 # define HASH     1 << 0
 # define ZERO     1 << 1
@@ -34,6 +34,8 @@
 # define HIGHX_   1 << 9
 # define LOWX_    1 << 10
 # define B_       1 << 11
+# define V_       1 << 12
+# define R_       1 << 13
 
 # define L_      (1 << 1) + 1
 # define LL_     (1 << 1)
@@ -72,15 +74,10 @@ int				get_type(char *str, int index);
 void			get_options(char *str, t_fmt *fmt, va_list ap);
 int				display_string(char *string, int index, int to);
 void			view_fmt(t_fmt *flags, int length);
-int				print_char(va_list list, t_fmt *fmt);
-int				print_string(va_list list, t_fmt *fmt);
-int				print_pointer(va_list list, t_fmt *fmt);
-int				print_float(va_list list, t_fmt *fmt);
-int				print_signed_integer(va_list list, t_fmt *fmt);
-int				print_unsigned_integer(va_list list, t_fmt *fmt);
-int				print_octal(va_list list, t_fmt *fmt);
-int				print_hexadecimal(va_list list, t_fmt *fmt);
-int				print_binary(va_list list, t_fmt *fmt);
+int				handle_char(va_list list, t_fmt *fmt);
+int				handle_string(va_list list, t_fmt *fmt);
+int				handle_array(va_list list, t_fmt *fmt);
+int				handle_number(va_list ap, t_fmt *fmt);
 void			display_fmt(t_fmt *fmt);
 int				splice(char *string, int precision, int v);
 int	intlen(long long len);

@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:51:22 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/24 03:18:15 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 01:05:30 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,18 @@ int		main(int argc, char **argv)
 	// int b = ft_printf(string,n_, n_,n_, n_, n_, n_, n_);
 	// int bp = printf(string, n_, n_,n_,n_, n_, n_, n_);
 	// printf("%d == %d && %d == %d\n", a, ap, b, bp);
-	ft_printf("|%0#5.3o|\n", 0);
-	printf("|%0#5.3o|\n", 0);
+	// int *array;
+	// array = malloc(sizeof(int) * 2);
+	// array[0] = 125;
+	// array[1] = 126;
+	//
+	// char **string = malloc(sizeof(char*) * 3);
+	// string[0] = "coucou";
+	// string[1] = "xdddd";
+	// string[2] = "xddddlol";
+	// ft_printf("%v\n", array, 2, ", ");
+	// ft_printf("%r\n", string, 3, "|");
+	//printf("|%0#5.3v|\n", 0);
 	// // printf(string, -5);
 	// ft_printf(string, 5);
 	//wchar_t t = L'\u00C6';

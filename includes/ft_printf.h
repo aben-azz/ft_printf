@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 08:43:37 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 11:03:12 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 11:04:23 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 # define HASH    (1 << 0)
 # define ZERO    (1 << 1)
 # define SUB     (1 << 2)
+# define L_      (1 << 1) + 1
+# define LL_     (1 << 1)
+# define H_      (1 << 2) + 1
+# define HH_     (1 << 2)
+# define LU_     (1 << 3) + 1
+# define Z_      (1 << 4) + 1
+# define J_      (1 << 5) + 1
 
 typedef struct	s_fmt
 {

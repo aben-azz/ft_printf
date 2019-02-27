@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:23:45 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 10:35:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 11:01:56 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ static int			print_prefixe(int c)
 
 static intmax_t		get_signed(t_fmt *fmt, va_list ap)
 {
-	//display_fmt(fmt);
 	if (fmt->length == L_ || fmt->length == LL_)
 		return (va_arg(ap, long long));
 	else if (fmt->length == H_)
 		return ((short)va_arg(ap, long long));
 	else if (fmt->length == HH_)
-	return ((char)va_arg(ap, long long));
+		return ((char)va_arg(ap, long long));
 	else if (fmt->length == Z_)
 		return (va_arg(ap, size_t));
 	else if (fmt->length == J_)
@@ -93,24 +92,6 @@ int					print_numbers(t_fmt *fmt, char *str, int len)
 	len = len < 0 ? 0 : len;
 	return (ret + ft_strlen(str) + len + fmt->prec + (fmt->signe != 0));
 }
-#include <stdio.h>
-// static void	display_fmt(t_fmt *format)
-// {
-// 	printf("FORMAT____________________\n");
-// 	format->length == L_ && printf("L\n");
-// 	format->length == LL_ && printf("LL\n");
-// 	format->length == H_ && printf("H\n");
-// 	format->length == HH_ && printf("HH\n");
-// 	format->length == LU_ && printf("LU\n");
-// 	printf("format de %d\n", format->opt);
-// 	(format->opt & HASH) && printf("#\n");
-// 	(format->opt & SUB) && printf("-\n");
-// 	(format->opt & ZERO) && printf("0\n");
-// 	printf("Precision de |%d|\n", format->prec);
-// 	printf("Champs de |%d|\n", format->field);
-// 	printf("FORMAT____________________\n");
-// }
-
 
 char				*get_s(t_fmt *fmt, va_list ap)
 {

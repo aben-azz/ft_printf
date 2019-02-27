@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:26:43 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 10:58:40 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/02/27 11:01:56 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,6 @@ static int		get_field(char *str, t_fmt *fmt, va_list ap)
 	}
 	return (width);
 }
-#include <stdio.h>
-// static int		get_length(char *s, char c)
-// {
-// 	int n;
-// 	int i;
-//
-// 	i = 0;
-// 	n = 0;
-// 	while (!~ft_indexof(LENGTH, s[n++]) && s[n] && n < ft_indexof(s, c)){
-// 		//(void)i++;
-// 		printf("ft_indexof: %d|%s|%d|\n", ft_indexof(s, c), s, i++);
-// 	}
-//
-// 	if (~(n = ft_indexof(LENGTH, s[i])))
-// 		return (ft_count(s, s[i]) ? (1 << (n)) + (ft_count(s, s[i]) % 2) : -1);
-// 	else
-// 		return (-1);
 
 int				get_length(char *str, char c)
 {

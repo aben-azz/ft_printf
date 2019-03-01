@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:27:44 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 11:01:55 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/03/01 22:24:48 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ int			handle_char(va_list list, t_fmt *fmt)
 {
 	char	c;
 
-	if (fmt->type == 'c')
-		c = (char)va_arg(list, int);
-	else
-		c = '%';
+	c = (fmt->type == 'c') ? (char)va_arg(list, int) : '%';
 	if (fmt->opt & SUB)
 	{
 		ft_putchar(c);
@@ -69,10 +66,8 @@ int			handle_array(va_list list, t_fmt *fmt)
 	char	*separator;
 	int		number;
 
-	if (fmt->type == 'v')
-		array = va_arg(list, int *);
-	else
-		string = va_arg(list, char **);
+	array = (fmt->type == 'v') ? va_arg(list, int *) : NULL;
+	string = (fmt->type == 'r') ? va_arg(list, char **) : NULL;
 	(void)string;
 	(void)array;
 	number = va_arg(list, int);
@@ -81,7 +76,7 @@ int			handle_array(va_list list, t_fmt *fmt)
 	while (i < number)
 	{
 		fmt->type == 'v' ? ft_putnbr(array[i++]) : ft_putstr(string[i++]);
-		i != number ? ft_putstr(separator) : 0;
+		i != number && ft_putstr(separator);
 	}
 	return (0);
 }
@@ -96,14 +91,12 @@ int			handle_number(va_list ap, t_fmt *fmt)
 	str = get_s(fmt, ap);
 	if (!fmt->prec && str[0] == '0' && !~ft_indexof("fF", fmt->type))
 	{
-		if (~ft_indexof("Xx", fmt->type))
-			fmt->prefixe = 0;
+		(~ft_indexof("Xx", fmt->type)) && (fmt->prefixe = 0);
 		str[0] = '\0';
 	}
 	if (!~ft_indexof("Pp", fmt->type))
 		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
-	if (*str == '-')
-		fmt->signe = *(str++);
+	(*str == '-') && (fmt->signe = *(str++));
 	fmt->prec -= ft_strlen(str);
 	fmt->prec = fmt->prefixe == 1 ? fmt->prec - 1 : fmt->prec;
 	fmt->prec = fmt->prec < 0 ? 0 : fmt->prec;

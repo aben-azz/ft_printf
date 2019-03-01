@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:23:45 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 11:04:24 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/03/01 20:16:49 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,9 @@ static int			print_prefixe(int c)
 
 	i = 0;
 	c = (~ft_indexof("pP", c)) ? "xX"[c == 'P'] : c;
-	if (~ft_indexof("oOxX", c))
-	{
-		ft_putchar('0');
-		i++;
-	}
-	if (~ft_indexof("xX", c))
-	{
-		ft_putchar("Xx"[c == 'x']);
-		i++;
-	}
+	(~ft_indexof("oOxX", c)) && (i += 1 + (~ft_indexof("xX", c) != 0));
+	(~ft_indexof("oOxX", c)) && ft_putchar('0');
+	(~ft_indexof("xX", c)) && ft_putchar("Xx"[c == 'x']);
 	return (i);
 }
 
@@ -72,9 +65,8 @@ int					print_numbers(t_fmt *fmt, char *str, int len)
 	ret = 0;
 	if (fmt->opt & SUB)
 	{
-		fmt->signe ? ft_putchar(fmt->signe) : NULL;
-		if (fmt->prefixe)
-			ret = print_prefixe(fmt->type);
+		fmt->signe && ft_putchar(fmt->signe);
+		(fmt->prefixe) && (ret = print_prefixe(fmt->type));
 		ft_repeat_char('0', fmt->prec);
 		ft_putstr(str);
 		ft_repeat_char(' ', len);
@@ -82,14 +74,13 @@ int					print_numbers(t_fmt *fmt, char *str, int len)
 	else
 	{
 		(~fmt->opt & ZERO) && ft_repeat_char(' ', len);
-		fmt->signe ? ft_putchar(fmt->signe) : NULL;
-		if (fmt->prefixe)
-			ret = print_prefixe(fmt->type);
+		fmt->signe && ft_putchar(fmt->signe);
+		(fmt->prefixe) && (ret = print_prefixe(fmt->type));
 		(fmt->opt & ZERO) && ft_repeat_char('0', len);
 		ft_repeat_char('0', fmt->prec);
 		ft_putstr(str);
 	}
-	len = len < 0 ? 0 : len;
+	len = ft_max(len, 0);
 	return (ret + ft_strlen(str) + len + fmt->prec + (fmt->signe != 0));
 }
 
@@ -103,8 +94,8 @@ char				*get_s(t_fmt *fmt, va_list ap)
 	temp = NULL;
 	uppercase = 0;
 	b = 10;
-	(~ft_indexof("xXpP", fmt->type)) && (b = 16);
 	(~ft_indexof("XP", fmt->type)) && (uppercase = 1);
+	(~ft_indexof("xXpP", fmt->type)) && (b = 16);
 	(~ft_indexof("oO", fmt->type)) && (b = 8);
 	(~ft_indexof("bB", fmt->type)) && (b = 2);
 	if (fmt->type == 'f')

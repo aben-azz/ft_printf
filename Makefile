@@ -6,7 +6,7 @@
 #    By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/13 13:11:49 by aben-azz          #+#    #+#              #
-#    Updated: 2019/02/27 09:58:06 by aben-azz         ###   ########.fr        #
+#    Updated: 2019/03/01 19:41:37 by aben-azz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ CFLAGS			+=	-Wall -Werror -Wextra
 LIBFT_PATH		?=	./libft/
 LIBFT_NAME		=	libft.a
 SRC_PATH		=	./src/
+HEADER			=	./includes/ft_printf.h
 SRC_NAME		=	ft_printf.c geters.c handle_numbers.c handlers.c
 MSG				=	Compilation de ft_printf:
 SRC				=	$(addprefix $(SRC_PATH),$(SRC_NAME))
@@ -48,7 +49,7 @@ CFLAGS			+=	$(INC_CC)
 LONGEST			=	$(shell echo $(notdir $(SRC)) | tr " " "\n" | awk ' { if (\
 				length > x ) { x = length; y = $$0 } }END{ print y }' | wc -c)
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEADER)
 	@mkdir -p $(OBJ_PATH)
 	@$(CC) $(CFLAGS) -I./includes -o $@ -c $<
 	@printf "$(_BOLD)$(_PURPLE)$(MSG)$(_END) $(_CYAN)%-$(LONGEST)s\
@@ -63,7 +64,7 @@ all: $(LIBFT_PATH)$(LIBFT_NAME) $(NAME)
 $(LIBFT_PATH)$(LIBFT_NAME):
 	@$(MAKE) -C $(LIBFT_PATH);
 
-$(NAME): $(OBJ)
+$(NAME):  $(LIBFT_PATH)$(LIBFT_NAME) $(OBJ)
 	@echo "$(_BOLD)$(_YELLOW)Creation de la libftprintf ...$(_END)"
 	@cp $(LIBFT_PATH)$(LIBFT_NAME) $(NAME)
 	@$(AR) rcs $(NAME) $^
@@ -80,4 +81,4 @@ debug :
 	@gcc main.c libftprintf.a -o o
 	@printf "$(_GREEN)main.c pret$(_END)\n"
 re: fclean all
-.PHONY: all, clean, fclean, re, $(LIBFT_PATH)$(LIBFT_NAME)
+.PHONY: all, clean, fclean, re

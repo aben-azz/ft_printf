@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 09:26:43 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 11:01:56 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/03/01 20:21:08 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ static int		get_precision(char *str, t_fmt *fmt, va_list ap)
 		str++;
 	}
 	(!point) && (prec = -1);
-	if (!point && ~ft_indexof("fF", fmt->type))
-		prec = 6;
+	(!point && ~ft_indexof("fF", fmt->type)) && (prec = 6);
 	return (prec);
 }
 
@@ -72,22 +71,21 @@ static int		get_field(char *str, t_fmt *fmt, va_list ap)
 
 int				get_length(char *str, char c)
 {
-	int lcount;
-	int hcount;
+	int modifier[2];
 
-	lcount = ft_counti(str, 'l', ft_indexof(str, c));
-	hcount = ft_counti(str, 'h', ft_indexof(str, c));
+	modifier[0] = ft_counti(str, 'l', ft_indexof(str, c));
+	modifier[1] = ft_counti(str, 'h', ft_indexof(str, c));
 	if (c == 'f' && ft_counti(str, 'L', ft_indexof(str, c)) > 0)
 		(LU_);
 	if (ft_counti(str, 'j', ft_indexof(str, c)))
 		return (J_);
 	if (ft_counti(str, 'z', ft_indexof(str, c)))
 		return (Z_);
-	if (lcount)
-		return (lcount % 2 ? L_ : LL_);
-	if (hcount && hcount % 2)
+	if (modifier[0])
+		return (modifier[0] % 2 ? L_ : LL_);
+	if (modifier[1] && modifier[1] % 2)
 		return (H_);
-	return (hcount ? HH_ : 0);
+	return (modifier[1] ? HH_ : 0);
 }
 
 static void		get_type(char *s, t_fmt *fmt, va_list ap)
@@ -113,11 +111,8 @@ t_fmt			*get_options(char *s, va_list ap)
 	if (!(fmt = (t_fmt *)malloc(sizeof(t_fmt))))
 		exit(1);
 	get_type(s, fmt, ap);
-	if (~ft_indexof("DOUF", fmt->type))
-	{
-		fmt->length = L_;
+	if (~ft_indexof("DOUF", fmt->type) && (fmt->length = L_))
 		fmt->type = ft_tolower(fmt->type);
-	}
 	while (*s && !~ft_indexof(TYPES, *s))
 	{
 		if (*s == '0' && !ft_isdigit(*(s - 1)) && *(s - 1) != '.')

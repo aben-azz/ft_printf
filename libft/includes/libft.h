@@ -6,7 +6,7 @@
 /*   By: aben-azz <aben-azz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/13 11:36:13 by aben-azz          #+#    #+#             */
-/*   Updated: 2019/02/27 10:58:57 by aben-azz         ###   ########.fr       */
+/*   Updated: 2019/03/01 20:09:18 by aben-azz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ char			*ft_strjoin(char *s1, char *s2);
 char			*ft_strtrim(char *s);
 char			**ft_strsplit(char *s, char c);
 char			*ft_itoa(int n);
-void			ft_putchar(char c);
-void			ft_putstr(char *s);
-void			ft_putendl(char *s);
+size_t			ft_putchar(char c);
+size_t			ft_putstr(char *s);
+size_t			ft_putendl(char *s);
 void			ft_putnbr(long long n);
-void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(char *s, int fd);
-void			ft_putendl_fd(char *s, int fd);
+size_t			ft_putchar_fd(char c, int fd);
+size_t			ft_putstr_fd(char *s, int fd);
+size_t			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(long long n, int fd);
 char			*ft_itoa_base(intmax_t n, int base, int islower);
 char			*ft_utoa_base(uintmax_t nb, int base, int uppercase);
